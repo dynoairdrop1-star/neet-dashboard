@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>NEET Study Dashboard</title>
   <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0b1020">
@@ -19,226 +19,1448 @@
 </script>
 
 <style>
-  body { font-family: 'Poppins', sans-serif; min-height: 100vh;
-         background: radial-gradient(circle at 15% 0%, #4338ca55 0%, transparent 45%),
-                     radial-gradient(circle at 90% 20%, #be185d33 0%, transparent 40%), #0b1020; }
-  .glass { background: rgba(30,41,59,.5); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-           border: 1px solid rgba(148,163,184,.15); border-radius: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
-  .field { background: rgba(15,23,42,.7); border: 1px solid rgba(148,163,184,.25); border-radius: .85rem; padding: .6rem .85rem; width: 100%; color: #e2e8f0; outline: none; }
-  .field:focus { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,.25); }
-  select.field option { background: #0f172a; }
-  .btn { border-radius: .9rem; padding: .7rem 1.2rem; font-weight: 600; transition: transform .1s, filter .2s; }
-  .btn:active { transform: scale(.97); }
-  .btn-primary { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; } .btn-primary:hover { filter: brightness(1.1); }
-  .rem { cursor: pointer; transition: transform .15s, border-color .2s, background .2s; border: 1px solid rgba(148,163,184,.18); border-radius: 1.1rem; background: rgba(15,23,42,.55); }
-  .rem:hover { transform: translateY(-2px); }
-  .rem.on { border-color: #818cf8; background: rgba(99,102,241,.18); }
-  .tog { width: 2.6rem; height: 1.45rem; border-radius: 999px; background: #334155; position: relative; transition: background .2s; flex-shrink: 0; }
-  .tog::after { content: ''; position: absolute; top: 3px; left: 3px; width: 1.05rem; height: 1.05rem; border-radius: 50%; background: #fff; transition: transform .2s; }
-  .rem.on .tog { background: #6366f1; } .rem.on .tog::after { transform: translateX(1.15rem); }
+  :root {
+    --accent: #a78bfa;
+    --accent-2: #f472b6;
+    --accent-rgb: 167, 139, 250;
+    --wp-dim: 0.25;
+    --wp-blur: 0px;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background-color: #0b1020;
+    color: #f1f5f9;
+    overflow-x: hidden;
+  }
+
+  /* Fixed Full-Screen Wallpaper System */
+  .wp-fixed {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    overflow: hidden;
+    background: #0b1020;
+  }
+  .wp-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 400ms ease;
+    will-change: opacity;
+  }
+  .wp-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background-color: rgba(8, 11, 24, var(--wp-dim));
+    backdrop-filter: blur(var(--wp-blur));
+    -webkit-backdrop-filter: blur(var(--wp-blur));
+    transition: background-color 200ms ease, backdrop-filter 200ms ease, -webkit-backdrop-filter 200ms ease;
+  }
+
+  /* Subtle Twinkling Stars Layer (Pure CSS) */
+  .stars-layer {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 255, 255, 0.75) 50%, transparent 100%),
+      radial-gradient(1px 1px at 28% 62%, rgba(253, 230, 138, 0.65) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 45% 26%, rgba(244, 114, 182, 0.6) 50%, transparent 100%),
+      radial-gradient(2px 2px at 68% 14%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
+      radial-gradient(1px 1px at 82% 48%, rgba(196, 181, 253, 0.7) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 91% 78%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
+      radial-gradient(1px 1px at 19% 84%, rgba(167, 243, 208, 0.55) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 56% 74%, rgba(255, 255, 255, 0.5) 50%, transparent 100%),
+      radial-gradient(1px 1px at 37% 41%, rgba(255, 255, 255, 0.55) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 74% 88%, rgba(251, 207, 232, 0.6) 50%, transparent 100%);
+    animation: twinkle 7s ease-in-out infinite alternate;
+    opacity: 0.75;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.4; transform: translateY(0px); }
+    50% { opacity: 0.85; }
+    100% { opacity: 0.5; transform: translateY(-4px); }
+  }
+
+  /* Staggered Card Entrance Animation */
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .stagger-in {
+    animation: fadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .delay-1 { animation-delay: 60ms; }
+  .delay-2 { animation-delay: 120ms; }
+  .delay-3 { animation-delay: 180ms; }
+  .delay-4 { animation-delay: 240ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stars-layer, .stagger-in { animation: none !important; }
+    .wp-layer, .glass, .rem, .tog, .tog::after, .btn { transition: none !important; }
+  }
+
+  /* Dreamy Pastel Glassmorphism Cards */
+  .glass {
+    background: rgba(20, 26, 46, 0.58);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    border-radius: 1.65rem;
+    box-shadow:
+      0 18px 45px -12px rgba(4, 7, 17, 0.55),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .glass-hover:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow:
+      0 22px 50px -12px rgba(4, 7, 17, 0.65),
+      0 0 28px -8px rgba(var(--accent-rgb), 0.18),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  }
+
+  /* Time-of-Day Greeting Mood Tints */
+  .mood-morning {
+    background:
+      radial-gradient(circle at 88% 18%, rgba(251, 191, 36, 0.22), transparent 52%),
+      radial-gradient(circle at 12% 85%, rgba(244, 114, 182, 0.18), transparent 55%),
+      rgba(22, 27, 48, 0.62);
+  }
+  .mood-evening {
+    background:
+      radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.20), transparent 50%),
+      radial-gradient(circle at 15% 80%, rgba(168, 85, 247, 0.22), transparent 55%),
+      rgba(22, 25, 48, 0.62);
+  }
+  .mood-night {
+    background:
+      radial-gradient(circle at 88% 22%, rgba(167, 139, 250, 0.24), transparent 52%),
+      radial-gradient(circle at 15% 85%, rgba(56, 189, 248, 0.14), transparent 55%),
+      rgba(17, 22, 42, 0.66);
+  }
+
+  /* Form Fields */
+  .field {
+    background: rgba(11, 16, 32, 0.68);
+    border: 1px solid rgba(203, 213, 225, 0.2);
+    border-radius: 0.95rem;
+    padding: 0.7rem 0.95rem;
+    min-height: 44px;
+    width: 100%;
+    color: #f8fafc;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .field::placeholder { color: rgba(148, 163, 184, 0.65); }
+  .field:focus {
+    border-color: var(--accent);
+    background: rgba(15, 23, 42, 0.85);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.25);
+  }
+  select.field option { background: #0f172a; color: #f8fafc; }
+
+  /* Focus Rings for Accessibility */
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .rem:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Buttons */
+  .btn {
+    border-radius: 1rem;
+    padding: 0.75rem 1.35rem;
+    min-height: 44px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0b1020;
+    font-weight: 600;
+    box-shadow: 0 8px 24px -4px rgba(var(--accent-rgb), 0.45);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.07);
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px -4px rgba(var(--accent-rgb), 0.6);
+  }
+
+  /* Reminder Cards with Individual Pastel Accents */
+  .rem {
+    cursor: pointer;
+    user-select: none;
+    min-height: 76px;
+    transition: transform 0.2s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1.25rem;
+    background: rgba(15, 23, 42, 0.55);
+  }
+  .rem:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.24);
+  }
+  .rem[data-tag="morning"] { --rem-color: #fcd34d; --rem-bg: rgba(251, 191, 36, 0.14); }
+  .rem[data-tag="medicine"] { --rem-color: #f472b6; --rem-bg: rgba(244, 114, 182, 0.14); }
+  .rem[data-tag="evening"] { --rem-color: #c084fc; --rem-bg: rgba(192, 132, 252, 0.14); }
+  .rem[data-tag="night"] { --rem-color: #818cf8; --rem-bg: rgba(129, 140, 248, 0.15); }
+
+  .rem.on {
+    border-color: var(--rem-color, var(--accent));
+    background: var(--rem-bg, rgba(var(--accent-rgb), 0.18));
+    box-shadow: 0 8px 24px -8px var(--rem-bg, rgba(var(--accent-rgb), 0.3));
+  }
+  .tog {
+    width: 2.85rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: rgba(51, 65, 85, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    position: relative;
+    transition: background 0.25s ease, border-color 0.25s ease;
+    flex-shrink: 0;
+  }
+  .tog::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: #f8fafc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .rem.on .tog {
+    background: var(--rem-color, var(--accent));
+    border-color: transparent;
+  }
+  .rem.on .tog::after {
+    transform: translateX(1.25rem);
+    background: #0f172a;
+  }
+
+  /* Subject Chips */
+  .subj-chip {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(15, 23, 42, 0.55);
+    border-radius: 999px;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #cbd5e1;
+    transition: all 0.18s ease;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .subj-chip:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    color: #fff;
+  }
+  .subj-chip.active {
+    background: rgba(var(--accent-rgb), 0.22);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 14px -2px rgba(var(--accent-rgb), 0.35);
+  }
+
+  /* Custom Scrollbar for Log List & Drawer */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.3); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
+
+  /* Safe-area padding for notched phones */
+  .safe-bottom {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  .fab-safe {
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    right: 1.25rem;
+  }
+
+  /* Range Sliders */
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(51, 65, 85, 0.85);
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid #0b1020;
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.6);
+  }
 </style>
 </head>
-<body class="text-slate-200">
+<body class="text-slate-100 antialiased selection:bg-purple-400/30 selection:text-purple-100">
 
-<!-- Name modal -->
-<div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-  <form id="nameForm" class="glass p-6 w-full max-w-sm space-y-4">
-    <h2 class="text-xl font-bold text-white">Enter your name to personalize your dashboard</h2>
-    <input id="nameInput" class="field" placeholder="Your name" maxlength="30" required>
-    <button class="btn btn-primary w-full">Continue</button>
+<!-- Fixed Wallpaper Layers (2 layers for smooth ~400ms crossfade) -->
+<div class="wp-fixed" aria-hidden="true">
+  <div id="wpLayerA" class="wp-layer" style="opacity: 1;"></div>
+  <div id="wpLayerB" class="wp-layer" style="opacity: 0;"></div>
+</div>
+<!-- Dim & Blur Readability Overlay -->
+<div id="wpOverlay" class="wp-overlay" aria-hidden="true"></div>
+<!-- Dreamy Twinkling Stars -->
+<div class="stars-layer" aria-hidden="true"></div>
+
+<!-- Instant Theme Bootstrapper (runs synchronously to prevent flash of default background) -->
+<script>
+  window.WP_PRESETS = {
+    'moon-night': {
+      name: 'Moon Night',
+      css: 'radial-gradient(circle at 82% 16%, rgba(167, 139, 250, 0.35) 0%, transparent 42%), radial-gradient(circle at 18% 22%, rgba(79, 70, 229, 0.32) 0%, transparent 48%), radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.18) 0%, transparent 50%), linear-gradient(160deg, #070b19 0%, #111633 52%, #1b1438 100%)'
+    },
+    'lavender-dream': {
+      name: 'Lavender Dream',
+      css: 'radial-gradient(circle at 20% 20%, rgba(196, 181, 253, 0.38) 0%, transparent 48%), radial-gradient(circle at 85% 75%, rgba(244, 114, 182, 0.3) 0%, transparent 50%), linear-gradient(145deg, #161233 0%, #2a1f4d 50%, #1e163b 100%)'
+    },
+    'sunrise-peach': {
+      name: 'Sunrise Peach',
+      css: 'radial-gradient(circle at 80% 22%, rgba(253, 186, 116, 0.38) 0%, transparent 48%), radial-gradient(circle at 22% 78%, rgba(244, 114, 182, 0.32) 0%, transparent 52%), linear-gradient(150deg, #1c1226 0%, #331a38 48%, #3b2032 100%)'
+    },
+    'sakura-pink': {
+      name: 'Sakura Pink',
+      css: 'radial-gradient(circle at 75% 18%, rgba(251, 207, 232, 0.34) 0%, transparent 45%), radial-gradient(circle at 20% 70%, rgba(216, 180, 254, 0.28) 0%, transparent 50%), linear-gradient(155deg, #1a1025 0%, #2d1836 52%, #1d142b 100%)'
+    },
+    'ocean-mint': {
+      name: 'Ocean Mint',
+      css: 'radial-gradient(circle at 82% 20%, rgba(110, 231, 183, 0.30) 0%, transparent 46%), radial-gradient(circle at 18% 75%, rgba(56, 189, 248, 0.28) 0%, transparent 50%), linear-gradient(155deg, #071926 0%, #0f293d 52%, #101e33 100%)'
+    },
+    'dusk-orange': {
+      name: 'Dusk Orange',
+      css: 'radial-gradient(circle at 85% 15%, rgba(251, 146, 60, 0.35) 0%, transparent 46%), radial-gradient(circle at 25% 75%, rgba(139, 92, 246, 0.32) 0%, transparent 52%), linear-gradient(160deg, #140f29 0%, #2b1738 55%, #1c1226 100%)'
+    },
+    'midnight-forest': {
+      name: 'Midnight Forest',
+      css: 'radial-gradient(circle at 78% 22%, rgba(52, 211, 153, 0.24) 0%, transparent 45%), radial-gradient(circle at 22% 80%, rgba(99, 102, 241, 0.22) 0%, transparent 50%), linear-gradient(160deg, #061318 0%, #0d242c 52%, #091321 100%)'
+    },
+    'plain-dark': {
+      name: 'Plain Dark',
+      css: 'radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%), linear-gradient(180deg, #090d1a 0%, #0b1020 100%)'
+    }
+  };
+
+  window.ACCENT_PRESETS = {
+    lavender: { name: 'Lavender', color: '#a78bfa', color2: '#f472b6', rgb: '167, 139, 250' },
+    sakura:   { name: 'Sakura Pink', color: '#f472b6', color2: '#c084fc', rgb: '244, 114, 182' },
+    peach:    { name: 'Sunrise Peach', color: '#fb923c', color2: '#f472b6', rgb: '251, 146, 60' },
+    mint:     { name: 'Ocean Mint', color: '#34d399', color2: '#38bdf8', rgb: '52, 211, 153' },
+    sky:      { name: 'Celestial Sky', color: '#38bdf8', color2: '#818cf8', rgb: '56, 189, 248' },
+    gold:     { name: 'Starlight Gold', color: '#fbbf24', color2: '#fb7185', rgb: '251, 191, 36' }
+  };
+
+  (function applyInitialTheme() {
+    try {
+      var raw = localStorage.getItem('neet_theme');
+      var t = raw ? JSON.parse(raw) : {};
+      var presetKey = t.preset || 'moon-night';
+      var dim = typeof t.dim === 'number' ? t.dim : 25;
+      var blur = typeof t.blur === 'number' ? t.blur : 0;
+      var accentKey = t.accent && window.ACCENT_PRESETS[t.accent] ? t.accent : 'lavender';
+      var acc = window.ACCENT_PRESETS[accentKey];
+
+      var root = document.documentElement;
+      root.style.setProperty('--accent', acc.color);
+      root.style.setProperty('--accent-2', acc.color2);
+      root.style.setProperty('--accent-rgb', acc.rgb);
+      root.style.setProperty('--wp-dim', (dim / 100).toFixed(2));
+      root.style.setProperty('--wp-blur', blur + 'px');
+
+      var layerA = document.getElementById('wpLayerA');
+      if (t.type === 'custom' && t.customData && t.customData !== '__idb__') {
+        layerA.style.backgroundImage = 'url("' + t.customData + '")';
+      } else {
+        var preset = window.WP_PRESETS[presetKey] || window.WP_PRESETS['moon-night'];
+        layerA.style.backgroundImage = preset.css;
+      }
+    } catch (e) {
+      document.getElementById('wpLayerA').style.backgroundImage = window.WP_PRESETS['moon-night'].css;
+    }
+  })();
+</script>
+
+<!-- Name Modal -->
+<div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 backdrop-blur-md p-4" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+  <form id="nameForm" class="glass p-6 sm:p-8 w-full max-w-md space-y-5 border border-white/20">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200">
+      <span>✨ Welcome, Future Doctor</span>
+    </div>
+    <h2 id="nameModalTitle" class="text-xl sm:text-2xl font-bold text-white leading-snug">
+      Enter your name to personalize your dashboard
+    </h2>
+    <p class="text-xs sm:text-sm text-slate-300">
+      Your study logs, reminders, and custom theme stay right on your device.
+    </p>
+    <input id="nameInput" class="field" placeholder="Your name (e.g. Aarav)" maxlength="30" required>
+    <button type="submit" class="btn btn-primary w-full">Continue to Dashboard ✨</button>
   </form>
 </div>
 
-<main class="max-w-5xl mx-auto p-4 sm:p-6 space-y-5">
+<!-- Main Dashboard Container -->
+<main class="max-w-[1100px] mx-auto px-4 pt-5 sm:px-6 sm:pt-8 safe-bottom space-y-6">
 
-  <!-- Greeting -->
-  <section class="glass p-6">
-    <div class="flex items-start justify-between gap-3">
-      <h1 id="greeting" class="text-2xl sm:text-3xl font-bold text-white leading-snug"></h1>
-      <button id="changeName" class="text-xs text-slate-400 hover:text-indigo-300 underline shrink-0">Change name</button>
+  <!-- Top Bar: App Identity + Study Streak Badge -->
+  <header class="flex flex-wrap items-center justify-between gap-3 stagger-in">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shadow-inner overflow-hidden">
+        <img src="/icon-192.png" alt="" class="w-7 h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
+        <span class="hidden text-lg" aria-hidden="true">🩺</span>
+      </div>
+      <div>
+        <span class="text-xs uppercase tracking-widest text-purple-200/80 font-semibold block">NEET Prep Companion</span>
+        <span class="text-sm font-medium text-slate-300">Calm Night-Sky Workspace</span>
+      </div>
     </div>
-    <p id="greetSub" class="text-slate-400 mt-1 text-sm"></p>
-    <div id="morningCard" class="hidden mt-4 rounded-2xl border border-amber-400/30 bg-amber-400/10 p-3 text-amber-200 text-sm">
-      💊 <b>Morning Habit:</b> Take your medicine &amp; multivitamins with water!
+
+    <div class="flex items-center gap-2.5">
+      <!-- Daily Study Streak Badge -->
+      <div id="streakBadge" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-amber-400/15 border border-amber-300/30 text-amber-200 text-xs sm:text-sm font-semibold shadow-sm" title="Consecutive days you have logged study hours">
+        <span class="text-base" aria-hidden="true">🔥</span>
+        <span><span id="streakCount">0</span> Day Streak</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Greeting Banner -->
+  <section id="greetingSection" class="glass glass-hover mood-night p-6 sm:p-8 relative overflow-hidden stagger-in delay-1">
+    <!-- Decorative Night Moon SVG / Site Moon Asset -->
+    <div class="pointer-events-none select-none absolute -right-6 -top-6 sm:right-6 sm:top-6 opacity-30 sm:opacity-45" aria-hidden="true">
+      <img src="/moon.png" alt="" class="w-28 h-28 sm:w-32 sm:h-32 object-contain drop-shadow-[0_0_25px_rgba(253,230,138,0.45)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
+      <svg class="hidden w-28 h-28 sm:w-32 sm:h-32 text-amber-200 drop-shadow-[0_0_24px_rgba(253,224,71,0.35)]" viewBox="0 0 100 100" fill="currentColor">
+        <path d="M66.5 68.5C47.5 68.5 32 53 32 34c0-8.6 3.1-16.5 8.3-22.5C23.5 14.9 11 29.8 11 47.7 11 68.3 27.7 85 48.3 85c16.2 0 30-10.3 35.2-24.8-5.2 5.2-12.2 8.3-20 8.3z"/>
+        <circle cx="75" cy="24" r="2" opacity="0.8"/>
+        <circle cx="84" cy="38" r="1.4" opacity="0.6"/>
+        <circle cx="62" cy="16" r="1.2" opacity="0.7"/>
+      </svg>
+    </div>
+
+    <div class="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div class="space-y-1.5 max-w-2xl">
+        <div class="inline-flex items-center gap-2 text-xs font-medium text-purple-200/90 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+          <span id="timeBadgeIcon">🌙</span>
+          <span id="liveClock">Today's Study Sanctuary</span>
+        </div>
+        <h1 id="greeting" class="text-2xl sm:text-4xl font-bold text-white leading-tight tracking-tight pt-1"></h1>
+        <p id="greetSub" class="text-slate-300 text-sm sm:text-base"></p>
+      </div>
+
+      <button id="changeName" type="button" class="self-start text-xs sm:text-sm text-slate-300 hover:text-white bg-white/10 hover:bg-white/15 border border-white/15 rounded-xl px-3.5 py-2 transition shrink-0 min-h-[40px]">
+        ✏️ Change name
+      </button>
+    </div>
+
+    <!-- Rotating Motivational Quote Bar -->
+    <div class="relative z-10 mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+      <p class="text-xs sm:text-sm text-purple-100/90 italic leading-relaxed">
+        “<span id="quoteText">Small daily improvements over time lead to stunning results.</span>”
+      </p>
+      <button id="nextQuoteBtn" type="button" class="shrink-0 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 flex items-center justify-center text-slate-200 transition" aria-label="Next motivational quote" title="New quote">
+        ↻
+      </button>
+    </div>
+
+    <!-- Morning Habit Card (5:00 - 11:59 AM) -->
+    <div id="morningCard" class="hidden relative z-10 mt-4 rounded-2xl border border-amber-300/35 bg-amber-400/15 p-3.5 text-amber-100 text-sm flex items-center gap-3 shadow-sm">
+      <span class="text-xl shrink-0" aria-hidden="true">💊</span>
+      <div><b>Morning Habit:</b> Take your medicine &amp; multivitamins with water!</div>
     </div>
   </section>
 
-  <!-- Reminders (main feature) -->
-  <section class="glass p-6">
-    <h2 class="text-xl font-bold text-white">🔔 Your Daily Reminders</h2>
-    <p class="text-sm text-slate-400 mt-1">Choose which reminders you want. You'll only get the ones you switch on.</p>
+  <!-- 2-Column Middle Grid on Desktop: Reminders + Exam Countdown -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-    <div id="remGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
-      <div class="rem p-4 flex items-center gap-3" data-tag="morning"><div class="text-3xl">☀️</div>
-        <div class="flex-1"><div class="font-semibold text-white">Good Morning</div><div class="text-xs text-slate-400">A fresh start to your study day</div></div><div class="tog"></div></div>
-      <div class="rem p-4 flex items-center gap-3" data-tag="medicine"><div class="text-3xl">💊</div>
-        <div class="flex-1"><div class="font-semibold text-white">Medicine Reminder</div><div class="text-xs text-slate-400">Medicine &amp; multivitamins with water</div></div><div class="tog"></div></div>
-      <div class="rem p-4 flex items-center gap-3" data-tag="evening"><div class="text-3xl">📚</div>
-        <div class="flex-1"><div class="font-semibold text-white">Good Evening</div><div class="text-xs text-slate-400">Evening study &amp; revision nudge</div></div><div class="tog"></div></div>
-      <div class="rem p-4 flex items-center gap-3" data-tag="night"><div class="text-3xl">🌙</div>
-        <div class="flex-1"><div class="font-semibold text-white">Good Night</div><div class="text-xs text-slate-400">Wind down and rest well</div></div><div class="tog"></div></div>
-    </div>
+    <!-- Reminders (main feature) -->
+    <section class="glass glass-hover p-6 sm:p-7 lg:col-span-7 flex flex-col justify-between stagger-in delay-2">
+      <div>
+        <div class="flex items-center justify-between gap-2">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>🔔</span>
+            <span>Your Daily Reminders</span>
+          </h2>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-300 border border-white/10">Tap to toggle</span>
+        </div>
+        <p class="text-sm text-slate-300 mt-1">
+          Choose which reminders you want. You'll only get the ones you switch on.
+        </p>
 
-    <div class="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
-      <button id="notifBtn" class="btn btn-primary">🔔 Enable Medicine &amp; Daily Reminders</button>
-      <p id="notifMsg" class="text-sm text-indigo-300"></p>
-    </div>
-  </section>
+        <div id="remGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5">
+          <!-- Morning -->
+          <div class="rem p-4 flex items-center gap-3.5" data-tag="morning" role="switch" aria-checked="false" tabindex="0">
+            <div class="w-12 h-12 rounded-2xl bg-amber-400/15 border border-amber-300/25 flex items-center justify-center text-2xl shrink-0">☀️</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Good Morning</div>
+              <div class="text-xs text-slate-300/90 leading-snug">A fresh start to your study day</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
+          </div>
 
-  <!-- Countdown -->
-  <section class="glass p-6">
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-      <h2 class="text-lg font-semibold text-white">⏳ Exam Countdown</h2>
-      <select id="examSelect" class="field !w-auto">
-        <option value="2027-05-02">NEET 2027 (May 2, 2027)</option>
-        <option value="2028-05-07">NEET 2028 (May 7, 2028)</option>
-      </select>
-    </div>
-    <div class="grid grid-cols-4 gap-2 sm:gap-3 text-center">
-      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdD" class="text-2xl sm:text-4xl font-bold text-indigo-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Days</div></div>
-      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdH" class="text-2xl sm:text-4xl font-bold text-fuchsia-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Hours</div></div>
-      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdM" class="text-2xl sm:text-4xl font-bold text-sky-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Minutes</div></div>
-      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdS" class="text-2xl sm:text-4xl font-bold text-emerald-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Seconds</div></div>
-    </div>
-  </section>
+          <!-- Medicine -->
+          <div class="rem p-4 flex items-center gap-3.5" data-tag="medicine" role="switch" aria-checked="false" tabindex="0">
+            <div class="w-12 h-12 rounded-2xl bg-pink-400/15 border border-pink-300/25 flex items-center justify-center text-2xl shrink-0">💊</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Medicine Reminder</div>
+              <div class="text-xs text-slate-300/90 leading-snug">Medicine &amp; multivitamins with water</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
+          </div>
 
-  <!-- Logger -->
-  <div class="grid md:grid-cols-5 gap-5">
-    <section class="glass p-6 md:col-span-2">
-      <h2 class="text-lg font-semibold text-white mb-3">📝 Log Today's Study</h2>
-      <form id="logForm" class="space-y-3">
-        <div><label class="text-xs text-slate-400">Date</label><input id="logDate" type="date" class="field" required></div>
-        <div><label class="text-xs text-slate-400">Hours studied</label><input id="logHours" type="number" step="0.25" min="0" max="24" class="field" placeholder="e.g. 3.5" required></div>
-        <div><label class="text-xs text-slate-400">Subject</label>
-          <select id="logSubject" class="field"><option>Physics</option><option>Chemistry</option><option>Biology (Botany)</option><option>Biology (Zoology)</option><option>Mock Test</option><option>Revision</option><option>Other</option></select></div>
-        <div><label class="text-xs text-slate-400">Notes</label><textarea id="logNotes" rows="3" class="field" placeholder="Chapters covered, weak areas..."></textarea></div>
-        <button class="btn btn-primary w-full">Save Log</button>
+          <!-- Evening -->
+          <div class="rem p-4 flex items-center gap-3.5" data-tag="evening" role="switch" aria-checked="false" tabindex="0">
+            <div class="w-12 h-12 rounded-2xl bg-purple-400/15 border border-purple-300/25 flex items-center justify-center text-2xl shrink-0">📚</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Good Evening</div>
+              <div class="text-xs text-slate-300/90 leading-snug">Evening study &amp; revision nudge</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
+          </div>
+
+          <!-- Night -->
+          <div class="rem p-4 flex items-center gap-3.5" data-tag="night" role="switch" aria-checked="false" tabindex="0">
+            <div class="w-12 h-12 rounded-2xl bg-indigo-400/15 border border-indigo-300/25 flex items-center justify-center text-2xl shrink-0">🌙</div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Good Night</div>
+              <div class="text-xs text-slate-300/90 leading-snug">Wind down and rest well</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center gap-3">
+        <button id="notifBtn" type="button" class="btn btn-primary w-full sm:w-auto">🔔 Enable Medicine &amp; Daily Reminders</button>
+        <p id="notifMsg" class="text-xs sm:text-sm text-purple-200 font-medium" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <!-- Exam Countdown -->
+    <section class="glass glass-hover p-6 sm:p-7 lg:col-span-5 flex flex-col justify-between stagger-in delay-3">
+      <div>
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>⏳</span>
+            <span>Exam Countdown</span>
+          </h2>
+          <select id="examSelect" aria-label="Select Target NEET Exam Year" class="field !w-auto !py-2 !px-3 text-xs sm:text-sm font-medium">
+            <option value="2027-05-02">NEET 2027 (May 2, 2027)</option>
+            <option value="2028-05-07">NEET 2028 (May 7, 2028)</option>
+          </select>
+        </div>
+
+        <!-- 4 Rounded Countdown Tiles -->
+        <div class="grid grid-cols-4 gap-2.5 sm:gap-3 text-center">
+          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
+            <div id="cdD" class="text-2xl sm:text-3xl font-bold text-purple-300 tabular-nums">0</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Days</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
+            <div id="cdH" class="text-2xl sm:text-3xl font-bold text-pink-300 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Hours</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
+            <div id="cdM" class="text-2xl sm:text-3xl font-bold text-sky-300 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Minutes</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
+            <div id="cdS" class="text-2xl sm:text-3xl font-bold text-emerald-300 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Seconds</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visual Year Progress Ring & Bar -->
+      <div class="mt-6 pt-4 border-t border-white/10 flex items-center gap-4">
+        <div class="relative w-14 h-14 shrink-0 flex items-center justify-center">
+          <svg class="w-14 h-14 -rotate-90" viewBox="0 0 60 60">
+            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="5"></circle>
+            <circle id="cdRing" cx="30" cy="30" r="24" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="30"></circle>
+          </svg>
+          <span id="cdPctText" class="absolute text-[11px] font-bold text-white">0%</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between text-xs mb-1.5">
+            <span class="text-slate-300 font-medium">Final-Year Countdown Window</span>
+            <span id="cdTargetLabel" class="text-purple-200 font-semibold">May 2, 2027</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-slate-950/70 overflow-hidden border border-white/10">
+            <div id="cdBar" class="h-full rounded-full transition-all duration-500" style="width: 50%; background: linear-gradient(90deg, var(--accent), var(--accent-2));"></div>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1.5">Every focused hour today compounds into exam-day confidence.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Study Logger + Weekly Chart & History -->
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-6 stagger-in delay-4">
+
+    <!-- Logger Form -->
+    <section class="glass glass-hover p-6 sm:p-7 md:col-span-5">
+      <h2 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+        <span>📝</span>
+        <span>Log Today's Study</span>
+      </h2>
+      <p class="text-xs text-slate-300 mb-4">Record your deep-work blocks to build your daily streak.</p>
+
+      <form id="logForm" class="space-y-4">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="logDate" class="text-xs font-medium text-slate-300 block mb-1">Date</label>
+            <input id="logDate" type="date" class="field text-sm" required>
+          </div>
+          <div>
+            <label for="logHours" class="text-xs font-medium text-slate-300 block mb-1">Hours studied</label>
+            <input id="logHours" type="number" step="0.25" min="0.25" max="24" class="field text-sm" placeholder="e.g. 3.5" required>
+          </div>
+        </div>
+
+        <!-- Subject Chips + Synced Select -->
+        <div>
+          <label for="logSubject" class="text-xs font-medium text-slate-300 block mb-1.5">Subject</label>
+          <div id="subjectChips" class="flex flex-wrap gap-1.5 mb-2.5" role="group" aria-label="Quick select subject">
+            <button type="button" class="subj-chip active" data-subj="Physics">⚛️ Physics</button>
+            <button type="button" class="subj-chip" data-subj="Chemistry">🧪 Chemistry</button>
+            <button type="button" class="subj-chip" data-subj="Biology (Botany)">🌿 Botany</button>
+            <button type="button" class="subj-chip" data-subj="Biology (Zoology)">🧬 Zoology</button>
+            <button type="button" class="subj-chip" data-subj="Mock Test">🎯 Mock Test</button>
+            <button type="button" class="subj-chip" data-subj="Revision">🔁 Revision</button>
+            <button type="button" class="subj-chip" data-subj="Other">✨ Other</button>
+          </div>
+          <select id="logSubject" class="field text-sm">
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology (Botany)</option>
+            <option>Biology (Zoology)</option>
+            <option>Mock Test</option>
+            <option>Revision</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="logNotes" class="text-xs font-medium text-slate-300 block mb-1">Notes</label>
+          <textarea id="logNotes" rows="3" class="field text-sm" placeholder="Chapters covered, NCERT pages, PYQs solved..."></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">Save Study Log ✨</button>
       </form>
     </section>
-    <section class="glass p-6 md:col-span-3">
-      <div class="flex items-center justify-between mb-3">
-        <h2 class="text-lg font-semibold text-white">📚 Study History</h2>
-        <div class="text-sm text-slate-400">Total: <span id="totalHours" class="text-indigo-300 font-semibold">0</span> h</div>
+
+    <!-- Weekly Chart + Study History -->
+    <section class="glass glass-hover p-6 sm:p-7 md:col-span-7 flex flex-col justify-between space-y-6">
+
+      <!-- Last 7 Days Bar Chart (Pure CSS/SVG) -->
+      <div class="rounded-2xl bg-slate-950/50 border border-white/10 p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h3 class="text-sm font-semibold text-white">📊 Last 7 Days</h3>
+            <p class="text-[11px] text-slate-400">Daily study hours overview</p>
+          </div>
+          <div class="text-xs text-slate-300">
+            7-Day Total: <span id="weekHours" class="font-bold text-purple-200">0</span> h
+          </div>
+        </div>
+        <div id="weeklyChart" class="grid grid-cols-7 gap-2 items-end h-28 pt-4 px-1"></div>
       </div>
-      <ul id="logList" class="space-y-2 max-h-96 overflow-y-auto pr-1"></ul>
-      <p id="emptyMsg" class="text-sm text-slate-500">No logs yet. Add your first session!</p>
+
+      <!-- History List -->
+      <div class="flex-1 flex flex-col">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>📚</span>
+            <span>Study History</span>
+          </h2>
+          <div class="text-sm text-slate-300 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+            Total: <span id="totalHours" class="text-purple-200 font-bold">0</span> h
+          </div>
+        </div>
+
+        <ul id="logList" class="space-y-2.5 max-h-80 overflow-y-auto pr-1"></ul>
+        <div id="emptyMsg" class="rounded-2xl border border-dashed border-white/15 bg-slate-950/35 p-6 text-center text-sm text-slate-400">
+          🌙 No logs yet. Add your first study session to start your streak!
+        </div>
+      </div>
+
     </section>
   </div>
+
 </main>
+
+<!-- Floating "🎨 Personalize" Button -->
+<button id="openThemeBtn" type="button" class="fixed fab-safe z-40 btn btn-primary rounded-full shadow-2xl px-5 py-3 text-sm font-semibold border border-white/25" aria-label="Open wallpaper and theme personalization panel">
+  <span aria-hidden="true">🎨</span>
+  <span>Personalize</span>
+</button>
+
+<!-- Slide-Up Wallpaper & Theme Drawer -->
+<div id="themeBackdrop" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm transition-opacity duration-300 opacity-0" aria-hidden="true"></div>
+<aside id="themeDrawer" class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-h-[88vh] flex flex-col rounded-t-[2rem] border-t border-white/20 bg-slate-900/95 backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto" role="dialog" aria-modal="true" aria-labelledby="themeDrawerTitle">
+  <!-- Drag Handle & Header -->
+  <div class="pt-3 pb-2 px-6 flex items-center justify-between border-b border-white/10">
+    <div class="flex items-center gap-2.5">
+      <span class="text-xl" aria-hidden="true">🎨</span>
+      <div>
+        <h2 id="themeDrawerTitle" class="text-base sm:text-lg font-bold text-white">Personalize Your Sanctuary</h2>
+        <p class="text-xs text-slate-400">Custom wallpaper, dim/blur overlay &amp; pastel accents</p>
+      </div>
+    </div>
+    <button id="closeThemeBtn" type="button" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-200 transition" aria-label="Close personalization panel">
+      ✕
+    </button>
+  </div>
+
+  <!-- Drawer Body -->
+  <div class="p-6 overflow-y-auto space-y-6">
+
+    <!-- 1. Upload Custom Wallpaper -->
+    <div>
+      <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2">
+        1. Upload Your Wallpaper
+      </label>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+        <label for="wpUploadInput" class="btn bg-white/10 hover:bg-white/15 border border-white/20 text-white text-sm cursor-pointer w-full sm:w-auto">
+          <span>🖼️ Choose Image (Auto-Resized)</span>
+        </label>
+        <input id="wpUploadInput" type="file" accept="image/*" class="hidden">
+        <span id="wpUploadStatus" class="text-xs text-slate-300" aria-live="polite">
+          Resized to max 1280px JPEG so it loads instantly.
+        </span>
+      </div>
+    </div>
+
+    <!-- 2. Built-in Dreamy Gradient Wallpapers -->
+    <div>
+      <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
+        2. Built-In Night &amp; Pastel Wallpapers
+      </label>
+      <div id="presetGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
+    </div>
+
+    <!-- 3. Readability Sliders: Dim & Blur -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-2xl bg-slate-950/60 border border-white/10 p-4">
+      <div>
+        <div class="flex justify-between text-xs font-medium mb-2">
+          <label for="dimSlider" class="text-slate-200">Wallpaper Dim</label>
+          <span id="dimValue" class="text-purple-200 font-semibold">25%</span>
+        </div>
+        <input id="dimSlider" type="range" min="0" max="80" step="1" value="25" class="w-full">
+      </div>
+      <div>
+        <div class="flex justify-between text-xs font-medium mb-2">
+          <label for="blurSlider" class="text-slate-200">Wallpaper Blur</label>
+          <span id="blurValue" class="text-purple-200 font-semibold">0px</span>
+        </div>
+        <input id="blurSlider" type="range" min="0" max="20" step="1" value="0" class="w-full">
+      </div>
+    </div>
+
+    <!-- 4. Pastel Accent Colour Picker -->
+    <div>
+      <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
+        3. Pastel Accent Colour
+      </label>
+      <div id="accentGrid" class="flex flex-wrap gap-3"></div>
+    </div>
+
+    <!-- 5. Reset to Default -->
+    <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
+      <button id="resetThemeBtn" type="button" class="btn bg-rose-500/15 hover:bg-rose-500/25 border border-rose-400/30 text-rose-200 text-xs sm:text-sm">
+        ↺ Reset to Default
+      </button>
+      <button id="doneThemeBtn" type="button" class="btn btn-primary text-xs sm:text-sm">
+        Done ✨
+      </button>
+    </div>
+
+  </div>
+</aside>
 
 <script>
 const $ = id => document.getElementById(id);
-const store = {
-  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
-};
-const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-/* ---------- Name & greeting ---------- */
-let userName = store.get('neet_name', '');
-function renderGreeting() {
-  const h = new Date().getHours(), n = esc(userName || 'Aspirant');
-  let text, sub;
-  $('morningCard').classList.add('hidden');
-  if (h >= 5 && h < 12) { text = `Good Morning, ${n}! ☀️`; $('morningCard').classList.remove('hidden'); sub = 'A fresh day to move closer to your goal.'; }
-  else if (h >= 12 && h < 20) { text = `Good Afternoon / Evening, ${n}! 📚`; sub = 'Keep the momentum going.'; }
-  else { text = `Good Night, ${n}! 🌙 Rest well for tomorrow's study session.`; sub = 'Sleep is part of your preparation.'; }
-  $('greeting').innerHTML = text; $('greetSub').textContent = sub;
+/* ---------- Safe localStorage wrapper (every read/write in try/catch) ---------- */
+const store = {
+  get(k, d) {
+    try {
+      const v = localStorage.getItem(k);
+      return v === null ? d : JSON.parse(v);
+    } catch {
+      return d;
+    }
+  },
+  set(k, v) {
+    try {
+      localStorage.setItem(k, JSON.stringify(v));
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  remove(k) {
+    try {
+      localStorage.removeItem(k);
+    } catch {}
+  }
+};
+
+/* ---------- XSS-Safe HTML Escaping ---------- */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}[c]));
+
+/* ---------- Motivational Quotes (~15 short quotes) ---------- */
+const QUOTES = [
+  "Small daily improvements over time lead to stunning results.",
+  "Every page of NCERT you master today is a rank booster tomorrow.",
+  "Consistency beats intensity when intensity doesn't last.",
+  "Your future patients are counting on the discipline you build tonight.",
+  "Don't count the chapters left; make the chapter in front of you count.",
+  "Calm mind, steady breathing, one concept at a time.",
+  "Dream of the stethoscope, work on the syllabus.",
+  "Rest is not idleness; good sleep locks in your memory.",
+  "One mock test mistake learned now is four marks saved in May.",
+  "Revision turns short-term effort into long-term confidence.",
+  "Focus on progress, not perfection. Show up for yourself today.",
+  "Hard topics become easy once you stop avoiding them.",
+  "Little by little, a little becomes a lot.",
+  "Stay patient and trust your daily study routine.",
+  "The quiet night hours belong to those building their dreams."
+];
+let quoteIndex = new Date().getDate() % QUOTES.length;
+
+function renderQuote() {
+  $('quoteText').textContent = QUOTES[quoteIndex];
 }
-function askName() { $('nameModal').classList.remove('hidden'); $('nameInput').value = userName; $('nameInput').focus(); }
-$('nameForm').addEventListener('submit', e => {
-  e.preventDefault(); userName = $('nameInput').value.trim(); if (!userName) return;
-  store.set('neet_name', userName); $('nameModal').classList.add('hidden'); renderGreeting();
-  OneSignalDeferred.push(async OS => { try { OS.User.addTag('name', userName); } catch {} });
+$('nextQuoteBtn').addEventListener('click', () => {
+  quoteIndex = (quoteIndex + 1) % QUOTES.length;
+  renderQuote();
 });
+renderQuote();
+
+/* ---------- Name & Time-of-Day Greeting ---------- */
+let userName = store.get('neet_name', '');
+
+function renderGreeting() {
+  const now = new Date();
+  const h = now.getHours();
+  const n = esc(userName || 'Aspirant');
+  let text, sub, badgeIcon;
+
+  const sec = $('greetingSection');
+  sec.classList.remove('mood-morning', 'mood-evening', 'mood-night');
+  $('morningCard').classList.add('hidden');
+
+  if (h >= 5 && h < 12) {
+    text = `Good Morning, ${n}! ☀️`;
+    sub = 'A fresh day to move closer to your goal.';
+    badgeIcon = '☀️';
+    sec.classList.add('mood-morning');
+    $('morningCard').classList.remove('hidden');
+  } else if (h >= 12 && h < 20) {
+    text = `Good Afternoon / Evening, ${n}! 📚`;
+    sub = 'Keep the momentum going.';
+    badgeIcon = '🌇';
+    sec.classList.add('mood-evening');
+  } else {
+    text = `Good Night, ${n}! 🌙 Rest well for tomorrow's study session.`;
+    sub = 'Sleep is part of your preparation.';
+    badgeIcon = '🌙';
+    sec.classList.add('mood-night');
+  }
+
+  $('greeting').innerHTML = text;
+  $('greetSub').textContent = sub;
+  $('timeBadgeIcon').textContent = badgeIcon;
+  $('liveClock').textContent = now.toLocaleDateString(undefined, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+}
+
+function askName() {
+  $('nameModal').classList.remove('hidden');
+  $('nameInput').value = userName;
+  setTimeout(() => $('nameInput').focus(), 50);
+}
+
+$('nameForm').addEventListener('submit', e => {
+  e.preventDefault();
+  userName = $('nameInput').value.trim();
+  if (!userName) return;
+  store.set('neet_name', userName);
+  $('nameModal').classList.add('hidden');
+  renderGreeting();
+  OneSignalDeferred.push(async OS => {
+    try { OS.User.addTag('name', userName); } catch {}
+  });
+});
+
 $('changeName').onclick = askName;
 if (!userName) askName();
-renderGreeting(); setInterval(renderGreeting, 60000);
+renderGreeting();
+setInterval(renderGreeting, 60000);
 
-/* ---------- Reminders via OneSignal tags ---------- */
+/* ---------- Reminders via OneSignal tags (exact original logic kept) ---------- */
 let prefs = store.get('neet_rem', {});
-function paintPrefs() { document.querySelectorAll('.rem').forEach(el => el.classList.toggle('on', !!prefs[el.dataset.tag])); }
+
+function paintPrefs() {
+  document.querySelectorAll('.rem').forEach(el => {
+    const isOn = !!prefs[el.dataset.tag];
+    el.classList.toggle('on', isOn);
+    el.setAttribute('aria-checked', isOn ? 'true' : 'false');
+  });
+}
 paintPrefs();
 
 function withOneSignal(fn) {
   return new Promise((resolve, reject) => {
-    OneSignalDeferred.push(async OS => { try { resolve(await fn(OS)); } catch (e) { reject(e); } });
+    OneSignalDeferred.push(async OS => {
+      try { resolve(await fn(OS)); } catch (e) { reject(e); }
+    });
   });
 }
+
 async function ensurePermission() {
   return withOneSignal(async OS => {
     if (!OS.Notifications.permission) await OS.Notifications.requestPermission();
     return OS.Notifications.permission;
   });
 }
+
 async function syncTags() {
   await withOneSignal(async OS => {
     for (const tag of ['morning', 'medicine', 'evening', 'night']) {
-      if (prefs[tag]) OS.User.addTag(tag, '1'); else OS.User.removeTag(tag);
+      if (prefs[tag]) OS.User.addTag(tag, '1');
+      else OS.User.removeTag(tag);
     }
     if (userName) OS.User.addTag('name', userName);
   });
 }
-document.querySelectorAll('.rem').forEach(el => el.addEventListener('click', async () => {
+
+async function toggleReminderCard(el) {
   const tag = el.dataset.tag;
-  prefs[tag] = !prefs[tag]; store.set('neet_rem', prefs); paintPrefs();
+  prefs[tag] = !prefs[tag];
+  store.set('neet_rem', prefs);
+  paintPrefs();
   try {
-    if (prefs[tag] && !(await ensurePermission())) { $('notifMsg').textContent = 'Allow notifications in your browser to receive reminders.'; }
+    if (prefs[tag] && !(await ensurePermission())) {
+      $('notifMsg').textContent = 'Allow notifications in your browser to receive reminders.';
+    }
     await syncTags();
-  } catch { $('notifMsg').textContent = 'Could not save. Check your OneSignal App ID and site setup.'; }
-}));
+  } catch {
+    $('notifMsg').textContent = 'Could not save. Check your OneSignal App ID and site setup.';
+  }
+}
+
+document.querySelectorAll('.rem').forEach(el => {
+  el.addEventListener('click', () => toggleReminderCard(el));
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleReminderCard(el);
+    }
+  });
+});
+
 $('notifBtn').onclick = async () => {
   $('notifMsg').textContent = '';
   try {
     const ok = await ensurePermission();
     if (ok) {
-      if (!Object.values(prefs).some(Boolean)) { prefs = { morning: true, medicine: true, evening: true, night: true }; store.set('neet_rem', prefs); paintPrefs(); }
+      if (!Object.values(prefs).some(Boolean)) {
+        prefs = { morning: true, medicine: true, evening: true, night: true };
+        store.set('neet_rem', prefs);
+        paintPrefs();
+      }
       await syncTags();
       $('notifMsg').textContent = '✅ Reminders enabled. Switch any off above anytime.';
-    } else $('notifMsg').textContent = 'Permission not granted. You can change it in browser settings.';
-  } catch { $('notifMsg').textContent = 'Could not enable notifications. Check your OneSignal App ID and site setup.'; }
+    } else {
+      $('notifMsg').textContent = 'Permission not granted. You can change it in browser settings.';
+    }
+  } catch {
+    $('notifMsg').textContent = 'Could not enable notifications. Check your OneSignal App ID and site setup.';
+  }
 };
 
-/* ---------- Countdown ---------- */
+/* ---------- Exam Countdown + Visual Year Ring ---------- */
 $('examSelect').value = store.get('neet_exam', '2027-05-02');
-$('examSelect').onchange = () => { store.set('neet_exam', $('examSelect').value); tick(); };
-function tick() {
-  const [y, m, d] = $('examSelect').value.split('-').map(Number);
-  let diff = new Date(y, m - 1, d) - new Date(); if (diff < 0) diff = 0;
-  const s = Math.floor(diff / 1000);
-  $('cdD').textContent = Math.floor(s / 86400);
-  $('cdH').textContent = String(Math.floor(s % 86400 / 3600)).padStart(2, '0');
-  $('cdM').textContent = String(Math.floor(s % 3600 / 60)).padStart(2, '0');
-  $('cdS').textContent = String(s % 60).padStart(2, '0');
-}
-tick(); setInterval(tick, 1000);
+$('examSelect').onchange = () => {
+  store.set('neet_exam', $('examSelect').value);
+  tick();
+};
 
-/* ---------- Study logger ---------- */
-$('logDate').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+function tick() {
+  const val = $('examSelect').value;
+  const [y, m, d] = val.split('-').map(Number);
+  const target = new Date(y, m - 1, d);
+  let diff = target - new Date();
+  if (diff < 0) diff = 0;
+
+  const s = Math.floor(diff / 1000);
+  const days = Math.floor(s / 86400);
+  $('cdD').textContent = days;
+  $('cdH').textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, '0');
+  $('cdM').textContent = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  $('cdS').textContent = String(s % 60).padStart(2, '0');
+
+  // Progress bar & ring: proportion of a 365-day prep cycle remaining
+  const pctLeft = Math.min(100, Math.max(0, Math.round((days / 365) * 100)));
+  $('cdPctText').textContent = `${pctLeft}%`;
+  $('cdBar').style.width = `${pctLeft}%`;
+  const circumference = 150.8;
+  $('cdRing').style.strokeDashoffset = String(circumference - (circumference * pctLeft) / 100);
+  $('cdTargetLabel').textContent = val === '2027-05-02' ? 'May 2, 2027' : 'May 7, 2028';
+}
+tick();
+setInterval(tick, 1000);
+
+/* ---------- Study Logger, Subject Chips, Streak & 7-Day Bar Chart ---------- */
+function getLocalDateStr(dateObj = new Date()) {
+  return new Date(dateObj.getTime() - dateObj.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+}
+
+$('logDate').value = getLocalDateStr();
 let logs = store.get('neet_logs', []);
+
+const SUBJECT_STYLES = {
+  'Physics': 'bg-sky-400/15 text-sky-200 border-sky-300/30',
+  'Chemistry': 'bg-amber-400/15 text-amber-200 border-amber-300/30',
+  'Biology (Botany)': 'bg-emerald-400/15 text-emerald-200 border-emerald-300/30',
+  'Biology (Zoology)': 'bg-pink-400/15 text-pink-200 border-pink-300/30',
+  'Mock Test': 'bg-purple-400/15 text-purple-200 border-purple-300/30',
+  'Revision': 'bg-indigo-400/15 text-indigo-200 border-indigo-300/30',
+  'Other': 'bg-slate-400/15 text-slate-200 border-slate-300/30'
+};
+
+// Keep Subject Chips and <select id="logSubject"> in sync
+function syncSubjectChips(selectedValue) {
+  document.querySelectorAll('.subj-chip').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.subj === selectedValue);
+  });
+}
+document.querySelectorAll('.subj-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $('logSubject').value = btn.dataset.subj;
+    syncSubjectChips(btn.dataset.subj);
+  });
+});
+$('logSubject').addEventListener('change', () => {
+  syncSubjectChips($('logSubject').value);
+});
+
+// Calculate consecutive daily study streak
+function computeStreak() {
+  const loggedDates = new Set(logs.map(l => l.date));
+  if (!loggedDates.size) return 0;
+
+  let streak = 0;
+  const cursor = new Date();
+  const todayStr = getLocalDateStr(cursor);
+
+  // If today isn't logged yet, start checking from yesterday
+  if (!loggedDates.has(todayStr)) {
+    cursor.setDate(cursor.getDate() - 1);
+    if (!loggedDates.has(getLocalDateStr(cursor))) return 0;
+  }
+
+  while (loggedDates.has(getLocalDateStr(cursor))) {
+    streak++;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
+
+// Render 7-Day CSS/SVG Bar Chart
+function renderWeeklyChart() {
+  const container = $('weeklyChart');
+  container.innerHTML = '';
+
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = getLocalDateStr(d);
+    const label = d.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 3);
+    const total = logs
+      .filter(l => l.date === dateStr)
+      .reduce((sum, l) => sum + (Number(l.hours) || 0), 0);
+    days.push({ dateStr, label, total: Math.round(total * 100) / 100 });
+  }
+
+  const maxHours = Math.max(4, ...days.map(d => d.total));
+  const weekSum = Math.round(days.reduce((s, d) => s + d.total, 0) * 100) / 100;
+  $('weekHours').textContent = weekSum;
+
+  days.forEach((d, idx) => {
+    const heightPct = d.total > 0 ? Math.max(12, Math.round((d.total / maxHours) * 100)) : 6;
+    const isToday = idx === 6;
+    const col = document.createElement('div');
+    col.className = 'flex flex-col items-center justify-end h-full gap-1';
+    col.innerHTML = `
+      <span class="text-[10px] font-semibold ${d.total > 0 ? 'text-purple-200' : 'text-slate-500'}">${d.total > 0 ? d.total + 'h' : ''}</span>
+      <div class="w-full max-w-[28px] bg-slate-900/80 rounded-t-lg h-16 flex items-end overflow-hidden border border-white/5">
+        <div class="w-full rounded-t-lg transition-all duration-500"
+             style="height: ${heightPct}%; background: ${d.total > 0 ? 'linear-gradient(180deg, var(--accent), var(--accent-2))' : 'rgba(148,163,184,0.15)'};"></div>
+      </div>
+      <span class="text-[10px] ${isToday ? 'text-white font-bold' : 'text-slate-400'}">${esc(d.label)}</span>
+    `;
+    container.appendChild(col);
+  });
+}
+
 function renderLogs() {
   $('logList').innerHTML = '';
-  logs.slice().sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id).forEach(l => {
-    const li = document.createElement('li');
-    li.className = 'rounded-2xl bg-slate-900/60 p-3 flex gap-3 justify-between items-start';
-    li.innerHTML = `<div class="min-w-0"><div class="text-sm"><span class="font-semibold text-white">${esc(l.subject)}</span><span class="text-indigo-300 ml-2">${esc(l.hours)} h</span></div>
-      <div class="text-xs text-slate-500">${esc(l.date)}</div>${l.notes ? `<div class="text-sm text-slate-300 mt-1 break-words">${esc(l.notes)}</div>` : ''}</div>
-      <button data-id="${l.id}" class="text-slate-500 hover:text-red-400 text-sm" aria-label="Delete">✕</button>`;
-    $('logList').appendChild(li);
-  });
+  logs
+    .slice()
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)) || b.id - a.id)
+    .forEach(l => {
+      const badgeStyle = SUBJECT_STYLES[l.subject] || SUBJECT_STYLES['Other'];
+      const li = document.createElement('li');
+      li.className = 'rounded-2xl bg-slate-950/55 border border-white/10 p-3.5 flex gap-3 justify-between items-start hover:border-white/20 transition';
+      li.innerHTML = `
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full border ${badgeStyle}">${esc(l.subject)}</span>
+            <span class="text-xs font-bold text-purple-200 bg-white/10 px-2 py-0.5 rounded-md">${esc(l.hours)} h</span>
+            <span class="text-xs text-slate-400">${esc(l.date)}</span>
+          </div>
+          ${l.notes ? `<div class="text-sm text-slate-200 mt-2 break-words leading-relaxed">${esc(l.notes)}</div>` : ''}
+        </div>
+        <button data-id="${l.id}" type="button" class="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-300 hover:bg-rose-500/15 flex items-center justify-center text-sm transition shrink-0" aria-label="Delete study log">✕</button>
+      `;
+      $('logList').appendChild(li);
+    });
+
   $('emptyMsg').classList.toggle('hidden', logs.length > 0);
   $('totalHours').textContent = Math.round(logs.reduce((s, l) => s + Number(l.hours), 0) * 100) / 100;
+  $('streakCount').textContent = computeStreak();
+  renderWeeklyChart();
 }
+
 $('logForm').addEventListener('submit', e => {
   e.preventDefault();
-  logs.push({ id: Date.now(), date: $('logDate').value, hours: $('logHours').value, subject: $('logSubject').value, notes: $('logNotes').value.trim() });
-  store.set('neet_logs', logs); $('logHours').value = ''; $('logNotes').value = ''; renderLogs();
+  logs.push({
+    id: Date.now(),
+    date: $('logDate').value,
+    hours: $('logHours').value,
+    subject: $('logSubject').value,
+    notes: $('logNotes').value.trim()
+  });
+  store.set('neet_logs', logs);
+  $('logHours').value = '';
+  $('logNotes').value = '';
+  renderLogs();
 });
+
 $('logList').addEventListener('click', e => {
-  const id = e.target.dataset.id; if (!id) return;
-  logs = logs.filter(l => String(l.id) !== id); store.set('neet_logs', logs); renderLogs();
+  const btn = e.target.closest('button[data-id]');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  logs = logs.filter(l => String(l.id) !== id);
+  store.set('neet_logs', logs);
+  renderLogs();
 });
+
 renderLogs();
+
+/* ---------- Custom Wallpaper & Personalization (localStorage + IndexedDB fallback) ---------- */
+const DEFAULT_THEME = {
+  type: 'preset',
+  preset: 'moon-night',
+  customData: null,
+  dim: 25,
+  blur: 0,
+  accent: 'lavender'
+};
+
+let currentTheme = Object.assign({}, DEFAULT_THEME, store.get('neet_theme', {}));
+let activeWpLayer = 'A';
+
+// IndexedDB helper for large custom wallpaper fallback if localStorage quota is full
+const idbWallpaper = {
+  open() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) return reject(new Error('IndexedDB unavailable'));
+      const req = indexedDB.open('neet_dashboard_db', 1);
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('wallpapers')) {
+          db.createObjectStore('wallpapers');
+        }
+      };
+      req.onsuccess = e => resolve(e.target.result);
+      req.onerror = e => reject(e.target.error);
+    });
+  },
+  async save(dataUrl) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('wallpapers', 'readwrite');
+      tx.objectStore('wallpapers').put(dataUrl, 'custom_wp');
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = e => reject(e.target.error);
+    });
+  },
+  async load() {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('wallpapers', 'readonly');
+      const req = tx.objectStore('wallpapers').get('custom_wp');
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = e => reject(e.target.error);
+    });
+  },
+  async clear() {
+    try {
+      const db = await this.open();
+      const tx = db.transaction('wallpapers', 'readwrite');
+      tx.objectStore('wallpapers').delete('custom_wp');
+    } catch {}
+  }
+};
+
+// Crossfade wallpaper smoothly (~400ms)
+function crossfadeWallpaper(cssBackgroundValue) {
+  const layerA = $('wpLayerA');
+  const layerB = $('wpLayerB');
+  if (activeWpLayer === 'A') {
+    layerB.style.backgroundImage = cssBackgroundValue;
+    layerB.style.opacity = '1';
+    layerA.style.opacity = '0';
+    activeWpLayer = 'B';
+  } else {
+    layerA.style.backgroundImage = cssBackgroundValue;
+    layerA.style.opacity = '1';
+    layerB.style.opacity = '0';
+    activeWpLayer = 'A';
+  }
+}
+
+function applyThemeControlsUI() {
+  const root = document.documentElement;
+  const acc = window.ACCENT_PRESETS[currentTheme.accent] || window.ACCENT_PRESETS.lavender;
+  root.style.setProperty('--accent', acc.color);
+  root.style.setProperty('--accent-2', acc.color2);
+  root.style.setProperty('--accent-rgb', acc.rgb);
+  root.style.setProperty('--wp-dim', (currentTheme.dim / 100).toFixed(2));
+  root.style.setProperty('--wp-blur', currentTheme.blur + 'px');
+
+  $('dimSlider').value = currentTheme.dim;
+  $('dimValue').textContent = `${currentTheme.dim}%`;
+  $('blurSlider').value = currentTheme.blur;
+  $('blurValue').textContent = `${currentTheme.blur}px`;
+
+  document.querySelectorAll('[data-preset-key]').forEach(btn => {
+    const isSelected = currentTheme.type === 'preset' && btn.dataset.presetKey === currentTheme.preset;
+    btn.classList.toggle('ring-2', isSelected);
+    btn.classList.toggle('ring-white', isSelected);
+  });
+
+  document.querySelectorAll('[data-accent-key]').forEach(btn => {
+    const isSelected = btn.dataset.accentKey === currentTheme.accent;
+    btn.classList.toggle('ring-2', isSelected);
+    btn.classList.toggle('ring-white', isSelected);
+    btn.classList.toggle('scale-110', isSelected);
+  });
+}
+
+function saveThemeState() {
+  const ok = store.set('neet_theme', currentTheme);
+  if (!ok && currentTheme.type === 'custom' && currentTheme.customData && currentTheme.customData !== '__idb__') {
+    // Fallback to IndexedDB if localStorage quota is exceeded
+    const rawData = currentTheme.customData;
+    idbWallpaper.save(rawData).then(() => {
+      currentTheme.customData = '__idb__';
+      store.set('neet_theme', currentTheme);
+      $('wpUploadStatus').textContent = '✨ Saved wallpaper via IndexedDB (browser storage fallback).';
+    }).catch(() => {
+      $('wpUploadStatus').textContent = '⚠️ Storage full. Wallpaper applied for this session.';
+    });
+  }
+}
+
+// Build Preset Wallpaper Tiles & Accent Swatches
+function buildPersonalizePanel() {
+  const presetGrid = $('presetGrid');
+  presetGrid.innerHTML = '';
+  Object.entries(window.WP_PRESETS).forEach(([key, p]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.dataset.presetKey = key;
+    btn.className = 'group relative h-16 rounded-2xl border border-white/15 overflow-hidden text-left p-2.5 flex items-end transition hover:scale-[1.02]';
+    btn.style.backgroundImage = p.css;
+    btn.innerHTML = `<span class="text-[11px] font-semibold text-white drop-shadow">${esc(p.name)}</span>`;
+    btn.addEventListener('click', () => {
+      currentTheme.type = 'preset';
+      currentTheme.preset = key;
+      currentTheme.customData = null;
+      crossfadeWallpaper(p.css);
+      applyThemeControlsUI();
+      saveThemeState();
+      $('wpUploadStatus').textContent = `Selected "${p.name}" preset.`;
+    });
+    presetGrid.appendChild(btn);
+  });
+
+  const accentGrid = $('accentGrid');
+  accentGrid.innerHTML = '';
+  Object.entries(window.ACCENT_PRESETS).forEach(([key, acc]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.dataset.accentKey = key;
+    btn.className = 'px-3.5 py-2 rounded-full border border-white/20 flex items-center gap-2 text-xs font-semibold text-white bg-slate-950/60 transition';
+    btn.innerHTML = `
+      <span class="w-4 h-4 rounded-full inline-block" style="background: linear-gradient(135deg, ${acc.color}, ${acc.color2});"></span>
+      <span>${esc(acc.name)}</span>
+    `;
+    btn.addEventListener('click', () => {
+      currentTheme.accent = key;
+      applyThemeControlsUI();
+      saveThemeState();
+    });
+    accentGrid.appendChild(btn);
+  });
+}
+
+// Resize uploaded image on <canvas> to max 1280px longest side, export JPEG ~0.8
+function resizeImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Could not read image file.'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Invalid image file.'));
+      img.onload = () => {
+        const maxSide = 1280;
+        let { width, height } = img;
+        if (width > maxSide || height > maxSide) {
+          if (width >= height) {
+            height = Math.round((height * maxSide) / width);
+            width = maxSide;
+          } else {
+            width = Math.round((width * maxSide) / height);
+            height = maxSide;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+$('wpUploadInput').addEventListener('change', async e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  $('wpUploadStatus').textContent = '⏳ Optimizing wallpaper...';
+  try {
+    const dataUrl = await resizeImageFile(file);
+    currentTheme.type = 'custom';
+    currentTheme.customData = dataUrl;
+    crossfadeWallpaper(`url("${dataUrl}")`);
+    applyThemeControlsUI();
+    saveThemeState();
+    if (currentTheme.customData !== '__idb__') {
+      $('wpUploadStatus').textContent = '✅ Custom wallpaper saved!';
+    }
+  } catch {
+    $('wpUploadStatus').textContent = '⚠️ Could not process image. Please try another photo.';
+  } finally {
+    e.target.value = '';
+  }
+});
+
+$('dimSlider').addEventListener('input', e => {
+  currentTheme.dim = Number(e.target.value);
+  applyThemeControlsUI();
+  saveThemeState();
+});
+
+$('blurSlider').addEventListener('input', e => {
+  currentTheme.blur = Number(e.target.value);
+  applyThemeControlsUI();
+  saveThemeState();
+});
+
+$('resetThemeBtn').addEventListener('click', () => {
+  currentTheme = Object.assign({}, DEFAULT_THEME);
+  store.remove('neet_theme');
+  idbWallpaper.clear();
+  crossfadeWallpaper(window.WP_PRESETS['moon-night'].css);
+  applyThemeControlsUI();
+  $('wpUploadStatus').textContent = 'Reset to default Moon Night theme.';
+});
+
+// Drawer open/close animations
+function openThemeDrawer() {
+  $('themeBackdrop').classList.remove('hidden');
+  requestAnimationFrame(() => {
+    $('themeBackdrop').classList.remove('opacity-0');
+    $('themeDrawer').classList.remove('translate-y-full');
+  });
+}
+function closeThemeDrawer() {
+  $('themeBackdrop').classList.add('opacity-0');
+  $('themeDrawer').classList.add('translate-y-full');
+  setTimeout(() => $('themeBackdrop').classList.add('hidden'), 300);
+}
+
+$('openThemeBtn').addEventListener('click', openThemeDrawer);
+$('closeThemeBtn').addEventListener('click', closeThemeDrawer);
+$('doneThemeBtn').addEventListener('click', closeThemeDrawer);
+$('themeBackdrop').addEventListener('click', closeThemeDrawer);
+
+// Initialize Personalize UI & restore IndexedDB wallpaper if used
+buildPersonalizePanel();
+applyThemeControlsUI();
+if (currentTheme.type === 'custom' && currentTheme.customData === '__idb__') {
+  idbWallpaper.load().then(dataUrl => {
+    if (dataUrl) crossfadeWallpaper(`url("${dataUrl}")`);
+  }).catch(() => {});
+}
 </script>
 </body>
 </html>
