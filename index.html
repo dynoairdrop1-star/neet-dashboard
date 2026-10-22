@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NEET Study Dashboard</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- OneSignal Web Push SDK: replace 1ca8032a-78c1-44ee-b597-9c84271b6565 with your App ID -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function (OneSignal) {
+    await OneSignal.init({ appId: "1ca8032a-78c1-44ee-b597-9c84271b6565" });
+  });
+</script>
+
+<style>
+  body { font-family: 'Poppins', sans-serif; min-height: 100vh;
+         background: radial-gradient(circle at 15% 0%, #4338ca55 0%, transparent 45%),
+                     radial-gradient(circle at 90% 20%, #be185d33 0%, transparent 40%), #0b1020; }
+  .glass { background: rgba(30,41,59,.5); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+           border: 1px solid rgba(148,163,184,.15); border-radius: 1.5rem; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+  .field { background: rgba(15,23,42,.7); border: 1px solid rgba(148,163,184,.25); border-radius: .85rem; padding: .6rem .85rem; width: 100%; color: #e2e8f0; outline: none; }
+  .field:focus { border-color: #818cf8; box-shadow: 0 0 0 3px rgba(129,140,248,.25); }
+  select.field option { background: #0f172a; }
+  .btn { border-radius: .9rem; padding: .7rem 1.2rem; font-weight: 600; transition: transform .1s, filter .2s; }
+  .btn:active { transform: scale(.97); }
+  .btn-primary { background: linear-gradient(135deg, #6366f1, #a855f7); color: #fff; } .btn-primary:hover { filter: brightness(1.1); }
+  .rem { cursor: pointer; transition: transform .15s, border-color .2s, background .2s; border: 1px solid rgba(148,163,184,.18); border-radius: 1.1rem; background: rgba(15,23,42,.55); }
+  .rem:hover { transform: translateY(-2px); }
+  .rem.on { border-color: #818cf8; background: rgba(99,102,241,.18); }
+  .tog { width: 2.6rem; height: 1.45rem; border-radius: 999px; background: #334155; position: relative; transition: background .2s; flex-shrink: 0; }
+  .tog::after { content: ''; position: absolute; top: 3px; left: 3px; width: 1.05rem; height: 1.05rem; border-radius: 50%; background: #fff; transition: transform .2s; }
+  .rem.on .tog { background: #6366f1; } .rem.on .tog::after { transform: translateX(1.15rem); }
+</style>
+</head>
+<body class="text-slate-200">
+
+<!-- Name modal -->
+<div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+  <form id="nameForm" class="glass p-6 w-full max-w-sm space-y-4">
+    <h2 class="text-xl font-bold text-white">Enter your name to personalize your dashboard</h2>
+    <input id="nameInput" class="field" placeholder="Your name" maxlength="30" required>
+    <button class="btn btn-primary w-full">Continue</button>
+  </form>
+</div>
+
+<main class="max-w-5xl mx-auto p-4 sm:p-6 space-y-5">
+
+  <!-- Greeting -->
+  <section class="glass p-6">
+    <div class="flex items-start justify-between gap-3">
+      <h1 id="greeting" class="text-2xl sm:text-3xl font-bold text-white leading-snug"></h1>
+      <button id="changeName" class="text-xs text-slate-400 hover:text-indigo-300 underline shrink-0">Change name</button>
+    </div>
+    <p id="greetSub" class="text-slate-400 mt-1 text-sm"></p>
+    <div id="morningCard" class="hidden mt-4 rounded-2xl border border-amber-400/30 bg-amber-400/10 p-3 text-amber-200 text-sm">
+      💊 <b>Morning Habit:</b> Take your medicine &amp; multivitamins with water!
+    </div>
+  </section>
+
+  <!-- Reminders (main feature) -->
+  <section class="glass p-6">
+    <h2 class="text-xl font-bold text-white">🔔 Your Daily Reminders</h2>
+    <p class="text-sm text-slate-400 mt-1">Choose which reminders you want. You'll only get the ones you switch on.</p>
+
+    <div id="remGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+      <div class="rem p-4 flex items-center gap-3" data-tag="morning"><div class="text-3xl">☀️</div>
+        <div class="flex-1"><div class="font-semibold text-white">Good Morning</div><div class="text-xs text-slate-400">A fresh start to your study day</div></div><div class="tog"></div></div>
+      <div class="rem p-4 flex items-center gap-3" data-tag="medicine"><div class="text-3xl">💊</div>
+        <div class="flex-1"><div class="font-semibold text-white">Medicine Reminder</div><div class="text-xs text-slate-400">Medicine &amp; multivitamins with water</div></div><div class="tog"></div></div>
+      <div class="rem p-4 flex items-center gap-3" data-tag="evening"><div class="text-3xl">📚</div>
+        <div class="flex-1"><div class="font-semibold text-white">Good Evening</div><div class="text-xs text-slate-400">Evening study &amp; revision nudge</div></div><div class="tog"></div></div>
+      <div class="rem p-4 flex items-center gap-3" data-tag="night"><div class="text-3xl">🌙</div>
+        <div class="flex-1"><div class="font-semibold text-white">Good Night</div><div class="text-xs text-slate-400">Wind down and rest well</div></div><div class="tog"></div></div>
+    </div>
+
+    <div class="mt-5 flex flex-col sm:flex-row sm:items-center gap-3">
+      <button id="notifBtn" class="btn btn-primary">🔔 Enable Medicine &amp; Daily Reminders</button>
+      <p id="notifMsg" class="text-sm text-indigo-300"></p>
+    </div>
+  </section>
+
+  <!-- Countdown -->
+  <section class="glass p-6">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+      <h2 class="text-lg font-semibold text-white">⏳ Exam Countdown</h2>
+      <select id="examSelect" class="field !w-auto">
+        <option value="2027-05-02">NEET 2027 (May 2, 2027)</option>
+        <option value="2028-05-07">NEET 2028 (May 7, 2028)</option>
+      </select>
+    </div>
+    <div class="grid grid-cols-4 gap-2 sm:gap-3 text-center">
+      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdD" class="text-2xl sm:text-4xl font-bold text-indigo-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Days</div></div>
+      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdH" class="text-2xl sm:text-4xl font-bold text-fuchsia-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Hours</div></div>
+      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdM" class="text-2xl sm:text-4xl font-bold text-sky-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Minutes</div></div>
+      <div class="rounded-2xl bg-slate-900/60 py-4"><div id="cdS" class="text-2xl sm:text-4xl font-bold text-emerald-300">0</div><div class="text-[11px] uppercase tracking-wider text-slate-400">Seconds</div></div>
+    </div>
+  </section>
+
+  <!-- Logger -->
+  <div class="grid md:grid-cols-5 gap-5">
+    <section class="glass p-6 md:col-span-2">
+      <h2 class="text-lg font-semibold text-white mb-3">📝 Log Today's Study</h2>
+      <form id="logForm" class="space-y-3">
+        <div><label class="text-xs text-slate-400">Date</label><input id="logDate" type="date" class="field" required></div>
+        <div><label class="text-xs text-slate-400">Hours studied</label><input id="logHours" type="number" step="0.25" min="0" max="24" class="field" placeholder="e.g. 3.5" required></div>
+        <div><label class="text-xs text-slate-400">Subject</label>
+          <select id="logSubject" class="field"><option>Physics</option><option>Chemistry</option><option>Biology (Botany)</option><option>Biology (Zoology)</option><option>Mock Test</option><option>Revision</option><option>Other</option></select></div>
+        <div><label class="text-xs text-slate-400">Notes</label><textarea id="logNotes" rows="3" class="field" placeholder="Chapters covered, weak areas..."></textarea></div>
+        <button class="btn btn-primary w-full">Save Log</button>
+      </form>
+    </section>
+    <section class="glass p-6 md:col-span-3">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-lg font-semibold text-white">📚 Study History</h2>
+        <div class="text-sm text-slate-400">Total: <span id="totalHours" class="text-indigo-300 font-semibold">0</span> h</div>
+      </div>
+      <ul id="logList" class="space-y-2 max-h-96 overflow-y-auto pr-1"></ul>
+      <p id="emptyMsg" class="text-sm text-slate-500">No logs yet. Add your first session!</p>
+    </section>
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- Name & greeting ---------- */
+let userName = store.get('neet_name', '');
+function renderGreeting() {
+  const h = new Date().getHours(), n = esc(userName || 'Aspirant');
+  let text, sub;
+  $('morningCard').classList.add('hidden');
+  if (h >= 5 && h < 12) { text = `Good Morning, ${n}! ☀️`; $('morningCard').classList.remove('hidden'); sub = 'A fresh day to move closer to your goal.'; }
+  else if (h >= 12 && h < 20) { text = `Good Afternoon / Evening, ${n}! 📚`; sub = 'Keep the momentum going.'; }
+  else { text = `Good Night, ${n}! 🌙 Rest well for tomorrow's study session.`; sub = 'Sleep is part of your preparation.'; }
+  $('greeting').innerHTML = text; $('greetSub').textContent = sub;
+}
+function askName() { $('nameModal').classList.remove('hidden'); $('nameInput').value = userName; $('nameInput').focus(); }
+$('nameForm').addEventListener('submit', e => {
+  e.preventDefault(); userName = $('nameInput').value.trim(); if (!userName) return;
+  store.set('neet_name', userName); $('nameModal').classList.add('hidden'); renderGreeting();
+  OneSignalDeferred.push(async OS => { try { OS.User.addTag('name', userName); } catch {} });
+});
+$('changeName').onclick = askName;
+if (!userName) askName();
+renderGreeting(); setInterval(renderGreeting, 60000);
+
+/* ---------- Reminders via OneSignal tags ---------- */
+let prefs = store.get('neet_rem', {});
+function paintPrefs() { document.querySelectorAll('.rem').forEach(el => el.classList.toggle('on', !!prefs[el.dataset.tag])); }
+paintPrefs();
+
+function withOneSignal(fn) {
+  return new Promise((resolve, reject) => {
+    OneSignalDeferred.push(async OS => { try { resolve(await fn(OS)); } catch (e) { reject(e); } });
+  });
+}
+async function ensurePermission() {
+  return withOneSignal(async OS => {
+    if (!OS.Notifications.permission) await OS.Notifications.requestPermission();
+    return OS.Notifications.permission;
+  });
+}
+async function syncTags() {
+  await withOneSignal(async OS => {
+    for (const tag of ['morning', 'medicine', 'evening', 'night']) {
+      if (prefs[tag]) OS.User.addTag(tag, '1'); else OS.User.removeTag(tag);
+    }
+    if (userName) OS.User.addTag('name', userName);
+  });
+}
+document.querySelectorAll('.rem').forEach(el => el.addEventListener('click', async () => {
+  const tag = el.dataset.tag;
+  prefs[tag] = !prefs[tag]; store.set('neet_rem', prefs); paintPrefs();
+  try {
+    if (prefs[tag] && !(await ensurePermission())) { $('notifMsg').textContent = 'Allow notifications in your browser to receive reminders.'; }
+    await syncTags();
+  } catch { $('notifMsg').textContent = 'Could not save. Check your OneSignal App ID and site setup.'; }
+}));
+$('notifBtn').onclick = async () => {
+  $('notifMsg').textContent = '';
+  try {
+    const ok = await ensurePermission();
+    if (ok) {
+      if (!Object.values(prefs).some(Boolean)) { prefs = { morning: true, medicine: true, evening: true, night: true }; store.set('neet_rem', prefs); paintPrefs(); }
+      await syncTags();
+      $('notifMsg').textContent = '✅ Reminders enabled. Switch any off above anytime.';
+    } else $('notifMsg').textContent = 'Permission not granted. You can change it in browser settings.';
+  } catch { $('notifMsg').textContent = 'Could not enable notifications. Check your OneSignal App ID and site setup.'; }
+};
+
+/* ---------- Countdown ---------- */
+$('examSelect').value = store.get('neet_exam', '2027-05-02');
+$('examSelect').onchange = () => { store.set('neet_exam', $('examSelect').value); tick(); };
+function tick() {
+  const [y, m, d] = $('examSelect').value.split('-').map(Number);
+  let diff = new Date(y, m - 1, d) - new Date(); if (diff < 0) diff = 0;
+  const s = Math.floor(diff / 1000);
+  $('cdD').textContent = Math.floor(s / 86400);
+  $('cdH').textContent = String(Math.floor(s % 86400 / 3600)).padStart(2, '0');
+  $('cdM').textContent = String(Math.floor(s % 3600 / 60)).padStart(2, '0');
+  $('cdS').textContent = String(s % 60).padStart(2, '0');
+}
+tick(); setInterval(tick, 1000);
+
+/* ---------- Study logger ---------- */
+$('logDate').value = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+let logs = store.get('neet_logs', []);
+function renderLogs() {
+  $('logList').innerHTML = '';
+  logs.slice().sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id).forEach(l => {
+    const li = document.createElement('li');
+    li.className = 'rounded-2xl bg-slate-900/60 p-3 flex gap-3 justify-between items-start';
+    li.innerHTML = `<div class="min-w-0"><div class="text-sm"><span class="font-semibold text-white">${esc(l.subject)}</span><span class="text-indigo-300 ml-2">${esc(l.hours)} h</span></div>
+      <div class="text-xs text-slate-500">${esc(l.date)}</div>${l.notes ? `<div class="text-sm text-slate-300 mt-1 break-words">${esc(l.notes)}</div>` : ''}</div>
+      <button data-id="${l.id}" class="text-slate-500 hover:text-red-400 text-sm" aria-label="Delete">✕</button>`;
+    $('logList').appendChild(li);
+  });
+  $('emptyMsg').classList.toggle('hidden', logs.length > 0);
+  $('totalHours').textContent = Math.round(logs.reduce((s, l) => s + Number(l.hours), 0) * 100) / 100;
+}
+$('logForm').addEventListener('submit', e => {
+  e.preventDefault();
+  logs.push({ id: Date.now(), date: $('logDate').value, hours: $('logHours').value, subject: $('logSubject').value, notes: $('logNotes').value.trim() });
+  store.set('neet_logs', logs); $('logHours').value = ''; $('logNotes').value = ''; renderLogs();
+});
+$('logList').addEventListener('click', e => {
+  const id = e.target.dataset.id; if (!id) return;
+  logs = logs.filter(l => String(l.id) !== id); store.set('neet_logs', logs); renderLogs();
+});
+renderLogs();
+</script>
+</body>
+</html>
