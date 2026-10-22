@@ -84,7 +84,7 @@ async function sendOne(type, restKey, dayIndex) {
   };
   const r = await fetch("https://api.onesignal.com/notifications?c=push", {
     method: "POST",
-    headers: { "Content-Type": "application/json", Authorization: "Key " + restKey },
+    headers: { "Content-Type": "application/json", Authorization: (restKey.startsWith("os_") ? "Key " : "Basic ") + restKey },
     body: JSON.stringify(body),
   });
   const data = await r.json().catch(() => ({}));
@@ -92,7 +92,7 @@ async function sendOne(type, restKey, dayIndex) {
 }
 
 module.exports = async (req, res) => {
-  const restKey = process.env.ONESIGNAL_REST_API_KEY;
+  const restKey = (process.env.ONESIGNAL_REST_API_KEY || "").trim();
   const secret = process.env.CRON_SECRET;
   if (!restKey || !secret) return res.status(500).json({ error: "Missing environment variables" });
   if (req.query.key !== secret) return res.status(401).json({ error: "Unauthorized" });
