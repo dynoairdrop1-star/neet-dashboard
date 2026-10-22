@@ -23,7 +23,7 @@
     --accent: #c4b5fd;
     --accent-2: #f9a8d4;
     --accent-rgb: 196, 181, 253;
-    --wp-dim: 0.20;
+    --wp-dim: 0.18;
     --wp-blur: 0px;
   }
 
@@ -46,7 +46,7 @@
     position: relative;
   }
 
-  /* Fixed Full-Screen Wallpaper System (Visible z-index stack) */
+  /* Fixed Full-Screen Wallpaper System */
   .wp-fixed {
     position: fixed;
     inset: 0;
@@ -61,19 +61,19 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1), transform 600ms ease;
+    transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1);
     will-change: opacity;
   }
 
-  /* Soft Ambient Dreamy Nebula Glow */
+  /* Soft Ambient Borahae Purple Glow */
   .ambient-glow {
     position: fixed;
     inset: 0;
     z-index: 1;
     pointer-events: none;
     background:
-      radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.14), transparent 45%),
-      radial-gradient(circle at 85% 80%, rgba(244, 114, 182, 0.12), transparent 50%);
+      radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.16), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(244, 114, 182, 0.14), transparent 50%);
   }
 
   /* Dim & Blur Readability Overlay */
@@ -99,20 +99,28 @@
       radial-gradient(1px 1px at 24% 58%, rgba(254, 240, 138, 0.75) 50%, transparent 100%),
       radial-gradient(2px 2px at 42% 22%, rgba(249, 168, 212, 0.7) 50%, transparent 100%),
       radial-gradient(1.5px 1.5px at 66% 12%, rgba(255, 255, 255, 0.8) 50%, transparent 100%),
-      radial-gradient(1.2px 1.2px at 80% 44%, rgba(196, 181, 253, 0.8) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 80% 44%, rgba(196, 181, 253, 0.85) 50%, transparent 100%),
       radial-gradient(1.5px 1.5px at 92% 72%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
       radial-gradient(1px 1px at 16% 82%, rgba(167, 243, 208, 0.65) 50%, transparent 100%),
       radial-gradient(1.5px 1.5px at 54% 76%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
       radial-gradient(1.2px 1.2px at 34% 38%, rgba(255, 255, 255, 0.65) 50%, transparent 100%),
       radial-gradient(1.8px 1.8px at 73% 88%, rgba(251, 207, 232, 0.7) 50%, transparent 100%);
     animation: twinkle 6s ease-in-out infinite alternate;
-    opacity: 0.8;
+    opacity: 0.85;
   }
 
   @keyframes twinkle {
     0% { opacity: 0.35; transform: translateY(0px); }
     50% { opacity: 0.9; }
     100% { opacity: 0.45; transform: translateY(-3px); }
+  }
+
+  @keyframes floatBob {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  .chibi-float {
+    animation: floatBob 3.6s ease-in-out infinite;
   }
 
   /* Staggered Card Entrance Animation */
@@ -129,48 +137,48 @@
   .delay-4 { animation-delay: 240ms; }
 
   @media (prefers-reduced-motion: reduce) {
-    .stars-layer, .stagger-in { animation: none !important; }
+    .stars-layer, .stagger-in, .chibi-float { animation: none !important; }
     .wp-layer, .glass, .rem, .tog, .tog::after, .btn { transition: none !important; }
   }
 
   /* Calm Dreamy Glassmorphism Cards */
   .glass {
-    background: linear-gradient(145deg, rgba(24, 30, 56, 0.56) 0%, rgba(15, 20, 40, 0.46) 100%);
+    background: linear-gradient(145deg, rgba(26, 28, 58, 0.58) 0%, rgba(15, 19, 40, 0.46) 100%);
     backdrop-filter: blur(22px) saturate(150%);
     -webkit-backdrop-filter: blur(22px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 1.75rem;
     box-shadow:
       0 20px 50px -14px rgba(4, 7, 20, 0.55),
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.16);
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.18);
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
   }
   .glass-hover:hover {
-    border-color: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.26);
     box-shadow:
       0 24px 55px -12px rgba(4, 7, 20, 0.65),
-      0 0 32px -8px rgba(var(--accent-rgb), 0.22),
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
+      0 0 32px -8px rgba(var(--accent-rgb), 0.24),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.24);
   }
 
   /* Time-of-Day Greeting Mood Tints */
   .mood-morning {
     background:
-      radial-gradient(circle at 88% 18%, rgba(253, 186, 116, 0.25), transparent 55%),
-      radial-gradient(circle at 12% 85%, rgba(249, 168, 212, 0.22), transparent 55%),
-      linear-gradient(145deg, rgba(30, 27, 56, 0.60), rgba(19, 23, 45, 0.52));
+      radial-gradient(circle at 88% 18%, rgba(253, 186, 116, 0.26), transparent 55%),
+      radial-gradient(circle at 12% 85%, rgba(249, 168, 212, 0.24), transparent 55%),
+      linear-gradient(145deg, rgba(32, 27, 58, 0.62), rgba(19, 23, 45, 0.52));
   }
   .mood-evening {
     background:
       radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.24), transparent 52%),
-      radial-gradient(circle at 15% 80%, rgba(192, 132, 252, 0.24), transparent 55%),
-      linear-gradient(145deg, rgba(28, 24, 54, 0.60), rgba(17, 21, 42, 0.52));
+      radial-gradient(circle at 15% 80%, rgba(192, 132, 252, 0.26), transparent 55%),
+      linear-gradient(145deg, rgba(30, 24, 56, 0.62), rgba(17, 21, 42, 0.52));
   }
   .mood-night {
     background:
-      radial-gradient(circle at 88% 22%, rgba(196, 181, 253, 0.25), transparent 54%),
-      radial-gradient(circle at 15% 85%, rgba(125, 211, 252, 0.16), transparent 55%),
-      linear-gradient(145deg, rgba(22, 26, 52, 0.62), rgba(14, 18, 38, 0.54));
+      radial-gradient(circle at 88% 22%, rgba(196, 181, 253, 0.28), transparent 54%),
+      radial-gradient(circle at 15% 85%, rgba(244, 114, 182, 0.18), transparent 55%),
+      linear-gradient(145deg, rgba(23, 24, 54, 0.64), rgba(14, 17, 38, 0.54));
   }
 
   /* Form Fields */
@@ -193,7 +201,7 @@
   }
   select.field option { background: #0f172a; color: #f8fafc; }
 
-  /* Visible Focus Rings for Accessibility */
+  /* Focus Rings */
   button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .rem:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -224,19 +232,19 @@
     box-shadow: 0 14px 30px -6px rgba(var(--accent-rgb), 0.65);
   }
 
-  /* Reminder Cards with Individual Pastel Accents */
+  /* Reminder Cards */
   .rem {
     cursor: pointer;
     user-select: none;
-    min-height: 78px;
+    min-height: 82px;
     transition: transform 0.22s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.13);
     border-radius: 1.35rem;
-    background: rgba(13, 19, 38, 0.52);
+    background: rgba(13, 19, 38, 0.54);
   }
   .rem:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.26);
   }
   .rem[data-tag="morning"] { --rem-color: #fde68a; --rem-bg: rgba(253, 230, 138, 0.15); }
   .rem[data-tag="medicine"] { --rem-color: #f9a8d4; --rem-bg: rgba(249, 168, 212, 0.15); }
@@ -305,13 +313,29 @@
     box-shadow: 0 0 16px -2px rgba(var(--accent-rgb), 0.4);
   }
 
-  /* Custom Scrollbar */
+  /* Day Pill Selector for 7-Day BTS Preview */
+  .day-pill {
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(15, 23, 42, 0.5);
+    color: #cbd5e1;
+    transition: all 0.18s ease;
+  }
+  .day-pill.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0b1020;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+  }
+
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.25); border-radius: 999px; }
   ::-webkit-scrollbar-thumb { background: rgba(196, 181, 253, 0.3); border-radius: 999px; }
   ::-webkit-scrollbar-thumb:hover { background: rgba(196, 181, 253, 0.5); }
 
-  /* Safe-area padding for notched phones */
   .safe-bottom {
     padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
   }
@@ -320,7 +344,6 @@
     right: 1.25rem;
   }
 
-  /* Range Sliders */
   input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
@@ -344,24 +367,21 @@
 </head>
 <body class="text-slate-100 antialiased selection:bg-purple-300/30 selection:text-purple-100">
 
-<!-- Fixed Wallpaper Layers (z-index: 0, above html background, behind content) -->
+<!-- Fixed Wallpaper Layers -->
 <div class="wp-fixed" aria-hidden="true">
   <div id="wpLayerA" class="wp-layer" style="opacity: 1;"></div>
   <div id="wpLayerB" class="wp-layer" style="opacity: 0;"></div>
 </div>
-<!-- Soft Ambient Nebula Glow -->
 <div class="ambient-glow" aria-hidden="true"></div>
-<!-- Dim & Blur Readability Overlay -->
 <div id="wpOverlay" class="wp-overlay" aria-hidden="true"></div>
-<!-- Dreamy Twinkling Stars -->
 <div class="stars-layer" aria-hidden="true"></div>
 
-<!-- Instant Theme Bootstrapper (runs synchronously before first paint) -->
+<!-- Instant Theme Bootstrapper -->
 <script>
   window.WP_PRESETS = {
     'moon-night': {
-      name: 'Moon Night',
-      css: 'radial-gradient(circle at 82% 16%, rgba(196, 181, 253, 0.42) 0%, transparent 42%), radial-gradient(circle at 18% 24%, rgba(99, 102, 241, 0.38) 0%, transparent 48%), radial-gradient(circle at 50% 88%, rgba(244, 114, 182, 0.25) 0%, transparent 52%), linear-gradient(160deg, #070b1a 0%, #13183a 50%, #20153d 100%)'
+      name: 'Borahae Moon Night',
+      css: 'radial-gradient(circle at 82% 16%, rgba(196, 181, 253, 0.45) 0%, transparent 42%), radial-gradient(circle at 18% 24%, rgba(139, 92, 246, 0.38) 0%, transparent 48%), radial-gradient(circle at 50% 88%, rgba(244, 114, 182, 0.28) 0%, transparent 52%), linear-gradient(160deg, #070b1a 0%, #15163a 50%, #241440 100%)'
     },
     'lavender-dream': {
       name: 'Lavender Dream',
@@ -394,12 +414,12 @@
   };
 
   window.ACCENT_PRESETS = {
-    lavender: { name: 'Soft Lavender', color: '#c4b5fd', color2: '#f9a8d4', rgb: '196, 181, 253' },
-    sakura:   { name: 'Sakura Pink',   color: '#f9a8d4', color2: '#d8b4fe', rgb: '249, 168, 212' },
-    peach:    { name: 'Pastel Peach',  color: '#fdba74', color2: '#f9a8d4', rgb: '253, 186, 116' },
-    mint:     { name: 'Dreamy Mint',   color: '#6ee7b7', color2: '#7dd3fc', rgb: '110, 231, 183' },
-    sky:      { name: 'Moonlit Sky',   color: '#7dd3fc', color2: '#c4b5fd', rgb: '125, 211, 252' },
-    gold:     { name: 'Starlight',     color: '#fde68a', color2: '#fda4af', rgb: '253, 230, 138' }
+    lavender: { name: 'Borahae Purple', color: '#c4b5fd', color2: '#f9a8d4', rgb: '196, 181, 253' },
+    sakura:   { name: 'Sakura Pink',    color: '#f9a8d4', color2: '#d8b4fe', rgb: '249, 168, 212' },
+    peach:    { name: 'Pastel Peach',   color: '#fdba74', color2: '#f9a8d4', rgb: '253, 186, 116' },
+    mint:     { name: 'Yoongi Mint',    color: '#6ee7b7', color2: '#7dd3fc', rgb: '110, 231, 183' },
+    sky:      { name: 'Koya Sky',       color: '#7dd3fc', color2: '#c4b5fd', rgb: '125, 211, 252' },
+    gold:     { name: 'Golden Star',    color: '#fde68a', color2: '#fda4af', rgb: '253, 230, 138' }
   };
 
   (function applyInitialTheme() {
@@ -408,7 +428,7 @@
       var raw = localStorage.getItem('neet_theme');
       var t = raw ? JSON.parse(raw) : {};
       var presetKey = t.preset && window.WP_PRESETS[t.preset] ? t.preset : 'moon-night';
-      var dim = typeof t.dim === 'number' ? t.dim : 20;
+      var dim = typeof t.dim === 'number' ? t.dim : 18;
       var blur = typeof t.blur === 'number' ? t.blur : 0;
       var accentKey = t.accent && window.ACCENT_PRESETS[t.accent] ? t.accent : 'lavender';
       var acc = window.ACCENT_PRESETS[accentKey];
@@ -435,7 +455,7 @@
 <div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md p-4" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
   <form id="nameForm" class="glass p-6 sm:p-8 w-full max-w-md space-y-5 border border-white/20">
     <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200 border border-white/10">
-      <span>🌙 Dreamy Night-Sky Sanctuary</span>
+      <span>💜 Dreamy Borahae Sanctuary</span>
     </div>
     <h2 id="nameModalTitle" class="text-xl sm:text-2xl font-bold text-white leading-snug">
       Enter your name to personalize your dashboard
@@ -444,23 +464,23 @@
       Your study logs, daily reminders, and custom wallpaper stay safely on your device.
     </p>
     <input id="nameInput" class="field" placeholder="Your name (e.g. Moon)" maxlength="30" required>
-    <button type="submit" class="btn btn-primary w-full">Continue to Dashboard ✨</button>
+    <button type="submit" class="btn btn-primary w-full">Continue to Dashboard 💜</button>
   </form>
 </div>
 
-<!-- Main Dashboard Container (z-10 so it sits cleanly above the wallpaper layers) -->
+<!-- Main Dashboard Container -->
 <main class="relative z-10 max-w-[1100px] mx-auto px-4 pt-5 sm:px-6 sm:pt-8 safe-bottom space-y-6">
 
-  <!-- Top Bar: App Identity + Streak + Quick Wallpaper Button -->
+  <!-- Top Bar -->
   <header class="flex flex-wrap items-center justify-between gap-3 stagger-in">
     <div class="flex items-center gap-3">
       <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-md">
         <img src="/icon-192.png" alt="" class="w-7 h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
-        <span class="hidden text-xl" aria-hidden="true">🌙</span>
+        <span class="hidden text-xl" aria-hidden="true">💜</span>
       </div>
       <div>
         <span class="text-[11px] uppercase tracking-widest text-purple-200/90 font-semibold block">NEET Study Sanctuary</span>
-        <span class="text-sm font-medium text-slate-200">Calm Night-Sky Workspace</span>
+        <span class="text-sm font-medium text-slate-200">Moon &amp; 7-Day Chibi Companions</span>
       </div>
     </div>
 
@@ -472,39 +492,51 @@
       </div>
 
       <!-- Quick Top Personalize Button -->
-      <button id="topThemeBtn" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-medium text-white transition backdrop-blur-md min-h-[38px]" aria-label="Change wallpaper and theme">
+      <button id="topThemeBtn" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-medium text-white transition backdrop-blur-md min-h-[38px]" aria-label="Change wallpaper and generate BTS PNGs">
         <span aria-hidden="true">🎨</span>
-        <span class="hidden sm:inline">Wallpaper</span>
+        <span class="hidden sm:inline">Wallpaper &amp; BTS PNGs</span>
       </button>
     </div>
   </header>
 
-  <!-- Greeting Banner -->
+  <!-- Greeting Banner + 7-Day BTS Chibi Study Buddy Card -->
   <section id="greetingSection" class="glass glass-hover mood-night p-6 sm:p-8 relative overflow-hidden stagger-in delay-1">
     <!-- Decorative Night Moon -->
-    <div class="pointer-events-none select-none absolute -right-4 -top-4 sm:right-6 sm:top-5 opacity-40 sm:opacity-60" aria-hidden="true">
-      <img src="/moon.png" alt="" class="w-28 h-28 sm:w-32 sm:h-32 object-contain drop-shadow-[0_0_28px_rgba(253,230,138,0.5)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
-      <svg class="hidden w-28 h-28 sm:w-32 sm:h-32 text-amber-100 drop-shadow-[0_0_28px_rgba(253,230,138,0.45)]" viewBox="0 0 100 100" fill="currentColor">
+    <div class="pointer-events-none select-none absolute -right-4 -top-4 sm:right-6 sm:top-5 opacity-35 sm:opacity-50" aria-hidden="true">
+      <img src="/moon.png" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_0_28px_rgba(253,230,138,0.5)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
+      <svg class="hidden w-24 h-24 sm:w-28 sm:h-28 text-amber-100 drop-shadow-[0_0_28px_rgba(253,230,138,0.45)]" viewBox="0 0 100 100" fill="currentColor">
         <path d="M66.5 68.5C47.5 68.5 32 53 32 34c0-8.6 3.1-16.5 8.3-22.5C23.5 14.9 11 29.8 11 47.7 11 68.3 27.7 85 48.3 85c16.2 0 30-10.3 35.2-24.8-5.2 5.2-12.2 8.3-20 8.3z"/>
-        <circle cx="75" cy="24" r="2" opacity="0.85"/>
-        <circle cx="84" cy="38" r="1.4" opacity="0.65"/>
-        <circle cx="62" cy="16" r="1.2" opacity="0.75"/>
       </svg>
     </div>
 
-    <div class="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-      <div class="space-y-2 max-w-2xl">
-        <div class="inline-flex items-center gap-2 text-xs font-medium text-purple-100 bg-white/10 px-3 py-1 rounded-full border border-white/15">
-          <span id="timeBadgeIcon">🌙</span>
-          <span id="liveClock">Peaceful Study Session</span>
+    <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+      <div class="space-y-2 max-w-xl">
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="inline-flex items-center gap-2 text-xs font-medium text-purple-100 bg-white/10 px-3 py-1 rounded-full border border-white/15">
+            <span id="timeBadgeIcon">🌙</span>
+            <span id="liveClock">Peaceful Study Session</span>
+          </div>
+          <button id="changeName" type="button" class="text-xs text-purple-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-3 py-1 transition">
+            ✏️ Change name
+          </button>
         </div>
         <h1 id="greeting" class="text-2xl sm:text-4xl font-bold text-white leading-tight tracking-tight pt-1"></h1>
         <p id="greetSub" class="text-slate-200/90 text-sm sm:text-base"></p>
       </div>
 
-      <button id="changeName" type="button" class="self-start text-xs sm:text-sm text-slate-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15 rounded-xl px-3.5 py-2 transition shrink-0 min-h-[40px]">
-        ✏️ Change name
-      </button>
+      <!-- Today's Mini BTS Chibi Study Companion Widget (7 Days = 7 Members) -->
+      <div class="rounded-3xl bg-slate-950/50 border border-white/15 p-4 flex items-center gap-4 backdrop-blur-xl shadow-lg max-w-md w-full lg:w-auto">
+        <div id="todayChibiAvatar" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 chibi-float shadow-inner overflow-hidden"></div>
+        <div class="min-w-0 flex-1">
+          <div class="flex items-center gap-1.5">
+            <span id="todayChibiDayBadge" class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-purple-400/25 text-purple-100 border border-purple-300/30">TODAY'S BUDDY</span>
+          </div>
+          <div id="todayChibiName" class="text-sm sm:text-base font-bold text-white mt-1 truncate"></div>
+          <p id="todayChibiMsg" class="text-xs text-purple-100/90 leading-snug mt-0.5"></p>
+          <!-- 7-Day Switcher Pills -->
+          <div id="chibiDayPills" class="flex flex-wrap gap-1 mt-2.5" aria-label="Preview 7 days chibi members"></div>
+        </div>
+      </div>
     </div>
 
     <!-- Rotating Motivational Quote Bar -->
@@ -524,18 +556,18 @@
     </div>
   </section>
 
-  <!-- 2-Column Middle Grid on Desktop: Reminders + Exam Countdown -->
+  <!-- 2-Column Middle Grid: Reminders + Exam Countdown -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
     <!-- Reminders (main feature) -->
     <section class="glass glass-hover p-6 sm:p-7 lg:col-span-7 flex flex-col justify-between stagger-in delay-2">
       <div>
-        <div class="flex items-center justify-between gap-2">
+        <div class="flex flex-wrap items-center justify-between gap-2">
           <h2 class="text-xl font-bold text-white flex items-center gap-2">
             <span>🔔</span>
             <span>Your Daily Reminders</span>
           </h2>
-          <span class="text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-200 border border-white/10">Tap card to toggle</span>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-purple-400/15 text-purple-100 border border-purple-300/25">💜 7-Day Chibi Notification Ready</span>
         </div>
         <p class="text-sm text-slate-300 mt-1">
           Choose which reminders you want. You'll only get the ones you switch on.
@@ -543,8 +575,11 @@
 
         <div id="remGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5">
           <!-- Morning -->
-          <div class="rem p-4 flex items-center gap-3.5" data-tag="morning" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-amber-300/15 border border-amber-200/25 flex items-center justify-center text-2xl shrink-0">☀️</div>
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="morning" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-amber-300/15 border border-amber-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-morning.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">☀️</span>
+            </div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Good Morning</div>
               <div class="text-xs text-slate-300 leading-snug">A fresh start to your study day</div>
@@ -553,8 +588,11 @@
           </div>
 
           <!-- Medicine -->
-          <div class="rem p-4 flex items-center gap-3.5" data-tag="medicine" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-pink-300/15 border border-pink-200/25 flex items-center justify-center text-2xl shrink-0">💊</div>
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="medicine" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-pink-300/15 border border-pink-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-medicine.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">💊</span>
+            </div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Medicine Reminder</div>
               <div class="text-xs text-slate-300 leading-snug">Medicine &amp; multivitamins with water</div>
@@ -563,8 +601,11 @@
           </div>
 
           <!-- Evening -->
-          <div class="rem p-4 flex items-center gap-3.5" data-tag="evening" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-purple-300/15 border border-purple-200/25 flex items-center justify-center text-2xl shrink-0">📚</div>
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="evening" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-purple-300/15 border border-purple-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-evening.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">📚</span>
+            </div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Good Evening</div>
               <div class="text-xs text-slate-300 leading-snug">Evening study &amp; revision nudge</div>
@@ -573,8 +614,11 @@
           </div>
 
           <!-- Night -->
-          <div class="rem p-4 flex items-center gap-3.5" data-tag="night" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-300/15 border border-indigo-200/25 flex items-center justify-center text-2xl shrink-0">🌙</div>
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="night" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-indigo-300/15 border border-indigo-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-night.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">🌙</span>
+            </div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Good Night</div>
               <div class="text-xs text-slate-300 leading-snug">Wind down and rest well</div>
@@ -584,7 +628,7 @@
         </div>
       </div>
 
-      <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center gap-3">
+      <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <button id="notifBtn" type="button" class="btn btn-primary w-full sm:w-auto">🔔 Enable Medicine &amp; Daily Reminders</button>
         <p id="notifMsg" class="text-xs sm:text-sm text-purple-200 font-medium" aria-live="polite"></p>
       </div>
@@ -604,7 +648,6 @@
           </select>
         </div>
 
-        <!-- 4 Rounded Countdown Tiles -->
         <div class="grid grid-cols-4 gap-2.5 sm:gap-3 text-center">
           <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
             <div id="cdD" class="text-2xl sm:text-3xl font-bold text-purple-200 tabular-nums">0</div>
@@ -625,7 +668,6 @@
         </div>
       </div>
 
-      <!-- Visual Year Progress Ring & Bar -->
       <div class="mt-6 pt-4 border-t border-white/10 flex items-center gap-4">
         <div class="relative w-14 h-14 shrink-0 flex items-center justify-center">
           <svg class="w-14 h-14 -rotate-90" viewBox="0 0 60 60">
@@ -642,14 +684,14 @@
           <div class="w-full h-2 rounded-full bg-slate-950/60 overflow-hidden border border-white/10">
             <div id="cdBar" class="h-full rounded-full transition-all duration-500" style="width: 50%; background: linear-gradient(90deg, var(--accent), var(--accent-2));"></div>
           </div>
-          <p class="text-[11px] text-slate-300/80 mt-1.5">Calm consistency every night builds unstoppable confidence.</p>
+          <p class="text-[11px] text-slate-300/80 mt-1.5">Calm consistency every night builds unstoppable confidence. 💜</p>
         </div>
       </div>
     </section>
 
   </div>
 
-  <!-- Study Logger + Weekly Chart & History -->
+  <!-- Study Logger + 7-Day BTS Chart & History -->
   <div class="grid grid-cols-1 md:grid-cols-12 gap-6 stagger-in delay-4">
 
     <!-- Logger Form -->
@@ -672,7 +714,6 @@
           </div>
         </div>
 
-        <!-- Subject Chips + Synced Select -->
         <div>
           <label for="logSubject" class="text-xs font-medium text-slate-200 block mb-1.5">Subject</label>
           <div id="subjectChips" class="flex flex-wrap gap-1.5 mb-2.5" role="group" aria-label="Quick select subject">
@@ -700,25 +741,25 @@
           <textarea id="logNotes" rows="3" class="field text-sm" placeholder="Chapters covered, NCERT pages, PYQs solved..."></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary w-full">Save Log ✨</button>
+        <button type="submit" class="btn btn-primary w-full">Save Log 💜</button>
       </form>
     </section>
 
-    <!-- Weekly Chart + Study History -->
+    <!-- Weekly Chart (with 7 Chibi Icons) + Study History -->
     <section class="glass glass-hover p-6 sm:p-7 md:col-span-7 flex flex-col justify-between space-y-6">
 
-      <!-- Last 7 Days Bar Chart (Pure CSS/SVG) -->
+      <!-- Last 7 Days Bar Chart with Chibi Mascots -->
       <div class="rounded-2xl bg-slate-950/45 border border-white/12 p-4">
         <div class="flex items-center justify-between mb-3">
           <div>
-            <h3 class="text-sm font-semibold text-white">📊 Last 7 Days</h3>
-            <p class="text-[11px] text-slate-300">Daily study hours overview</p>
+            <h3 class="text-sm font-semibold text-white">📊 7-Day Study Chart &amp; Daily Chibi Buddies</h3>
+            <p class="text-[11px] text-slate-300">Each day has its own tiny BTS study companion</p>
           </div>
           <div class="text-xs text-slate-200">
             7-Day Total: <span id="weekHours" class="font-bold text-purple-200">0</span> h
           </div>
         </div>
-        <div id="weeklyChart" class="grid grid-cols-7 gap-2 items-end h-28 pt-4 px-1"></div>
+        <div id="weeklyChart" class="grid grid-cols-7 gap-2 items-end h-32 pt-4 px-1"></div>
       </div>
 
       <!-- History List -->
@@ -745,21 +786,20 @@
 </main>
 
 <!-- Floating "🎨 Personalize" Button -->
-<button id="openThemeBtn" type="button" class="fixed fab-safe z-40 btn btn-primary rounded-full shadow-2xl px-5 py-3 text-sm font-semibold border border-white/30" aria-label="Open wallpaper and theme personalization panel">
+<button id="openThemeBtn" type="button" class="fixed fab-safe z-40 btn btn-primary rounded-full shadow-2xl px-5 py-3 text-sm font-semibold border border-white/30" aria-label="Open wallpaper and BTS PNG personalization panel">
   <span aria-hidden="true">🎨</span>
   <span>Personalize</span>
 </button>
 
-<!-- Slide-Up Wallpaper & Theme Drawer -->
+<!-- Slide-Up Wallpaper & BTS Notification PNG Generator Drawer -->
 <div id="themeBackdrop" class="hidden fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-sm transition-opacity duration-300 opacity-0" aria-hidden="true"></div>
-<aside id="themeDrawer" class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-h-[88vh] flex flex-col rounded-t-[2rem] border-t border-white/25 bg-slate-900/90 backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto" role="dialog" aria-modal="true" aria-labelledby="themeDrawerTitle">
-  <!-- Header -->
+<aside id="themeDrawer" class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-h-[90vh] flex flex-col rounded-t-[2rem] border-t border-white/25 bg-slate-900/95 backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto" role="dialog" aria-modal="true" aria-labelledby="themeDrawerTitle">
   <div class="pt-4 pb-3 px-6 flex items-center justify-between border-b border-white/15">
     <div class="flex items-center gap-2.5">
-      <span class="text-xl" aria-hidden="true">🎨</span>
+      <span class="text-xl" aria-hidden="true">💜</span>
       <div>
-        <h2 id="themeDrawerTitle" class="text-base sm:text-lg font-bold text-white">Personalize Your Sanctuary</h2>
-        <p class="text-xs text-slate-300">Custom wallpaper, dim/blur overlay &amp; soft pastel accents</p>
+        <h2 id="themeDrawerTitle" class="text-base sm:text-lg font-bold text-white">Personalize Wallpaper &amp; BTS Notification PNGs</h2>
+        <p class="text-xs text-slate-300">Custom wallpaper, pastel accents &amp; 7-Day Chibi PNG downloader</p>
       </div>
     </div>
     <button id="closeThemeBtn" type="button" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-100 transition" aria-label="Close personalization panel">
@@ -767,7 +807,6 @@
     </button>
   </div>
 
-  <!-- Drawer Body -->
   <div class="p-6 overflow-y-auto space-y-6">
 
     <!-- 1. Upload Custom Wallpaper -->
@@ -789,7 +828,7 @@
     <!-- 2. Built-in Dreamy Gradient Wallpapers -->
     <div>
       <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
-        2. Dreamy Night &amp; Pastel Wallpapers (Tap to Apply)
+        2. Built-In Night &amp; Pastel Wallpapers (Tap to Apply)
       </label>
       <div id="presetGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
     </div>
@@ -799,9 +838,9 @@
       <div>
         <div class="flex justify-between text-xs font-medium mb-2">
           <label for="dimSlider" class="text-slate-200">Wallpaper Dim</label>
-          <span id="dimValue" class="text-purple-200 font-semibold">20%</span>
+          <span id="dimValue" class="text-purple-200 font-semibold">18%</span>
         </div>
-        <input id="dimSlider" type="range" min="0" max="80" step="1" value="20" class="w-full">
+        <input id="dimSlider" type="range" min="0" max="80" step="1" value="18" class="w-full">
       </div>
       <div>
         <div class="flex justify-between text-xs font-medium mb-2">
@@ -820,13 +859,40 @@
       <div id="accentGrid" class="flex flex-wrap gap-2.5"></div>
     </div>
 
-    <!-- 5. Reset to Default -->
+    <!-- 5. NEW: 7-Day BTS Chibi Notification PNG Generator -->
+    <div class="rounded-2xl bg-purple-950/35 border border-purple-300/25 p-4 space-y-3">
+      <div class="flex items-center justify-between gap-2">
+        <div>
+          <h3 class="text-sm font-bold text-white flex items-center gap-1.5">
+            <span>💜</span>
+            <span>Aesthetic BTS Chibi Notification PNG Maker</span>
+          </h3>
+          <p class="text-xs text-slate-300 mt-0.5">
+            Tap any card below to download high-res (1200×630) dreamy BTS chibi notification banners for your GitHub repo (`banner-*.png` or 7-day `bts-*.png`).
+          </p>
+        </div>
+      </div>
+
+      <!-- 4 Main Reminder Banner PNG Downloads -->
+      <div class="text-[11px] font-semibold text-purple-200 uppercase tracking-wider pt-1">
+        Upgrade Your 4 Repo Banners (`banner-*.png`):
+      </div>
+      <div id="mainBannerDownloadGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+
+      <!-- 7-Day Individual BTS Member Banner PNG Downloads -->
+      <div class="text-[11px] font-semibold text-purple-200 uppercase tracking-wider pt-2">
+        Or Download 7-Day Chibi Member Notification PNGs (`bts-mon.png` – `bts-sun.png`):
+      </div>
+      <div id="sevenDayDownloadGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+    </div>
+
+    <!-- 6. Reset to Default -->
     <div class="pt-2 border-t border-white/15 flex items-center justify-between gap-3">
       <button id="resetThemeBtn" type="button" class="btn bg-rose-500/15 hover:bg-rose-500/25 border border-rose-400/30 text-rose-200 text-xs sm:text-sm">
         ↺ Reset to Default
       </button>
       <button id="doneThemeBtn" type="button" class="btn btn-primary text-xs sm:text-sm">
-        Done ✨
+        Done 💜
       </button>
     </div>
 
@@ -836,7 +902,7 @@
 <script>
 const $ = id => document.getElementById(id);
 
-/* ---------- Safe localStorage wrapper (every read/write in try/catch) ---------- */
+/* ---------- Safe localStorage wrapper ---------- */
 const store = {
   get(k, d) {
     try {
@@ -861,7 +927,6 @@ const store = {
   }
 };
 
-/* ---------- XSS-Safe HTML Escaping ---------- */
 const esc = s => String(s).replace(/[&<>"']/g, c => ({
   '&': '&amp;',
   '<': '&lt;',
@@ -870,7 +935,182 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({
   "'": '&#39;'
 }[c]));
 
-/* ---------- Motivational Quotes (~15 short quotes) ---------- */
+/* ---------- 7-Day Cute Chibi BTS-Style Members (Mon - Sun) ---------- */
+const BTS_WEEK_BUDDIES = [
+  {
+    dayIndex: 0,
+    shortDay: 'Sun',
+    fileKey: 'bts-sun',
+    member: 'JK (Golden Bunny)',
+    mascotEmoji: '🐰🌟',
+    hairColor: '#312e81',
+    earType: 'bunny',
+    cheekColor: '#f472b6',
+    shirtColor: '#a78bfa',
+    bgGrad: ['#1e1b4b', '#3b0764'],
+    cheer: 'Golden Sunday! Crush your mock test & revision like JK, Moon! 💜'
+  },
+  {
+    dayIndex: 1,
+    shortDay: 'Mon',
+    fileKey: 'bts-mon',
+    member: 'RM (Dimple Leader)',
+    mascotEmoji: '🐨📘',
+    hairColor: '#93c5fd',
+    earType: 'koala',
+    cheekColor: '#fb7185',
+    shirtColor: '#818cf8',
+    bgGrad: ['#0f172a', '#1e3a8a'],
+    cheer: 'Namjooning Monday! Calm focus & deep NCERT reading with RM.'
+  },
+  {
+    dayIndex: 2,
+    shortDay: 'Tue',
+    fileKey: 'bts-tue',
+    member: 'Jin (Little Astronaut)',
+    mascotEmoji: '🦙🌙',
+    hairColor: '#f472b6',
+    earType: 'alpaca',
+    cheekColor: '#fda4af',
+    shirtColor: '#f9a8d4',
+    bgGrad: ['#2e1065', '#4c1d95'],
+    cheer: 'Moon & Jin Tuesday! Take your vitamins and shine bright today.'
+  },
+  {
+    dayIndex: 3,
+    shortDay: 'Wed',
+    fileKey: 'bts-wed',
+    member: 'Suga (Mint Yoongi)',
+    mascotEmoji: '🐱🎧',
+    hairColor: '#6ee7b7',
+    earType: 'cat',
+    cheekColor: '#f9a8d4',
+    shirtColor: '#34d399',
+    bgGrad: ['#064e3b', '#1e1b4b'],
+    cheer: 'Yoongi Lo-Fi Wednesday! Quiet study session, everything will be okay.'
+  },
+  {
+    dayIndex: 4,
+    shortDay: 'Thu',
+    fileKey: 'bts-thu',
+    member: 'J-Hope (Hobi Sunshine)',
+    mascotEmoji: '🐿️☀️',
+    hairColor: '#fdba74',
+    earType: 'acorn',
+    cheekColor: '#fb7185',
+    shirtColor: '#fb923c',
+    bgGrad: ['#3b0764', '#7c2d12'],
+    cheer: 'Hobi Sunshine Thursday! You are your own hope, keep going Moon!'
+  },
+  {
+    dayIndex: 5,
+    shortDay: 'Fri',
+    fileKey: 'bts-fri',
+    member: 'Jimin (Sweet Mochi)',
+    mascotEmoji: '🐥💗',
+    hairColor: '#fde047',
+    earType: 'chick',
+    cheekColor: '#f43f5e',
+    shirtColor: '#f472b6',
+    bgGrad: ['#4a044e', '#311042'],
+    cheer: 'Jiminie Friday! Be kind to yourself and finish today’s chapters.'
+  },
+  {
+    dayIndex: 6,
+    shortDay: 'Sat',
+    fileKey: 'bts-sat',
+    member: 'V (Winter Bear)',
+    mascotEmoji: '🐻💜',
+    hairColor: '#c084fc',
+    earType: 'bear',
+    cheekColor: '#fb7185',
+    shirtColor: '#a855f7',
+    bgGrad: ['#1e1b4b', '#4c1d95'],
+    cheer: 'Tae Bear Saturday! I purple you Moon — let’s master tough concepts!'
+  }
+];
+
+// Generate cute inline SVG Chibi character for each BTS buddy
+function createChibiSVG(buddy, size = 64) {
+  let earsSVG = '';
+  if (buddy.earType === 'bunny') {
+    earsSVG = `
+      <ellipse cx="34" cy="18" rx="6" ry="15" fill="#f8fafc" stroke="#c4b5fd" stroke-width="2"/>
+      <ellipse cx="34" cy="18" rx="3" ry="10" fill="#f9a8d4"/>
+      <ellipse cx="66" cy="18" rx="6" ry="15" fill="#f8fafc" stroke="#c4b5fd" stroke-width="2"/>
+      <ellipse cx="66" cy="18" rx="3" ry="10" fill="#f9a8d4"/>
+    `;
+  } else if (buddy.earType === 'cat') {
+    earsSVG = `
+      <polygon points="24,36 30,14 44,28" fill="${buddy.hairColor}"/>
+      <polygon points="76,36 70,14 56,28" fill="${buddy.hairColor}"/>
+    `;
+  } else {
+    earsSVG = `
+      <circle cx="26" cy="24" r="9" fill="${buddy.hairColor}"/>
+      <circle cx="26" cy="24" r="5" fill="#f9a8d4" opacity="0.7"/>
+      <circle cx="74" cy="24" r="9" fill="${buddy.hairColor}"/>
+      <circle cx="74" cy="24" r="5" fill="#f9a8d4" opacity="0.7"/>
+    `;
+  }
+
+  return `
+    <svg width="${size}" height="${size}" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Soft Aura -->
+      <circle cx="50" cy="54" r="40" fill="${buddy.shirtColor}" opacity="0.18"/>
+      ${earsSVG}
+      <!-- Hoodie / Shoulders -->
+      <path d="M26 88 C26 68, 74 68, 74 88 Z" fill="${buddy.shirtColor}"/>
+      <!-- Cute Face -->
+      <circle cx="50" cy="52" r="24" fill="#fff1f2"/>
+      <!-- Soft Pastel Chibi Hair -->
+      <path d="M25 48 C25 28, 75 28, 75 48 C67 39, 58 43, 50 38 C42 43, 33 39, 25 48 Z" fill="${buddy.hairColor}"/>
+      <!-- Starry Eyes -->
+      <circle cx="41" cy="53" r="3.4" fill="#1e1b4b"/>
+      <circle cx="40" cy="51.8" r="1.2" fill="#ffffff"/>
+      <circle cx="59" cy="53" r="3.4" fill="#1e1b4b"/>
+      <circle cx="58" cy="51.8" r="1.2" fill="#ffffff"/>
+      <!-- Rosy Cheeks -->
+      <ellipse cx="34" cy="58" rx="4.2" ry="2.4" fill="${buddy.cheekColor}" opacity="0.65"/>
+      <ellipse cx="66" cy="58" rx="4.2" ry="2.4" fill="${buddy.cheekColor}" opacity="0.65"/>
+      <!-- Sweet Smile -->
+      <path d="M46 58 Q50 62 54 58" stroke="#1e1b4b" stroke-width="2.2" stroke-linecap="round" fill="none"/>
+      <!-- Tiny Borahae Purple Heart -->
+      <path d="M50 78 C50 78, 43 73, 43 69.5 C43 67.5, 45 66, 47 66 C48.5 66, 49.5 67, 50 68 C50.5 67, 51.5 66, 53 66 C55 66, 57 67.5, 57 69.5 C57 73, 50 78, 50 78 Z" fill="#e879f9"/>
+    </svg>
+  `;
+}
+
+let selectedBuddyDay = new Date().getDay();
+
+function renderTodayChibiWidget(dayIdx = selectedBuddyDay) {
+  selectedBuddyDay = dayIdx;
+  const buddy = BTS_WEEK_BUDDIES[dayIdx] || BTS_WEEK_BUDDIES[0];
+  const isActualToday = dayIdx === new Date().getDay();
+
+  $('todayChibiAvatar').innerHTML = createChibiSVG(buddy, 70);
+  $('todayChibiDayBadge').textContent = isActualToday
+    ? `💜 TODAY (${buddy.shortDay.toUpperCase()})`
+    : `✨ ${buddy.shortDay.toUpperCase()} PREVIEW`;
+  $('todayChibiName').textContent = `${buddy.member} ${buddy.mascotEmoji}`;
+  $('todayChibiMsg').textContent = buddy.cheer;
+
+  const pillsContainer = $('chibiDayPills');
+  pillsContainer.innerHTML = '';
+  // Order Mon(1) -> Sun(0)
+  [1, 2, 3, 4, 5, 6, 0].forEach(dIdx => {
+    const b = BTS_WEEK_BUDDIES[dIdx];
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `day-pill ${dIdx === selectedBuddyDay ? 'active' : ''}`;
+    btn.textContent = b.shortDay;
+    btn.addEventListener('click', () => renderTodayChibiWidget(dIdx));
+    pillsContainer.appendChild(btn);
+  });
+}
+renderTodayChibiWidget();
+
+/* ---------- Motivational Quotes ---------- */
 const QUOTES = [
   "Small daily improvements over time lead to stunning results.",
   "Every page of NCERT you master tonight is a rank booster in May.",
@@ -886,7 +1126,7 @@ const QUOTES = [
   "Hard topics become easy once you sit with them patiently.",
   "Little by little, a quiet night of study becomes a massive lead.",
   "Stay patient and trust your daily routine.",
-  "The quiet night hours belong to those building their dreams."
+  "The quiet night hours belong to those building their dreams. 💜"
 ];
 let quoteIndex = new Date().getDate() % QUOTES.length;
 
@@ -1045,7 +1285,7 @@ $('notifBtn').onclick = async () => {
   }
 };
 
-/* ---------- Exam Countdown + Visual Year Ring ---------- */
+/* ---------- Exam Countdown ---------- */
 $('examSelect').value = store.get('neet_exam', '2027-05-02');
 $('examSelect').onchange = () => {
   store.set('neet_exam', $('examSelect').value);
@@ -1076,7 +1316,7 @@ function tick() {
 tick();
 setInterval(tick, 1000);
 
-/* ---------- Study Logger, Subject Chips, Streak & 7-Day Bar Chart ---------- */
+/* ---------- Study Logger & 7-Day Bar Chart with Chibi Icons ---------- */
 function getLocalDateStr(dateObj = new Date()) {
   return new Date(dateObj.getTime() - dateObj.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 }
@@ -1138,11 +1378,13 @@ function renderWeeklyChart() {
     const d = new Date();
     d.setDate(d.getDate() - i);
     const dateStr = getLocalDateStr(d);
+    const dayOfWeek = d.getDay();
+    const buddy = BTS_WEEK_BUDDIES[dayOfWeek];
     const label = d.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 3);
     const total = logs
       .filter(l => l.date === dateStr)
       .reduce((sum, l) => sum + (Number(l.hours) || 0), 0);
-    days.push({ dateStr, label, total: Math.round(total * 100) / 100 });
+    days.push({ dateStr, label, buddy, total: Math.round(total * 100) / 100 });
   }
 
   const maxHours = Math.max(4, ...days.map(d => d.total));
@@ -1150,16 +1392,17 @@ function renderWeeklyChart() {
   $('weekHours').textContent = weekSum;
 
   days.forEach((d, idx) => {
-    const heightPct = d.total > 0 ? Math.max(12, Math.round((d.total / maxHours) * 100)) : 6;
+    const heightPct = d.total > 0 ? Math.max(14, Math.round((d.total / maxHours) * 100)) : 8;
     const isToday = idx === 6;
     const col = document.createElement('div');
     col.className = 'flex flex-col items-center justify-end h-full gap-1';
     col.innerHTML = `
       <span class="text-[10px] font-semibold ${d.total > 0 ? 'text-purple-200' : 'text-slate-500'}">${d.total > 0 ? d.total + 'h' : ''}</span>
-      <div class="w-full max-w-[28px] bg-slate-900/75 rounded-t-lg h-16 flex items-end overflow-hidden border border-white/10">
+      <div class="w-full max-w-[28px] bg-slate-900/75 rounded-t-lg h-14 flex items-end overflow-hidden border border-white/10">
         <div class="w-full rounded-t-lg transition-all duration-500"
              style="height: ${heightPct}%; background: ${d.total > 0 ? 'linear-gradient(180deg, var(--accent), var(--accent-2))' : 'rgba(148,163,184,0.15)'};"></div>
       </div>
+      <span class="text-xs leading-none" title="${esc(d.buddy.member)}">${d.buddy.mascotEmoji.slice(0, 2)}</span>
       <span class="text-[10px] ${isToday ? 'text-white font-bold' : 'text-slate-300'}">${esc(d.label)}</span>
     `;
     container.appendChild(col);
@@ -1221,12 +1464,12 @@ $('logList').addEventListener('click', e => {
 
 renderLogs();
 
-/* ---------- Custom Wallpaper & Personalization (localStorage + IndexedDB fallback) ---------- */
+/* ---------- Custom Wallpaper & BTS Chibi Notification PNG Generator ---------- */
 const DEFAULT_THEME = {
   type: 'preset',
   preset: 'moon-night',
   customData: null,
-  dim: 20,
+  dim: 18,
   blur: 0,
   accent: 'lavender'
 };
@@ -1234,7 +1477,6 @@ const DEFAULT_THEME = {
 let currentTheme = Object.assign({}, DEFAULT_THEME, store.get('neet_theme', {}));
 let activeWpLayer = 'A';
 
-// IndexedDB helper for large custom wallpaper fallback if localStorage quota is full
 const idbWallpaper = {
   open() {
     return new Promise((resolve, reject) => {
@@ -1277,7 +1519,6 @@ const idbWallpaper = {
   }
 };
 
-// Smooth ~400ms crossfade between wallpaper layers
 function crossfadeWallpaper(cssBackgroundValue) {
   const layerA = $('wpLayerA');
   const layerB = $('wpLayerB');
@@ -1337,6 +1578,191 @@ function saveThemeState() {
   }
 }
 
+/* ---------- Canvas High-Res BTS Chibi Notification PNG Generator ---------- */
+function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, buddy, drawAllSeven = false }) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 630;
+  const ctx = canvas.getContext('2d');
+
+  // Dreamy Night Sky Gradient
+  const grad = ctx.createLinearGradient(0, 0, 1200, 630);
+  grad.addColorStop(0, buddy.bgGrad[0]);
+  grad.addColorStop(0.55, buddy.bgGrad[1]);
+  grad.addColorStop(1, '#090d1a');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  // Soft Glowing Nebula Orbs
+  const orb1 = ctx.createRadialGradient(220, 140, 10, 220, 140, 340);
+  orb1.addColorStop(0, 'rgba(196, 181, 253, 0.32)');
+  orb1.addColorStop(1, 'transparent');
+  ctx.fillStyle = orb1;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  const orb2 = ctx.createRadialGradient(980, 480, 10, 980, 480, 360);
+  orb2.addColorStop(0, 'rgba(244, 114, 182, 0.28)');
+  orb2.addColorStop(1, 'transparent');
+  ctx.fillStyle = orb2;
+  ctx.fillRect(0, 0, 1200, 630);
+
+  // Twinkling Stars
+  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  [[120, 90, 2.5], [340, 70, 1.8], [580, 110, 2.2], [860, 80, 3], [1080, 130, 2],
+   [160, 520, 2], [440, 540, 2.5], [760, 510, 1.8], [1050, 530, 2.5]].forEach(([x, y, r]) => {
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // Glowing Crescent Moon in top-right
+  ctx.save();
+  ctx.fillStyle = '#fef08a';
+  ctx.shadowColor = 'rgba(254, 240, 138, 0.7)';
+  ctx.shadowBlur = 35;
+  ctx.beginPath();
+  ctx.arc(1060, 120, 46, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.beginPath();
+  ctx.arc(1042, 106, 40, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.restore();
+
+  // Frosted Glass Card Container
+  ctx.fillStyle = 'rgba(17, 24, 39, 0.58)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.roundRect(65, 75, 1070, 480, 38);
+  ctx.fill();
+  ctx.stroke();
+
+  // Helper to draw a cute Chibi character on Canvas
+  function drawCanvasChibi(cx, cy, scale, b) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+
+    // Aura
+    ctx.fillStyle = 'rgba(196, 181, 253, 0.2)';
+    ctx.beginPath();
+    ctx.arc(0, 0, 58, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Ears
+    ctx.fillStyle = b.hairColor;
+    if (b.earType === 'bunny') {
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.ellipse(-22, -48, 9, 22, 0, 0, Math.PI * 2);
+      ctx.ellipse(22, -48, 9, 22, 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      ctx.beginPath();
+      ctx.arc(-32, -34, 13, 0, Math.PI * 2);
+      ctx.arc(32, -34, 13, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Hoodie
+    ctx.fillStyle = b.shirtColor;
+    ctx.beginPath();
+    ctx.arc(0, 46, 36, Math.PI, 0);
+    ctx.fill();
+
+    // Head
+    ctx.fillStyle = '#fff1f2';
+    ctx.beginPath();
+    ctx.arc(0, 0, 34, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Hair
+    ctx.fillStyle = b.hairColor;
+    ctx.beginPath();
+    ctx.arc(0, -6, 35, Math.PI, 0);
+    ctx.fill();
+
+    // Eyes
+    ctx.fillStyle = '#1e1b4b';
+    ctx.beginPath();
+    ctx.arc(-13, 2, 4.5, 0, Math.PI * 2);
+    ctx.arc(13, 2, 4.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Eye sparkle
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(-14.5, 0, 1.6, 0, Math.PI * 2);
+    ctx.arc(11.5, 0, 1.6, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Rosy Cheeks
+    ctx.fillStyle = b.cheekColor;
+    ctx.globalAlpha = 0.65;
+    ctx.beginPath();
+    ctx.ellipse(-21, 9, 6, 3.5, 0, 0, Math.PI * 2);
+    ctx.ellipse(21, 9, 6, 3.5, 0, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+
+    // Smile
+    ctx.strokeStyle = '#1e1b4b';
+    ctx.lineWidth = 3;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.arc(0, 7, 7, 0.15 * Math.PI, 0.85 * Math.PI);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  if (drawAllSeven) {
+    // Draw all 7 tiny BTS Chibi members in a cute row at the bottom-right
+    BTS_WEEK_BUDDIES.forEach((b, i) => {
+      drawCanvasChibi(175 + i * 140, 445, 0.95, b);
+    });
+  } else {
+    // Draw single large featured Chibi Buddy on the left
+    drawCanvasChibi(225, 315, 2.1, buddy);
+  }
+
+  // Text Content
+  const textX = drawAllSeven ? 120 : 390;
+  const textY = drawAllSeven ? 165 : 215;
+
+  // Pill Badge
+  ctx.fillStyle = 'rgba(196, 181, 253, 0.25)';
+  ctx.beginPath();
+  ctx.roundRect(textX, textY - 45, 340, 40, 20);
+  ctx.fill();
+
+  ctx.fillStyle = '#e9d5ff';
+  ctx.font = 'bold 20px Poppins, sans-serif';
+  ctx.fillText(badgeText, textX + 20, textY - 18);
+
+  // Main Title
+  ctx.fillStyle = '#ffffff';
+  ctx.font = 'bold 46px Poppins, sans-serif';
+  ctx.fillText(title, textX, textY + 48);
+
+  // Subtitle
+  ctx.fillStyle = '#cbd5e1';
+  ctx.font = '500 26px Poppins, sans-serif';
+  ctx.fillText(subtitle, textX, textY + 100);
+
+  // Footer signature
+  ctx.fillStyle = '#f9a8d4';
+  ctx.font = '600 22px Poppins, sans-serif';
+  ctx.fillText('💜 NEET Study Sanctuary • Fighting, Moon! ✨', textX, textY + 150);
+
+  // Trigger Download
+  const link = document.createElement('a');
+  link.download = filename;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
 function buildPersonalizePanel() {
   const presetGrid = $('presetGrid');
   presetGrid.innerHTML = '';
@@ -1377,9 +1803,66 @@ function buildPersonalizePanel() {
     });
     accentGrid.appendChild(btn);
   });
+
+  // 4 Repo Banner Upgraders (banner-morning.png, etc. with all 7 Chibis)
+  const mainBanners = [
+    { file: 'banner-morning.png', label: '☀️ banner-morning.png', title: 'Good Morning, Moon! ☀️', sub: 'Start your NEET study day with 7 Chibi Buddies!', buddy: BTS_WEEK_BUDDIES[4] },
+    { file: 'banner-medicine.png', label: '💊 banner-medicine.png', title: 'Medicine & Vitamins Time 💊', sub: 'Take your medicine with water & stay healthy!', buddy: BTS_WEEK_BUDDIES[2] },
+    { file: 'banner-evening.png', label: '📚 banner-evening.png', title: 'Good Evening Study Nudge 📚', sub: 'Calm revision & NCERT deep work session!', buddy: BTS_WEEK_BUDDIES[1] },
+    { file: 'banner-night.png', label: '🌙 banner-night.png', title: 'Good Night, Rest Well 🌙', sub: 'Peaceful sleep locks in your memory for tomorrow.', buddy: BTS_WEEK_BUDDIES[6] }
+  ];
+  const mainGrid = $('mainBannerDownloadGrid');
+  mainGrid.innerHTML = '';
+  mainBanners.forEach(item => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'p-2.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-left transition flex flex-col justify-between gap-1';
+    btn.innerHTML = `
+      <span class="text-xs font-bold text-white truncate">${esc(item.label)}</span>
+      <span class="text-[10px] text-purple-200">⬇ Download 7-Chibi PNG</span>
+    `;
+    btn.addEventListener('click', () => {
+      downloadChibiNotificationPNG({
+        filename: item.file,
+        title: item.title,
+        subtitle: item.sub,
+        badgeText: '💜 7 CHIBI STUDY COMPANIONS',
+        buddy: item.buddy,
+        drawAllSeven: true
+      });
+    });
+    mainGrid.appendChild(btn);
+  });
+
+  // 7-Day Individual BTS Chibi Member PNG Downloads
+  const sevenGrid = $('sevenDayDownloadGrid');
+  sevenGrid.innerHTML = '';
+  [1, 2, 3, 4, 5, 6, 0].forEach(dIdx => {
+    const b = BTS_WEEK_BUDDIES[dIdx];
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'p-2.5 rounded-xl bg-slate-950/60 hover:bg-white/15 border border-white/15 text-left transition flex items-center gap-2';
+    btn.innerHTML = `
+      <span class="text-lg shrink-0">${b.mascotEmoji.slice(0, 2)}</span>
+      <div class="min-w-0">
+        <div class="text-xs font-bold text-white truncate">${esc(b.shortDay)} • ${esc(b.member.split(' ')[0])}</div>
+        <div class="text-[10px] text-purple-200">⬇ ${esc(b.fileKey)}.png</div>
+      </div>
+    `;
+    btn.addEventListener('click', () => {
+      downloadChibiNotificationPNG({
+        filename: `${b.fileKey}.png`,
+        title: `${b.shortDay} Buddy: ${b.member}`,
+        subtitle: b.cheer,
+        badgeText: `💜 ${b.shortDay.toUpperCase()} CHIBI REMINDER`,
+        buddy: b,
+        drawAllSeven: false
+      });
+    });
+    sevenGrid.appendChild(btn);
+  });
 }
 
-// Resize uploaded image on <canvas> to max 1280px longest side, export JPEG ~0.8
 function resizeImageFile(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -1451,7 +1934,7 @@ $('resetThemeBtn').addEventListener('click', () => {
   idbWallpaper.clear();
   crossfadeWallpaper(window.WP_PRESETS['moon-night'].css);
   applyThemeControlsUI();
-  $('wpUploadStatus').textContent = '↺ Reset to default Moon Night theme.';
+  $('wpUploadStatus').textContent = '↺ Reset to default Borahae Moon Night theme.';
 });
 
 function openThemeDrawer() {
@@ -1473,7 +1956,6 @@ $('closeThemeBtn').addEventListener('click', closeThemeDrawer);
 $('doneThemeBtn').addEventListener('click', closeThemeDrawer);
 $('themeBackdrop').addEventListener('click', closeThemeDrawer);
 
-// Initialize Personalize UI & restore IndexedDB wallpaper if used
 buildPersonalizePanel();
 applyThemeControlsUI();
 if (currentTheme.type === 'custom' && currentTheme.customData === '__idb__') {
