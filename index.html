@@ -9,7 +9,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- OneSignal Web Push SDK: replace 1ca8032a-78c1-44ee-b597-9c84271b6565 with your App ID -->
+<!-- OneSignal Web Push SDK -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -23,7 +23,7 @@
     --accent: #c4b5fd;
     --accent-2: #f9a8d4;
     --accent-rgb: 196, 181, 253;
-    --wp-dim: 0.18;
+    --wp-dim: 0.16;
     --wp-blur: 0px;
   }
 
@@ -72,8 +72,8 @@
     z-index: 1;
     pointer-events: none;
     background:
-      radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.16), transparent 45%),
-      radial-gradient(circle at 85% 80%, rgba(244, 114, 182, 0.14), transparent 50%);
+      radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.18), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(244, 114, 182, 0.16), transparent 50%);
   }
 
   /* Dim & Blur Readability Overlay */
@@ -88,44 +88,41 @@
     transition: background-color 200ms ease, backdrop-filter 200ms ease, -webkit-backdrop-filter 200ms ease;
   }
 
-  /* Pure CSS Twinkling Night Sky Stars */
+  /* Pure CSS Twinkling Night Sky Stars & Floating Hearts */
   .stars-layer {
     position: fixed;
     inset: 0;
     z-index: 3;
     pointer-events: none;
     background-image:
-      radial-gradient(1.5px 1.5px at 10% 14%, rgba(255, 255, 255, 0.85) 50%, transparent 100%),
-      radial-gradient(1px 1px at 24% 58%, rgba(254, 240, 138, 0.75) 50%, transparent 100%),
-      radial-gradient(2px 2px at 42% 22%, rgba(249, 168, 212, 0.7) 50%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 66% 12%, rgba(255, 255, 255, 0.8) 50%, transparent 100%),
-      radial-gradient(1.2px 1.2px at 80% 44%, rgba(196, 181, 253, 0.85) 50%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 92% 72%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
-      radial-gradient(1px 1px at 16% 82%, rgba(167, 243, 208, 0.65) 50%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 54% 76%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
-      radial-gradient(1.2px 1.2px at 34% 38%, rgba(255, 255, 255, 0.65) 50%, transparent 100%),
-      radial-gradient(1.8px 1.8px at 73% 88%, rgba(251, 207, 232, 0.7) 50%, transparent 100%);
+      radial-gradient(1.5px 1.5px at 10% 14%, rgba(255, 255, 255, 0.9) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 24% 58%, rgba(254, 240, 138, 0.8) 50%, transparent 100%),
+      radial-gradient(2px 2px at 42% 22%, rgba(249, 168, 212, 0.75) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 66% 12%, rgba(255, 255, 255, 0.85) 50%, transparent 100%),
+      radial-gradient(1.4px 1.4px at 80% 44%, rgba(196, 181, 253, 0.9) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 92% 72%, rgba(255, 255, 255, 0.75) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 16% 82%, rgba(167, 243, 208, 0.7) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 54% 76%, rgba(255, 255, 255, 0.65) 50%, transparent 100%);
     animation: twinkle 6s ease-in-out infinite alternate;
-    opacity: 0.85;
+    opacity: 0.9;
   }
 
   @keyframes twinkle {
-    0% { opacity: 0.35; transform: translateY(0px); }
-    50% { opacity: 0.9; }
-    100% { opacity: 0.45; transform: translateY(-3px); }
+    0% { opacity: 0.4; transform: translateY(0px); }
+    50% { opacity: 0.95; }
+    100% { opacity: 0.5; transform: translateY(-3px); }
   }
 
   @keyframes floatBob {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-5px); }
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(1deg); }
   }
   .chibi-float {
-    animation: floatBob 3.6s ease-in-out infinite;
+    animation: floatBob 3.4s ease-in-out infinite;
   }
 
-  /* Staggered Card Entrance Animation */
   @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(14px); }
+    from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
   }
   .stagger-in {
@@ -141,50 +138,50 @@
     .wp-layer, .glass, .rem, .tog, .tog::after, .btn { transition: none !important; }
   }
 
-  /* Calm Dreamy Glassmorphism Cards */
+  /* Super Aesthetic Calm Glassmorphism Cards */
   .glass {
-    background: linear-gradient(145deg, rgba(26, 28, 58, 0.58) 0%, rgba(15, 19, 40, 0.46) 100%);
-    backdrop-filter: blur(22px) saturate(150%);
-    -webkit-backdrop-filter: blur(22px) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 1.75rem;
+    background: linear-gradient(145deg, rgba(28, 32, 64, 0.60) 0%, rgba(15, 20, 42, 0.48) 100%);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 1.85rem;
     box-shadow:
-      0 20px 50px -14px rgba(4, 7, 20, 0.55),
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.18);
+      0 22px 55px -14px rgba(4, 7, 22, 0.58),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
   }
   .glass-hover:hover {
-    border-color: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.28);
     box-shadow:
-      0 24px 55px -12px rgba(4, 7, 20, 0.65),
-      0 0 32px -8px rgba(var(--accent-rgb), 0.24),
-      inset 0 1px 1px 0 rgba(255, 255, 255, 0.24);
+      0 26px 60px -12px rgba(4, 7, 22, 0.68),
+      0 0 35px -8px rgba(var(--accent-rgb), 0.28),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.26);
   }
 
   /* Time-of-Day Greeting Mood Tints */
   .mood-morning {
     background:
-      radial-gradient(circle at 88% 18%, rgba(253, 186, 116, 0.26), transparent 55%),
-      radial-gradient(circle at 12% 85%, rgba(249, 168, 212, 0.24), transparent 55%),
-      linear-gradient(145deg, rgba(32, 27, 58, 0.62), rgba(19, 23, 45, 0.52));
+      radial-gradient(circle at 88% 18%, rgba(253, 186, 116, 0.28), transparent 55%),
+      radial-gradient(circle at 12% 85%, rgba(249, 168, 212, 0.26), transparent 55%),
+      linear-gradient(145deg, rgba(34, 28, 62, 0.64), rgba(19, 23, 45, 0.52));
   }
   .mood-evening {
     background:
-      radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.24), transparent 52%),
-      radial-gradient(circle at 15% 80%, rgba(192, 132, 252, 0.26), transparent 55%),
-      linear-gradient(145deg, rgba(30, 24, 56, 0.62), rgba(17, 21, 42, 0.52));
+      radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.26), transparent 52%),
+      radial-gradient(circle at 15% 80%, rgba(192, 132, 252, 0.28), transparent 55%),
+      linear-gradient(145deg, rgba(32, 25, 60, 0.64), rgba(17, 21, 42, 0.52));
   }
   .mood-night {
     background:
-      radial-gradient(circle at 88% 22%, rgba(196, 181, 253, 0.28), transparent 54%),
-      radial-gradient(circle at 15% 85%, rgba(244, 114, 182, 0.18), transparent 55%),
-      linear-gradient(145deg, rgba(23, 24, 54, 0.64), rgba(14, 17, 38, 0.54));
+      radial-gradient(circle at 88% 22%, rgba(196, 181, 253, 0.3), transparent 54%),
+      radial-gradient(circle at 15% 85%, rgba(244, 114, 182, 0.2), transparent 55%),
+      linear-gradient(145deg, rgba(25, 26, 58, 0.66), rgba(14, 17, 38, 0.56));
   }
 
   /* Form Fields */
   .field {
-    background: rgba(11, 15, 30, 0.62);
-    border: 1px solid rgba(226, 232, 240, 0.18);
+    background: rgba(11, 15, 30, 0.65);
+    border: 1px solid rgba(226, 232, 240, 0.2);
     border-radius: 1rem;
     padding: 0.72rem 1rem;
     min-height: 44px;
@@ -196,8 +193,8 @@
   .field::placeholder { color: rgba(203, 213, 225, 0.55); }
   .field:focus {
     border-color: var(--accent);
-    background: rgba(15, 21, 42, 0.82);
-    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.25);
+    background: rgba(15, 21, 42, 0.85);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.28);
   }
   select.field option { background: #0f172a; color: #f8fafc; }
 
@@ -209,7 +206,7 @@
 
   /* Buttons */
   .btn {
-    border-radius: 1.05rem;
+    border-radius: 1.1rem;
     padding: 0.75rem 1.35rem;
     min-height: 44px;
     font-weight: 600;
@@ -224,12 +221,12 @@
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: #0b1020;
     font-weight: 600;
-    box-shadow: 0 10px 26px -6px rgba(var(--accent-rgb), 0.5);
+    box-shadow: 0 10px 28px -6px rgba(var(--accent-rgb), 0.55);
   }
   .btn-primary:hover {
     filter: brightness(1.06);
     transform: translateY(-1px);
-    box-shadow: 0 14px 30px -6px rgba(var(--accent-rgb), 0.65);
+    box-shadow: 0 14px 32px -6px rgba(var(--accent-rgb), 0.7);
   }
 
   /* Reminder Cards */
@@ -238,30 +235,30 @@
     user-select: none;
     min-height: 82px;
     transition: transform 0.22s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    border-radius: 1.35rem;
-    background: rgba(13, 19, 38, 0.54);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.4rem;
+    background: rgba(13, 19, 38, 0.56);
   }
   .rem:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.28);
   }
-  .rem[data-tag="morning"] { --rem-color: #fde68a; --rem-bg: rgba(253, 230, 138, 0.15); }
-  .rem[data-tag="medicine"] { --rem-color: #f9a8d4; --rem-bg: rgba(249, 168, 212, 0.15); }
-  .rem[data-tag="evening"] { --rem-color: #d8b4fe; --rem-bg: rgba(216, 180, 254, 0.15); }
-  .rem[data-tag="night"] { --rem-color: #a5b4fc; --rem-bg: rgba(165, 180, 252, 0.16); }
+  .rem[data-tag="morning"] { --rem-color: #fde68a; --rem-bg: rgba(253, 230, 138, 0.16); }
+  .rem[data-tag="medicine"] { --rem-color: #f9a8d4; --rem-bg: rgba(249, 168, 212, 0.16); }
+  .rem[data-tag="evening"] { --rem-color: #d8b4fe; --rem-bg: rgba(216, 180, 254, 0.16); }
+  .rem[data-tag="night"] { --rem-color: #a5b4fc; --rem-bg: rgba(165, 180, 252, 0.18); }
 
   .rem.on {
     border-color: var(--rem-color, var(--accent));
-    background: var(--rem-bg, rgba(var(--accent-rgb), 0.18));
-    box-shadow: 0 10px 26px -8px var(--rem-bg, rgba(var(--accent-rgb), 0.32));
+    background: var(--rem-bg, rgba(var(--accent-rgb), 0.2));
+    box-shadow: 0 10px 28px -8px var(--rem-bg, rgba(var(--accent-rgb), 0.35));
   }
   .tog {
     width: 2.9rem;
     height: 1.6rem;
     border-radius: 999px;
     background: rgba(51, 65, 85, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     position: relative;
     transition: background 0.25s ease, border-color 0.25s ease;
     flex-shrink: 0;
@@ -289,10 +286,10 @@
 
   /* Subject Chips */
   .subj-chip {
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    background: rgba(13, 19, 38, 0.52);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(13, 19, 38, 0.55);
     border-radius: 999px;
-    padding: 0.42rem 0.85rem;
+    padding: 0.42rem 0.88rem;
     font-size: 0.75rem;
     font-weight: 500;
     color: #cbd5e1;
@@ -303,23 +300,22 @@
     gap: 0.35rem;
   }
   .subj-chip:hover {
-    border-color: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.3);
     color: #fff;
   }
   .subj-chip.active {
-    background: rgba(var(--accent-rgb), 0.24);
+    background: rgba(var(--accent-rgb), 0.26);
     border-color: var(--accent);
     color: #fff;
-    box-shadow: 0 0 16px -2px rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 0 16px -2px rgba(var(--accent-rgb), 0.45);
   }
 
-  /* Day Pill Selector for 7-Day BTS Preview */
   .day-pill {
-    padding: 0.3rem 0.65rem;
+    padding: 0.3rem 0.68rem;
     border-radius: 999px;
     font-size: 0.7rem;
     font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(15, 23, 42, 0.5);
     color: #cbd5e1;
     transition: all 0.18s ease;
@@ -328,13 +324,13 @@
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: #0b1020;
     border-color: transparent;
-    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.45);
   }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.25); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb { background: rgba(196, 181, 253, 0.3); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(196, 181, 253, 0.5); }
+  ::-webkit-scrollbar-thumb { background: rgba(196, 181, 253, 0.35); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(196, 181, 253, 0.55); }
 
   .safe-bottom {
     padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
@@ -381,35 +377,35 @@
   window.WP_PRESETS = {
     'moon-night': {
       name: 'Borahae Moon Night',
-      css: 'radial-gradient(circle at 82% 16%, rgba(196, 181, 253, 0.45) 0%, transparent 42%), radial-gradient(circle at 18% 24%, rgba(139, 92, 246, 0.38) 0%, transparent 48%), radial-gradient(circle at 50% 88%, rgba(244, 114, 182, 0.28) 0%, transparent 52%), linear-gradient(160deg, #070b1a 0%, #15163a 50%, #241440 100%)'
+      css: 'radial-gradient(circle at 82% 16%, rgba(196, 181, 253, 0.48) 0%, transparent 42%), radial-gradient(circle at 18% 24%, rgba(139, 92, 246, 0.4) 0%, transparent 48%), radial-gradient(circle at 50% 88%, rgba(244, 114, 182, 0.3) 0%, transparent 52%), linear-gradient(160deg, #070b1a 0%, #15163a 50%, #241440 100%)'
     },
     'lavender-dream': {
       name: 'Lavender Dream',
-      css: 'radial-gradient(circle at 22% 18%, rgba(216, 180, 254, 0.52) 0%, transparent 48%), radial-gradient(circle at 82% 76%, rgba(249, 168, 212, 0.42) 0%, transparent 52%), linear-gradient(145deg, #1b1438 0%, #34235e 50%, #241945 100%)'
+      css: 'radial-gradient(circle at 22% 18%, rgba(216, 180, 254, 0.55) 0%, transparent 48%), radial-gradient(circle at 82% 76%, rgba(249, 168, 212, 0.45) 0%, transparent 52%), linear-gradient(145deg, #1b1438 0%, #34235e 50%, #241945 100%)'
     },
     'sunrise-peach': {
       name: 'Sunrise Peach',
-      css: 'radial-gradient(circle at 80% 20%, rgba(253, 186, 116, 0.52) 0%, transparent 48%), radial-gradient(circle at 20% 78%, rgba(249, 168, 212, 0.45) 0%, transparent 52%), linear-gradient(150deg, #24142e 0%, #422044 48%, #4d263a 100%)'
+      css: 'radial-gradient(circle at 80% 20%, rgba(253, 186, 116, 0.55) 0%, transparent 48%), radial-gradient(circle at 20% 78%, rgba(249, 168, 212, 0.48) 0%, transparent 52%), linear-gradient(150deg, #24142e 0%, #422044 48%, #4d263a 100%)'
     },
     'sakura-pink': {
       name: 'Sakura Pink',
-      css: 'radial-gradient(circle at 78% 18%, rgba(251, 207, 232, 0.48) 0%, transparent 46%), radial-gradient(circle at 22% 72%, rgba(216, 180, 254, 0.40) 0%, transparent 52%), linear-gradient(155deg, #21122e 0%, #3b1d47 52%, #261738 100%)'
+      css: 'radial-gradient(circle at 78% 18%, rgba(251, 207, 232, 0.5) 0%, transparent 46%), radial-gradient(circle at 22% 72%, rgba(216, 180, 254, 0.42) 0%, transparent 52%), linear-gradient(155deg, #21122e 0%, #3b1d47 52%, #261738 100%)'
     },
     'ocean-mint': {
       name: 'Ocean Mint',
-      css: 'radial-gradient(circle at 82% 20%, rgba(110, 231, 183, 0.44) 0%, transparent 46%), radial-gradient(circle at 18% 75%, rgba(125, 211, 252, 0.38) 0%, transparent 52%), linear-gradient(155deg, #071f2e 0%, #10354f 52%, #132540 100%)'
+      css: 'radial-gradient(circle at 82% 20%, rgba(110, 231, 183, 0.46) 0%, transparent 46%), radial-gradient(circle at 18% 75%, rgba(125, 211, 252, 0.4) 0%, transparent 52%), linear-gradient(155deg, #071f2e 0%, #10354f 52%, #132540 100%)'
     },
     'dusk-orange': {
       name: 'Dusk Orange',
-      css: 'radial-gradient(circle at 84% 16%, rgba(251, 146, 60, 0.48) 0%, transparent 46%), radial-gradient(circle at 24% 76%, rgba(167, 139, 250, 0.42) 0%, transparent 52%), linear-gradient(160deg, #191233 0%, #381d47 54%, #261633 100%)'
+      css: 'radial-gradient(circle at 84% 16%, rgba(251, 146, 60, 0.5) 0%, transparent 46%), radial-gradient(circle at 24% 76%, rgba(167, 139, 250, 0.45) 0%, transparent 52%), linear-gradient(160deg, #191233 0%, #381d47 54%, #261633 100%)'
     },
     'midnight-forest': {
       name: 'Midnight Forest',
-      css: 'radial-gradient(circle at 78% 22%, rgba(52, 211, 153, 0.36) 0%, transparent 46%), radial-gradient(circle at 22% 80%, rgba(129, 140, 248, 0.32) 0%, transparent 50%), linear-gradient(160deg, #06181f 0%, #0f2f3a 52%, #0b1829 100%)'
+      css: 'radial-gradient(circle at 78% 22%, rgba(52, 211, 153, 0.38) 0%, transparent 46%), radial-gradient(circle at 22% 80%, rgba(129, 140, 248, 0.35) 0%, transparent 50%), linear-gradient(160deg, #06181f 0%, #0f2f3a 52%, #0b1829 100%)'
     },
     'plain-dark': {
       name: 'Plain Dark',
-      css: 'radial-gradient(circle at 50% 0%, rgba(148, 163, 184, 0.14) 0%, transparent 60%), linear-gradient(180deg, #080c17 0%, #0b1020 100%)'
+      css: 'radial-gradient(circle at 50% 0%, rgba(148, 163, 184, 0.15) 0%, transparent 60%), linear-gradient(180deg, #080c17 0%, #0b1020 100%)'
     }
   };
 
@@ -428,7 +424,7 @@
       var raw = localStorage.getItem('neet_theme');
       var t = raw ? JSON.parse(raw) : {};
       var presetKey = t.preset && window.WP_PRESETS[t.preset] ? t.preset : 'moon-night';
-      var dim = typeof t.dim === 'number' ? t.dim : 18;
+      var dim = typeof t.dim === 'number' ? t.dim : 16;
       var blur = typeof t.blur === 'number' ? t.blur : 0;
       var accentKey = t.accent && window.ACCENT_PRESETS[t.accent] ? t.accent : 'lavender';
       var acc = window.ACCENT_PRESETS[accentKey];
@@ -454,7 +450,7 @@
 <!-- Name Modal -->
 <div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md p-4" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
   <form id="nameForm" class="glass p-6 sm:p-8 w-full max-w-md space-y-5 border border-white/20">
-    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200 border border-white/10">
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200 border border-white/15">
       <span>💜 Dreamy Borahae Sanctuary</span>
     </div>
     <h2 id="nameModalTitle" class="text-xl sm:text-2xl font-bold text-white leading-snug">
@@ -474,7 +470,7 @@
   <!-- Top Bar -->
   <header class="flex flex-wrap items-center justify-between gap-3 stagger-in">
     <div class="flex items-center gap-3">
-      <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-md">
+      <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/18 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-md">
         <img src="/icon-192.png" alt="" class="w-7 h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
         <span class="hidden text-xl" aria-hidden="true">💜</span>
       </div>
@@ -502,9 +498,9 @@
   <!-- Greeting Banner + 7-Day BTS Chibi Study Buddy Card -->
   <section id="greetingSection" class="glass glass-hover mood-night p-6 sm:p-8 relative overflow-hidden stagger-in delay-1">
     <!-- Decorative Night Moon -->
-    <div class="pointer-events-none select-none absolute -right-4 -top-4 sm:right-6 sm:top-5 opacity-35 sm:opacity-50" aria-hidden="true">
-      <img src="/moon.png" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_0_28px_rgba(253,230,138,0.5)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
-      <svg class="hidden w-24 h-24 sm:w-28 sm:h-28 text-amber-100 drop-shadow-[0_0_28px_rgba(253,230,138,0.45)]" viewBox="0 0 100 100" fill="currentColor">
+    <div class="pointer-events-none select-none absolute -right-4 -top-4 sm:right-6 sm:top-5 opacity-40 sm:opacity-55" aria-hidden="true">
+      <img src="/moon.png" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_0_28px_rgba(253,230,138,0.55)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
+      <svg class="hidden w-24 h-24 sm:w-28 sm:h-28 text-amber-100 drop-shadow-[0_0_28px_rgba(253,230,138,0.5)]" viewBox="0 0 100 100" fill="currentColor">
         <path d="M66.5 68.5C47.5 68.5 32 53 32 34c0-8.6 3.1-16.5 8.3-22.5C23.5 14.9 11 29.8 11 47.7 11 68.3 27.7 85 48.3 85c16.2 0 30-10.3 35.2-24.8-5.2 5.2-12.2 8.3-20 8.3z"/>
       </svg>
     </div>
@@ -524,8 +520,8 @@
         <p id="greetSub" class="text-slate-200/90 text-sm sm:text-base"></p>
       </div>
 
-      <!-- Today's Mini BTS Chibi Study Companion Widget (7 Days = 7 Members) -->
-      <div class="rounded-3xl bg-slate-950/50 border border-white/15 p-4 flex items-center gap-4 backdrop-blur-xl shadow-lg max-w-md w-full lg:w-auto">
+      <!-- Today's Mini BTS Chibi Study Companion Widget -->
+      <div class="rounded-3xl bg-slate-950/50 border border-white/18 p-4 flex items-center gap-4 backdrop-blur-xl shadow-xl max-w-md w-full lg:w-auto">
         <div id="todayChibiAvatar" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 chibi-float shadow-inner overflow-hidden"></div>
         <div class="min-w-0 flex-1">
           <div class="flex items-center gap-1.5">
@@ -559,7 +555,7 @@
   <!-- 2-Column Middle Grid: Reminders + Exam Countdown -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-    <!-- Reminders (main feature) -->
+    <!-- Reminders -->
     <section class="glass glass-hover p-6 sm:p-7 lg:col-span-7 flex flex-col justify-between stagger-in delay-2">
       <div>
         <div class="flex flex-wrap items-center justify-between gap-2">
@@ -691,7 +687,7 @@
 
   </div>
 
-  <!-- Study Logger + 7-Day BTS Chart & History -->
+  <!-- Study Logger + Weekly Chart & History -->
   <div class="grid grid-cols-1 md:grid-cols-12 gap-6 stagger-in delay-4">
 
     <!-- Logger Form -->
@@ -745,7 +741,7 @@
       </form>
     </section>
 
-    <!-- Weekly Chart (with 7 Chibi Icons) + Study History -->
+    <!-- Weekly Chart + Study History -->
     <section class="glass glass-hover p-6 sm:p-7 md:col-span-7 flex flex-col justify-between space-y-6">
 
       <!-- Last 7 Days Bar Chart with Chibi Mascots -->
@@ -828,7 +824,7 @@
     <!-- 2. Built-in Dreamy Gradient Wallpapers -->
     <div>
       <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
-        2. Built-In Night &amp; Pastel Wallpapers (Tap to Apply)
+        2. Dreamy Night &amp; Pastel Wallpapers (Tap to Apply)
       </label>
       <div id="presetGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
     </div>
@@ -838,9 +834,9 @@
       <div>
         <div class="flex justify-between text-xs font-medium mb-2">
           <label for="dimSlider" class="text-slate-200">Wallpaper Dim</label>
-          <span id="dimValue" class="text-purple-200 font-semibold">18%</span>
+          <span id="dimValue" class="text-purple-200 font-semibold">16%</span>
         </div>
-        <input id="dimSlider" type="range" min="0" max="80" step="1" value="18" class="w-full">
+        <input id="dimSlider" type="range" min="0" max="80" step="1" value="16" class="w-full">
       </div>
       <div>
         <div class="flex justify-between text-xs font-medium mb-2">
@@ -859,7 +855,7 @@
       <div id="accentGrid" class="flex flex-wrap gap-2.5"></div>
     </div>
 
-    <!-- 5. NEW: 7-Day BTS Chibi Notification PNG Generator -->
+    <!-- 5. 7-Day BTS Chibi Notification PNG Generator -->
     <div class="rounded-2xl bg-purple-950/35 border border-purple-300/25 p-4 space-y-3">
       <div class="flex items-center justify-between gap-2">
         <div>
@@ -873,13 +869,11 @@
         </div>
       </div>
 
-      <!-- 4 Main Reminder Banner PNG Downloads -->
       <div class="text-[11px] font-semibold text-purple-200 uppercase tracking-wider pt-1">
         Upgrade Your 4 Repo Banners (`banner-*.png`):
       </div>
       <div id="mainBannerDownloadGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
 
-      <!-- 7-Day Individual BTS Member Banner PNG Downloads -->
       <div class="text-[11px] font-semibold text-purple-200 uppercase tracking-wider pt-2">
         Or Download 7-Day Chibi Member Notification PNGs (`bts-mon.png` – `bts-sun.png`):
       </div>
@@ -902,7 +896,6 @@
 <script>
 const $ = id => document.getElementById(id);
 
-/* ---------- Safe localStorage wrapper ---------- */
 const store = {
   get(k, d) {
     try {
@@ -935,102 +928,16 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({
   "'": '&#39;'
 }[c]));
 
-/* ---------- 7-Day Cute Chibi BTS-Style Members (Mon - Sun) ---------- */
 const BTS_WEEK_BUDDIES = [
-  {
-    dayIndex: 0,
-    shortDay: 'Sun',
-    fileKey: 'bts-sun',
-    member: 'JK (Golden Bunny)',
-    mascotEmoji: '🐰🌟',
-    hairColor: '#312e81',
-    earType: 'bunny',
-    cheekColor: '#f472b6',
-    shirtColor: '#a78bfa',
-    bgGrad: ['#1e1b4b', '#3b0764'],
-    cheer: 'Golden Sunday! Crush your mock test & revision like JK, Moon! 💜'
-  },
-  {
-    dayIndex: 1,
-    shortDay: 'Mon',
-    fileKey: 'bts-mon',
-    member: 'RM (Dimple Leader)',
-    mascotEmoji: '🐨📘',
-    hairColor: '#93c5fd',
-    earType: 'koala',
-    cheekColor: '#fb7185',
-    shirtColor: '#818cf8',
-    bgGrad: ['#0f172a', '#1e3a8a'],
-    cheer: 'Namjooning Monday! Calm focus & deep NCERT reading with RM.'
-  },
-  {
-    dayIndex: 2,
-    shortDay: 'Tue',
-    fileKey: 'bts-tue',
-    member: 'Jin (Little Astronaut)',
-    mascotEmoji: '🦙🌙',
-    hairColor: '#f472b6',
-    earType: 'alpaca',
-    cheekColor: '#fda4af',
-    shirtColor: '#f9a8d4',
-    bgGrad: ['#2e1065', '#4c1d95'],
-    cheer: 'Moon & Jin Tuesday! Take your vitamins and shine bright today.'
-  },
-  {
-    dayIndex: 3,
-    shortDay: 'Wed',
-    fileKey: 'bts-wed',
-    member: 'Suga (Mint Yoongi)',
-    mascotEmoji: '🐱🎧',
-    hairColor: '#6ee7b7',
-    earType: 'cat',
-    cheekColor: '#f9a8d4',
-    shirtColor: '#34d399',
-    bgGrad: ['#064e3b', '#1e1b4b'],
-    cheer: 'Yoongi Lo-Fi Wednesday! Quiet study session, everything will be okay.'
-  },
-  {
-    dayIndex: 4,
-    shortDay: 'Thu',
-    fileKey: 'bts-thu',
-    member: 'J-Hope (Hobi Sunshine)',
-    mascotEmoji: '🐿️☀️',
-    hairColor: '#fdba74',
-    earType: 'acorn',
-    cheekColor: '#fb7185',
-    shirtColor: '#fb923c',
-    bgGrad: ['#3b0764', '#7c2d12'],
-    cheer: 'Hobi Sunshine Thursday! You are your own hope, keep going Moon!'
-  },
-  {
-    dayIndex: 5,
-    shortDay: 'Fri',
-    fileKey: 'bts-fri',
-    member: 'Jimin (Sweet Mochi)',
-    mascotEmoji: '🐥💗',
-    hairColor: '#fde047',
-    earType: 'chick',
-    cheekColor: '#f43f5e',
-    shirtColor: '#f472b6',
-    bgGrad: ['#4a044e', '#311042'],
-    cheer: 'Jiminie Friday! Be kind to yourself and finish today’s chapters.'
-  },
-  {
-    dayIndex: 6,
-    shortDay: 'Sat',
-    fileKey: 'bts-sat',
-    member: 'V (Winter Bear)',
-    mascotEmoji: '🐻💜',
-    hairColor: '#c084fc',
-    earType: 'bear',
-    cheekColor: '#fb7185',
-    shirtColor: '#a855f7',
-    bgGrad: ['#1e1b4b', '#4c1d95'],
-    cheer: 'Tae Bear Saturday! I purple you Moon — let’s master tough concepts!'
-  }
+  { dayIndex: 0, shortDay: 'Sun', fileKey: 'bts-sun', member: 'JK (Golden Bunny)', mascotEmoji: '🐰🌟', hairColor: '#312e81', earType: 'bunny', cheekColor: '#f472b6', shirtColor: '#a78bfa', bgGrad: ['#1e1b4b', '#3b0764'], cheer: 'Golden Sunday! Crush your mock test & revision like JK, Moon! 💜' },
+  { dayIndex: 1, shortDay: 'Mon', fileKey: 'bts-mon', member: 'RM (Dimple Leader)', mascotEmoji: '🐨📘', hairColor: '#93c5fd', earType: 'koala', cheekColor: '#fb7185', shirtColor: '#818cf8', bgGrad: ['#0f172a', '#1e3a8a'], cheer: 'Namjooning Monday! Calm focus & deep NCERT reading with RM.' },
+  { dayIndex: 2, shortDay: 'Tue', fileKey: 'bts-tue', member: 'Jin (Little Astronaut)', mascotEmoji: '🦙🌙', hairColor: '#f472b6', earType: 'alpaca', cheekColor: '#fda4af', shirtColor: '#f9a8d4', bgGrad: ['#2e1065', '#4c1d95'], cheer: 'Moon & Jin Tuesday! Take your vitamins and shine bright today.' },
+  { dayIndex: 3, shortDay: 'Wed', fileKey: 'bts-wed', member: 'Suga (Mint Yoongi)', mascotEmoji: '🐱🎧', hairColor: '#6ee7b7', earType: 'cat', cheekColor: '#f9a8d4', shirtColor: '#34d399', bgGrad: ['#064e3b', '#1e1b4b'], cheer: 'Yoongi Lo-Fi Wednesday! Quiet study session, everything will be okay.' },
+  { dayIndex: 4, shortDay: 'Thu', fileKey: 'bts-thu', member: 'J-Hope (Hobi Sunshine)', mascotEmoji: '🐿️☀️', hairColor: '#fdba74', earType: 'acorn', cheekColor: '#fb7185', shirtColor: '#fb923c', bgGrad: ['#3b0764', '#7c2d12'], cheer: 'Hobi Sunshine Thursday! You are your own hope, keep going Moon!' },
+  { dayIndex: 5, shortDay: 'Fri', fileKey: 'bts-fri', member: 'Jimin (Sweet Mochi)', mascotEmoji: '🐥💗', hairColor: '#fde047', earType: 'chick', cheekColor: '#f43f5e', shirtColor: '#f472b6', bgGrad: ['#4a044e', '#311042'], cheer: 'Jiminie Friday! Be kind to yourself and finish today’s chapters.' },
+  { dayIndex: 6, shortDay: 'Sat', fileKey: 'bts-sat', member: 'V (Winter Bear)', mascotEmoji: '🐻💜', hairColor: '#c084fc', earType: 'bear', cheekColor: '#fb7185', shirtColor: '#a855f7', bgGrad: ['#1e1b4b', '#4c1d95'], cheer: 'Tae Bear Saturday! I purple you Moon — let’s master tough concepts!' }
 ];
 
-// Generate cute inline SVG Chibi character for each BTS buddy
 function createChibiSVG(buddy, size = 64) {
   let earsSVG = '';
   if (buddy.earType === 'bunny') {
@@ -1056,26 +963,18 @@ function createChibiSVG(buddy, size = 64) {
 
   return `
     <svg width="${size}" height="${size}" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Soft Aura -->
-      <circle cx="50" cy="54" r="40" fill="${buddy.shirtColor}" opacity="0.18"/>
+      <circle cx="50" cy="54" r="40" fill="${buddy.shirtColor}" opacity="0.2"/>
       ${earsSVG}
-      <!-- Hoodie / Shoulders -->
       <path d="M26 88 C26 68, 74 68, 74 88 Z" fill="${buddy.shirtColor}"/>
-      <!-- Cute Face -->
       <circle cx="50" cy="52" r="24" fill="#fff1f2"/>
-      <!-- Soft Pastel Chibi Hair -->
       <path d="M25 48 C25 28, 75 28, 75 48 C67 39, 58 43, 50 38 C42 43, 33 39, 25 48 Z" fill="${buddy.hairColor}"/>
-      <!-- Starry Eyes -->
       <circle cx="41" cy="53" r="3.4" fill="#1e1b4b"/>
       <circle cx="40" cy="51.8" r="1.2" fill="#ffffff"/>
       <circle cx="59" cy="53" r="3.4" fill="#1e1b4b"/>
       <circle cx="58" cy="51.8" r="1.2" fill="#ffffff"/>
-      <!-- Rosy Cheeks -->
       <ellipse cx="34" cy="58" rx="4.2" ry="2.4" fill="${buddy.cheekColor}" opacity="0.65"/>
       <ellipse cx="66" cy="58" rx="4.2" ry="2.4" fill="${buddy.cheekColor}" opacity="0.65"/>
-      <!-- Sweet Smile -->
       <path d="M46 58 Q50 62 54 58" stroke="#1e1b4b" stroke-width="2.2" stroke-linecap="round" fill="none"/>
-      <!-- Tiny Borahae Purple Heart -->
       <path d="M50 78 C50 78, 43 73, 43 69.5 C43 67.5, 45 66, 47 66 C48.5 66, 49.5 67, 50 68 C50.5 67, 51.5 66, 53 66 C55 66, 57 67.5, 57 69.5 C57 73, 50 78, 50 78 Z" fill="#e879f9"/>
     </svg>
   `;
@@ -1097,7 +996,6 @@ function renderTodayChibiWidget(dayIdx = selectedBuddyDay) {
 
   const pillsContainer = $('chibiDayPills');
   pillsContainer.innerHTML = '';
-  // Order Mon(1) -> Sun(0)
   [1, 2, 3, 4, 5, 6, 0].forEach(dIdx => {
     const b = BTS_WEEK_BUDDIES[dIdx];
     const btn = document.createElement('button');
@@ -1110,7 +1008,6 @@ function renderTodayChibiWidget(dayIdx = selectedBuddyDay) {
 }
 renderTodayChibiWidget();
 
-/* ---------- Motivational Quotes ---------- */
 const QUOTES = [
   "Small daily improvements over time lead to stunning results.",
   "Every page of NCERT you master tonight is a rank booster in May.",
@@ -1139,7 +1036,6 @@ $('nextQuoteBtn').addEventListener('click', () => {
 });
 renderQuote();
 
-/* ---------- Name & Time-of-Day Greeting (Default fallback: Moon) ---------- */
 let userName = store.get('neet_name', '');
 
 function renderGreeting() {
@@ -1203,7 +1099,6 @@ if (!userName) askName();
 renderGreeting();
 setInterval(renderGreeting, 60000);
 
-/* ---------- Reminders via OneSignal tags (exact original logic kept) ---------- */
 let prefs = store.get('neet_rem', {});
 
 function paintPrefs() {
@@ -1285,7 +1180,6 @@ $('notifBtn').onclick = async () => {
   }
 };
 
-/* ---------- Exam Countdown ---------- */
 $('examSelect').value = store.get('neet_exam', '2027-05-02');
 $('examSelect').onchange = () => {
   store.set('neet_exam', $('examSelect').value);
@@ -1316,7 +1210,6 @@ function tick() {
 tick();
 setInterval(tick, 1000);
 
-/* ---------- Study Logger & 7-Day Bar Chart with Chibi Icons ---------- */
 function getLocalDateStr(dateObj = new Date()) {
   return new Date(dateObj.getTime() - dateObj.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 }
@@ -1464,12 +1357,11 @@ $('logList').addEventListener('click', e => {
 
 renderLogs();
 
-/* ---------- Custom Wallpaper & BTS Chibi Notification PNG Generator ---------- */
 const DEFAULT_THEME = {
   type: 'preset',
   preset: 'moon-night',
   customData: null,
-  dim: 18,
+  dim: 16,
   blur: 0,
   accent: 'lavender'
 };
@@ -1578,14 +1470,12 @@ function saveThemeState() {
   }
 }
 
-/* ---------- Canvas High-Res BTS Chibi Notification PNG Generator ---------- */
 function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, buddy, drawAllSeven = false }) {
   const canvas = document.createElement('canvas');
   canvas.width = 1200;
   canvas.height = 630;
   const ctx = canvas.getContext('2d');
 
-  // Dreamy Night Sky Gradient
   const grad = ctx.createLinearGradient(0, 0, 1200, 630);
   grad.addColorStop(0, buddy.bgGrad[0]);
   grad.addColorStop(0.55, buddy.bgGrad[1]);
@@ -1593,21 +1483,19 @@ function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, bu
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 1200, 630);
 
-  // Soft Glowing Nebula Orbs
   const orb1 = ctx.createRadialGradient(220, 140, 10, 220, 140, 340);
-  orb1.addColorStop(0, 'rgba(196, 181, 253, 0.32)');
+  orb1.addColorStop(0, 'rgba(196, 181, 253, 0.35)');
   orb1.addColorStop(1, 'transparent');
   ctx.fillStyle = orb1;
   ctx.fillRect(0, 0, 1200, 630);
 
   const orb2 = ctx.createRadialGradient(980, 480, 10, 980, 480, 360);
-  orb2.addColorStop(0, 'rgba(244, 114, 182, 0.28)');
+  orb2.addColorStop(0, 'rgba(244, 114, 182, 0.3)');
   orb2.addColorStop(1, 'transparent');
   ctx.fillStyle = orb2;
   ctx.fillRect(0, 0, 1200, 630);
 
-  // Twinkling Stars
-  ctx.fillStyle = 'rgba(255,255,255,0.8)';
+  ctx.fillStyle = 'rgba(255,255,255,0.85)';
   [[120, 90, 2.5], [340, 70, 1.8], [580, 110, 2.2], [860, 80, 3], [1080, 130, 2],
    [160, 520, 2], [440, 540, 2.5], [760, 510, 1.8], [1050, 530, 2.5]].forEach(([x, y, r]) => {
     ctx.beginPath();
@@ -1615,10 +1503,9 @@ function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, bu
     ctx.fill();
   });
 
-  // Glowing Crescent Moon in top-right
   ctx.save();
   ctx.fillStyle = '#fef08a';
-  ctx.shadowColor = 'rgba(254, 240, 138, 0.7)';
+  ctx.shadowColor = 'rgba(254, 240, 138, 0.75)';
   ctx.shadowBlur = 35;
   ctx.beginPath();
   ctx.arc(1060, 120, 46, 0, Math.PI * 2);
@@ -1629,28 +1516,24 @@ function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, bu
   ctx.fill();
   ctx.restore();
 
-  // Frosted Glass Card Container
-  ctx.fillStyle = 'rgba(17, 24, 39, 0.58)';
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+  ctx.fillStyle = 'rgba(17, 24, 39, 0.6)';
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
   ctx.lineWidth = 2;
   ctx.beginPath();
   ctx.roundRect(65, 75, 1070, 480, 38);
   ctx.fill();
   ctx.stroke();
 
-  // Helper to draw a cute Chibi character on Canvas
   function drawCanvasChibi(cx, cy, scale, b) {
     ctx.save();
     ctx.translate(cx, cy);
     ctx.scale(scale, scale);
 
-    // Aura
-    ctx.fillStyle = 'rgba(196, 181, 253, 0.2)';
+    ctx.fillStyle = 'rgba(196, 181, 253, 0.22)';
     ctx.beginPath();
     ctx.arc(0, 0, 58, 0, Math.PI * 2);
     ctx.fill();
 
-    // Ears
     ctx.fillStyle = b.hairColor;
     if (b.earType === 'bunny') {
       ctx.fillStyle = '#ffffff';
@@ -1665,39 +1548,33 @@ function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, bu
       ctx.fill();
     }
 
-    // Hoodie
     ctx.fillStyle = b.shirtColor;
     ctx.beginPath();
     ctx.arc(0, 46, 36, Math.PI, 0);
     ctx.fill();
 
-    // Head
     ctx.fillStyle = '#fff1f2';
     ctx.beginPath();
     ctx.arc(0, 0, 34, 0, Math.PI * 2);
     ctx.fill();
 
-    // Hair
     ctx.fillStyle = b.hairColor;
     ctx.beginPath();
     ctx.arc(0, -6, 35, Math.PI, 0);
     ctx.fill();
 
-    // Eyes
     ctx.fillStyle = '#1e1b4b';
     ctx.beginPath();
     ctx.arc(-13, 2, 4.5, 0, Math.PI * 2);
     ctx.arc(13, 2, 4.5, 0, Math.PI * 2);
     ctx.fill();
 
-    // Eye sparkle
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
     ctx.arc(-14.5, 0, 1.6, 0, Math.PI * 2);
     ctx.arc(11.5, 0, 1.6, 0, Math.PI * 2);
     ctx.fill();
 
-    // Rosy Cheeks
     ctx.fillStyle = b.cheekColor;
     ctx.globalAlpha = 0.65;
     ctx.beginPath();
@@ -1706,7 +1583,6 @@ function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, bu
     ctx.fill();
     ctx.globalAlpha = 1;
 
-    // Smile
     ctx.strokeStyle = '#1e1b4b';
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';
@@ -1718,21 +1594,17 @@ function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, bu
   }
 
   if (drawAllSeven) {
-    // Draw all 7 tiny BTS Chibi members in a cute row at the bottom-right
     BTS_WEEK_BUDDIES.forEach((b, i) => {
       drawCanvasChibi(175 + i * 140, 445, 0.95, b);
     });
   } else {
-    // Draw single large featured Chibi Buddy on the left
     drawCanvasChibi(225, 315, 2.1, buddy);
   }
 
-  // Text Content
   const textX = drawAllSeven ? 120 : 390;
   const textY = drawAllSeven ? 165 : 215;
 
-  // Pill Badge
-  ctx.fillStyle = 'rgba(196, 181, 253, 0.25)';
+  ctx.fillStyle = 'rgba(196, 181, 253, 0.28)';
   ctx.beginPath();
   ctx.roundRect(textX, textY - 45, 340, 40, 20);
   ctx.fill();
@@ -1741,22 +1613,18 @@ function downloadChibiNotificationPNG({ filename, title, subtitle, badgeText, bu
   ctx.font = 'bold 20px Poppins, sans-serif';
   ctx.fillText(badgeText, textX + 20, textY - 18);
 
-  // Main Title
   ctx.fillStyle = '#ffffff';
   ctx.font = 'bold 46px Poppins, sans-serif';
   ctx.fillText(title, textX, textY + 48);
 
-  // Subtitle
   ctx.fillStyle = '#cbd5e1';
   ctx.font = '500 26px Poppins, sans-serif';
   ctx.fillText(subtitle, textX, textY + 100);
 
-  // Footer signature
   ctx.fillStyle = '#f9a8d4';
   ctx.font = '600 22px Poppins, sans-serif';
   ctx.fillText('💜 NEET Study Sanctuary • Fighting, Moon! ✨', textX, textY + 150);
 
-  // Trigger Download
   const link = document.createElement('a');
   link.download = filename;
   link.href = canvas.toDataURL('image/png');
@@ -1804,7 +1672,6 @@ function buildPersonalizePanel() {
     accentGrid.appendChild(btn);
   });
 
-  // 4 Repo Banner Upgraders (banner-morning.png, etc. with all 7 Chibis)
   const mainBanners = [
     { file: 'banner-morning.png', label: '☀️ banner-morning.png', title: 'Good Morning, Moon! ☀️', sub: 'Start your NEET study day with 7 Chibi Buddies!', buddy: BTS_WEEK_BUDDIES[4] },
     { file: 'banner-medicine.png', label: '💊 banner-medicine.png', title: 'Medicine & Vitamins Time 💊', sub: 'Take your medicine with water & stay healthy!', buddy: BTS_WEEK_BUDDIES[2] },
@@ -1834,7 +1701,6 @@ function buildPersonalizePanel() {
     mainGrid.appendChild(btn);
   });
 
-  // 7-Day Individual BTS Chibi Member PNG Downloads
   const sevenGrid = $('sevenDayDownloadGrid');
   sevenGrid.innerHTML = '';
   [1, 2, 3, 4, 5, 6, 0].forEach(dIdx => {
