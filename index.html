@@ -7,7 +7,7 @@
   <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#0b1020">
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- OneSignal Web Push SDK: replace 1ca8032a-78c1-44ee-b597-9c84271b6565 with your App ID -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
@@ -20,10 +20,10 @@
 
 <style>
   :root {
-    --accent: #a78bfa;
-    --accent-2: #f472b6;
-    --accent-rgb: 167, 139, 250;
-    --wp-dim: 0.25;
+    --accent: #c4b5fd;
+    --accent-2: #f9a8d4;
+    --accent-rgb: 196, 181, 253;
+    --wp-dim: 0.20;
     --wp-blur: 0px;
   }
 
@@ -32,22 +32,28 @@
     -webkit-tap-highlight-color: transparent;
   }
 
-  html, body {
-    font-family: 'Poppins', sans-serif;
-    min-height: 100vh;
+  html {
     background-color: #0b1020;
-    color: #f1f5f9;
-    overflow-x: hidden;
+    min-height: 100%;
   }
 
-  /* Fixed Full-Screen Wallpaper System */
+  body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: transparent !important;
+    color: #f8fafc;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Fixed Full-Screen Wallpaper System (Visible z-index stack) */
   .wp-fixed {
     position: fixed;
     inset: 0;
-    z-index: -3;
+    z-index: 0;
     pointer-events: none;
     overflow: hidden;
-    background: #0b1020;
+    background-color: #0b1020;
   }
   .wp-layer {
     position: absolute;
@@ -55,45 +61,58 @@
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    transition: opacity 400ms ease;
+    transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1), transform 600ms ease;
     will-change: opacity;
   }
+
+  /* Soft Ambient Dreamy Nebula Glow */
+  .ambient-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.14), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(244, 114, 182, 0.12), transparent 50%);
+  }
+
+  /* Dim & Blur Readability Overlay */
   .wp-overlay {
     position: fixed;
     inset: 0;
-    z-index: -2;
+    z-index: 2;
     pointer-events: none;
-    background-color: rgba(8, 11, 24, var(--wp-dim));
+    background-color: rgba(7, 10, 22, var(--wp-dim));
     backdrop-filter: blur(var(--wp-blur));
     -webkit-backdrop-filter: blur(var(--wp-blur));
     transition: background-color 200ms ease, backdrop-filter 200ms ease, -webkit-backdrop-filter 200ms ease;
   }
 
-  /* Subtle Twinkling Stars Layer (Pure CSS) */
+  /* Pure CSS Twinkling Night Sky Stars */
   .stars-layer {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 3;
     pointer-events: none;
     background-image:
-      radial-gradient(1.5px 1.5px at 12% 18%, rgba(255, 255, 255, 0.75) 50%, transparent 100%),
-      radial-gradient(1px 1px at 28% 62%, rgba(253, 230, 138, 0.65) 50%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 45% 26%, rgba(244, 114, 182, 0.6) 50%, transparent 100%),
-      radial-gradient(2px 2px at 68% 14%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
-      radial-gradient(1px 1px at 82% 48%, rgba(196, 181, 253, 0.7) 50%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 91% 78%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
-      radial-gradient(1px 1px at 19% 84%, rgba(167, 243, 208, 0.55) 50%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 56% 74%, rgba(255, 255, 255, 0.5) 50%, transparent 100%),
-      radial-gradient(1px 1px at 37% 41%, rgba(255, 255, 255, 0.55) 50%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 74% 88%, rgba(251, 207, 232, 0.6) 50%, transparent 100%);
-    animation: twinkle 7s ease-in-out infinite alternate;
-    opacity: 0.75;
+      radial-gradient(1.5px 1.5px at 10% 14%, rgba(255, 255, 255, 0.85) 50%, transparent 100%),
+      radial-gradient(1px 1px at 24% 58%, rgba(254, 240, 138, 0.75) 50%, transparent 100%),
+      radial-gradient(2px 2px at 42% 22%, rgba(249, 168, 212, 0.7) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 66% 12%, rgba(255, 255, 255, 0.8) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 80% 44%, rgba(196, 181, 253, 0.8) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 92% 72%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
+      radial-gradient(1px 1px at 16% 82%, rgba(167, 243, 208, 0.65) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 54% 76%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 34% 38%, rgba(255, 255, 255, 0.65) 50%, transparent 100%),
+      radial-gradient(1.8px 1.8px at 73% 88%, rgba(251, 207, 232, 0.7) 50%, transparent 100%);
+    animation: twinkle 6s ease-in-out infinite alternate;
+    opacity: 0.8;
   }
 
   @keyframes twinkle {
-    0% { opacity: 0.4; transform: translateY(0px); }
-    50% { opacity: 0.85; }
-    100% { opacity: 0.5; transform: translateY(-4px); }
+    0% { opacity: 0.35; transform: translateY(0px); }
+    50% { opacity: 0.9; }
+    100% { opacity: 0.45; transform: translateY(-3px); }
   }
 
   /* Staggered Card Entrance Animation */
@@ -102,7 +121,7 @@
     to { opacity: 1; transform: translateY(0); }
   }
   .stagger-in {
-    animation: fadeSlideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .delay-1 { animation-delay: 60ms; }
   .delay-2 { animation-delay: 120ms; }
@@ -114,67 +133,67 @@
     .wp-layer, .glass, .rem, .tog, .tog::after, .btn { transition: none !important; }
   }
 
-  /* Dreamy Pastel Glassmorphism Cards */
+  /* Calm Dreamy Glassmorphism Cards */
   .glass {
-    background: rgba(20, 26, 46, 0.58);
-    backdrop-filter: blur(20px) saturate(140%);
-    -webkit-backdrop-filter: blur(20px) saturate(140%);
-    border: 1px solid rgba(255, 255, 255, 0.13);
-    border-radius: 1.65rem;
+    background: linear-gradient(145deg, rgba(24, 30, 56, 0.56) 0%, rgba(15, 20, 40, 0.46) 100%);
+    backdrop-filter: blur(22px) saturate(150%);
+    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.75rem;
     box-shadow:
-      0 18px 45px -12px rgba(4, 7, 17, 0.55),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.14);
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      0 20px 50px -14px rgba(4, 7, 20, 0.55),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.16);
+    transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
   }
   .glass-hover:hover {
-    border-color: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.24);
     box-shadow:
-      0 22px 50px -12px rgba(4, 7, 17, 0.65),
-      0 0 28px -8px rgba(var(--accent-rgb), 0.18),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+      0 24px 55px -12px rgba(4, 7, 20, 0.65),
+      0 0 32px -8px rgba(var(--accent-rgb), 0.22),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.22);
   }
 
   /* Time-of-Day Greeting Mood Tints */
   .mood-morning {
     background:
-      radial-gradient(circle at 88% 18%, rgba(251, 191, 36, 0.22), transparent 52%),
-      radial-gradient(circle at 12% 85%, rgba(244, 114, 182, 0.18), transparent 55%),
-      rgba(22, 27, 48, 0.62);
+      radial-gradient(circle at 88% 18%, rgba(253, 186, 116, 0.25), transparent 55%),
+      radial-gradient(circle at 12% 85%, rgba(249, 168, 212, 0.22), transparent 55%),
+      linear-gradient(145deg, rgba(30, 27, 56, 0.60), rgba(19, 23, 45, 0.52));
   }
   .mood-evening {
     background:
-      radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.20), transparent 50%),
-      radial-gradient(circle at 15% 80%, rgba(168, 85, 247, 0.22), transparent 55%),
-      rgba(22, 25, 48, 0.62);
+      radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.24), transparent 52%),
+      radial-gradient(circle at 15% 80%, rgba(192, 132, 252, 0.24), transparent 55%),
+      linear-gradient(145deg, rgba(28, 24, 54, 0.60), rgba(17, 21, 42, 0.52));
   }
   .mood-night {
     background:
-      radial-gradient(circle at 88% 22%, rgba(167, 139, 250, 0.24), transparent 52%),
-      radial-gradient(circle at 15% 85%, rgba(56, 189, 248, 0.14), transparent 55%),
-      rgba(17, 22, 42, 0.66);
+      radial-gradient(circle at 88% 22%, rgba(196, 181, 253, 0.25), transparent 54%),
+      radial-gradient(circle at 15% 85%, rgba(125, 211, 252, 0.16), transparent 55%),
+      linear-gradient(145deg, rgba(22, 26, 52, 0.62), rgba(14, 18, 38, 0.54));
   }
 
   /* Form Fields */
   .field {
-    background: rgba(11, 16, 32, 0.68);
-    border: 1px solid rgba(203, 213, 225, 0.2);
-    border-radius: 0.95rem;
-    padding: 0.7rem 0.95rem;
+    background: rgba(11, 15, 30, 0.62);
+    border: 1px solid rgba(226, 232, 240, 0.18);
+    border-radius: 1rem;
+    padding: 0.72rem 1rem;
     min-height: 44px;
     width: 100%;
     color: #f8fafc;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
-  .field::placeholder { color: rgba(148, 163, 184, 0.65); }
+  .field::placeholder { color: rgba(203, 213, 225, 0.55); }
   .field:focus {
     border-color: var(--accent);
-    background: rgba(15, 23, 42, 0.85);
+    background: rgba(15, 21, 42, 0.82);
     box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.25);
   }
   select.field option { background: #0f172a; color: #f8fafc; }
 
-  /* Focus Rings for Accessibility */
+  /* Visible Focus Rings for Accessibility */
   button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .rem:focus-visible {
     outline: 2px solid var(--accent);
     outline-offset: 2px;
@@ -182,7 +201,7 @@
 
   /* Buttons */
   .btn {
-    border-radius: 1rem;
+    border-radius: 1.05rem;
     padding: 0.75rem 1.35rem;
     min-height: 44px;
     font-weight: 600;
@@ -190,51 +209,51 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    transition: transform 0.15s ease, filter 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.18s ease, filter 0.2s ease, box-shadow 0.2s ease;
   }
   .btn:active { transform: scale(0.97); }
   .btn-primary {
     background: linear-gradient(135deg, var(--accent), var(--accent-2));
     color: #0b1020;
     font-weight: 600;
-    box-shadow: 0 8px 24px -4px rgba(var(--accent-rgb), 0.45);
+    box-shadow: 0 10px 26px -6px rgba(var(--accent-rgb), 0.5);
   }
   .btn-primary:hover {
-    filter: brightness(1.07);
+    filter: brightness(1.06);
     transform: translateY(-1px);
-    box-shadow: 0 12px 28px -4px rgba(var(--accent-rgb), 0.6);
+    box-shadow: 0 14px 30px -6px rgba(var(--accent-rgb), 0.65);
   }
 
   /* Reminder Cards with Individual Pastel Accents */
   .rem {
     cursor: pointer;
     user-select: none;
-    min-height: 76px;
-    transition: transform 0.2s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    min-height: 78px;
+    transition: transform 0.22s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 1.25rem;
-    background: rgba(15, 23, 42, 0.55);
+    border-radius: 1.35rem;
+    background: rgba(13, 19, 38, 0.52);
   }
   .rem:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.24);
+    border-color: rgba(255, 255, 255, 0.25);
   }
-  .rem[data-tag="morning"] { --rem-color: #fcd34d; --rem-bg: rgba(251, 191, 36, 0.14); }
-  .rem[data-tag="medicine"] { --rem-color: #f472b6; --rem-bg: rgba(244, 114, 182, 0.14); }
-  .rem[data-tag="evening"] { --rem-color: #c084fc; --rem-bg: rgba(192, 132, 252, 0.14); }
-  .rem[data-tag="night"] { --rem-color: #818cf8; --rem-bg: rgba(129, 140, 248, 0.15); }
+  .rem[data-tag="morning"] { --rem-color: #fde68a; --rem-bg: rgba(253, 230, 138, 0.15); }
+  .rem[data-tag="medicine"] { --rem-color: #f9a8d4; --rem-bg: rgba(249, 168, 212, 0.15); }
+  .rem[data-tag="evening"] { --rem-color: #d8b4fe; --rem-bg: rgba(216, 180, 254, 0.15); }
+  .rem[data-tag="night"] { --rem-color: #a5b4fc; --rem-bg: rgba(165, 180, 252, 0.16); }
 
   .rem.on {
     border-color: var(--rem-color, var(--accent));
     background: var(--rem-bg, rgba(var(--accent-rgb), 0.18));
-    box-shadow: 0 8px 24px -8px var(--rem-bg, rgba(var(--accent-rgb), 0.3));
+    box-shadow: 0 10px 26px -8px var(--rem-bg, rgba(var(--accent-rgb), 0.32));
   }
   .tog {
-    width: 2.85rem;
+    width: 2.9rem;
     height: 1.6rem;
     border-radius: 999px;
-    background: rgba(51, 65, 85, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(51, 65, 85, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     position: relative;
     transition: background 0.25s ease, border-color 0.25s ease;
     flex-shrink: 0;
@@ -249,23 +268,23 @@
     border-radius: 50%;
     background: #f8fafc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
   .rem.on .tog {
     background: var(--rem-color, var(--accent));
     border-color: transparent;
   }
   .rem.on .tog::after {
-    transform: translateX(1.25rem);
-    background: #0f172a;
+    transform: translateX(1.3rem);
+    background: #0b1020;
   }
 
   /* Subject Chips */
   .subj-chip {
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(15, 23, 42, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.13);
+    background: rgba(13, 19, 38, 0.52);
     border-radius: 999px;
-    padding: 0.4rem 0.8rem;
+    padding: 0.42rem 0.85rem;
     font-size: 0.75rem;
     font-weight: 500;
     color: #cbd5e1;
@@ -280,17 +299,17 @@
     color: #fff;
   }
   .subj-chip.active {
-    background: rgba(var(--accent-rgb), 0.22);
+    background: rgba(var(--accent-rgb), 0.24);
     border-color: var(--accent);
     color: #fff;
-    box-shadow: 0 0 14px -2px rgba(var(--accent-rgb), 0.35);
+    box-shadow: 0 0 16px -2px rgba(var(--accent-rgb), 0.4);
   }
 
-  /* Custom Scrollbar for Log List & Drawer */
+  /* Custom Scrollbar */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.3); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.3); border-radius: 999px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.5); }
+  ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.25); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb { background: rgba(196, 181, 253, 0.3); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(196, 181, 253, 0.5); }
 
   /* Safe-area padding for notched phones */
   .safe-bottom {
@@ -323,70 +342,73 @@
   }
 </style>
 </head>
-<body class="text-slate-100 antialiased selection:bg-purple-400/30 selection:text-purple-100">
+<body class="text-slate-100 antialiased selection:bg-purple-300/30 selection:text-purple-100">
 
-<!-- Fixed Wallpaper Layers (2 layers for smooth ~400ms crossfade) -->
+<!-- Fixed Wallpaper Layers (z-index: 0, above html background, behind content) -->
 <div class="wp-fixed" aria-hidden="true">
   <div id="wpLayerA" class="wp-layer" style="opacity: 1;"></div>
   <div id="wpLayerB" class="wp-layer" style="opacity: 0;"></div>
 </div>
+<!-- Soft Ambient Nebula Glow -->
+<div class="ambient-glow" aria-hidden="true"></div>
 <!-- Dim & Blur Readability Overlay -->
 <div id="wpOverlay" class="wp-overlay" aria-hidden="true"></div>
 <!-- Dreamy Twinkling Stars -->
 <div class="stars-layer" aria-hidden="true"></div>
 
-<!-- Instant Theme Bootstrapper (runs synchronously to prevent flash of default background) -->
+<!-- Instant Theme Bootstrapper (runs synchronously before first paint) -->
 <script>
   window.WP_PRESETS = {
     'moon-night': {
       name: 'Moon Night',
-      css: 'radial-gradient(circle at 82% 16%, rgba(167, 139, 250, 0.35) 0%, transparent 42%), radial-gradient(circle at 18% 22%, rgba(79, 70, 229, 0.32) 0%, transparent 48%), radial-gradient(circle at 50% 90%, rgba(236, 72, 153, 0.18) 0%, transparent 50%), linear-gradient(160deg, #070b19 0%, #111633 52%, #1b1438 100%)'
+      css: 'radial-gradient(circle at 82% 16%, rgba(196, 181, 253, 0.42) 0%, transparent 42%), radial-gradient(circle at 18% 24%, rgba(99, 102, 241, 0.38) 0%, transparent 48%), radial-gradient(circle at 50% 88%, rgba(244, 114, 182, 0.25) 0%, transparent 52%), linear-gradient(160deg, #070b1a 0%, #13183a 50%, #20153d 100%)'
     },
     'lavender-dream': {
       name: 'Lavender Dream',
-      css: 'radial-gradient(circle at 20% 20%, rgba(196, 181, 253, 0.38) 0%, transparent 48%), radial-gradient(circle at 85% 75%, rgba(244, 114, 182, 0.3) 0%, transparent 50%), linear-gradient(145deg, #161233 0%, #2a1f4d 50%, #1e163b 100%)'
+      css: 'radial-gradient(circle at 22% 18%, rgba(216, 180, 254, 0.52) 0%, transparent 48%), radial-gradient(circle at 82% 76%, rgba(249, 168, 212, 0.42) 0%, transparent 52%), linear-gradient(145deg, #1b1438 0%, #34235e 50%, #241945 100%)'
     },
     'sunrise-peach': {
       name: 'Sunrise Peach',
-      css: 'radial-gradient(circle at 80% 22%, rgba(253, 186, 116, 0.38) 0%, transparent 48%), radial-gradient(circle at 22% 78%, rgba(244, 114, 182, 0.32) 0%, transparent 52%), linear-gradient(150deg, #1c1226 0%, #331a38 48%, #3b2032 100%)'
+      css: 'radial-gradient(circle at 80% 20%, rgba(253, 186, 116, 0.52) 0%, transparent 48%), radial-gradient(circle at 20% 78%, rgba(249, 168, 212, 0.45) 0%, transparent 52%), linear-gradient(150deg, #24142e 0%, #422044 48%, #4d263a 100%)'
     },
     'sakura-pink': {
       name: 'Sakura Pink',
-      css: 'radial-gradient(circle at 75% 18%, rgba(251, 207, 232, 0.34) 0%, transparent 45%), radial-gradient(circle at 20% 70%, rgba(216, 180, 254, 0.28) 0%, transparent 50%), linear-gradient(155deg, #1a1025 0%, #2d1836 52%, #1d142b 100%)'
+      css: 'radial-gradient(circle at 78% 18%, rgba(251, 207, 232, 0.48) 0%, transparent 46%), radial-gradient(circle at 22% 72%, rgba(216, 180, 254, 0.40) 0%, transparent 52%), linear-gradient(155deg, #21122e 0%, #3b1d47 52%, #261738 100%)'
     },
     'ocean-mint': {
       name: 'Ocean Mint',
-      css: 'radial-gradient(circle at 82% 20%, rgba(110, 231, 183, 0.30) 0%, transparent 46%), radial-gradient(circle at 18% 75%, rgba(56, 189, 248, 0.28) 0%, transparent 50%), linear-gradient(155deg, #071926 0%, #0f293d 52%, #101e33 100%)'
+      css: 'radial-gradient(circle at 82% 20%, rgba(110, 231, 183, 0.44) 0%, transparent 46%), radial-gradient(circle at 18% 75%, rgba(125, 211, 252, 0.38) 0%, transparent 52%), linear-gradient(155deg, #071f2e 0%, #10354f 52%, #132540 100%)'
     },
     'dusk-orange': {
       name: 'Dusk Orange',
-      css: 'radial-gradient(circle at 85% 15%, rgba(251, 146, 60, 0.35) 0%, transparent 46%), radial-gradient(circle at 25% 75%, rgba(139, 92, 246, 0.32) 0%, transparent 52%), linear-gradient(160deg, #140f29 0%, #2b1738 55%, #1c1226 100%)'
+      css: 'radial-gradient(circle at 84% 16%, rgba(251, 146, 60, 0.48) 0%, transparent 46%), radial-gradient(circle at 24% 76%, rgba(167, 139, 250, 0.42) 0%, transparent 52%), linear-gradient(160deg, #191233 0%, #381d47 54%, #261633 100%)'
     },
     'midnight-forest': {
       name: 'Midnight Forest',
-      css: 'radial-gradient(circle at 78% 22%, rgba(52, 211, 153, 0.24) 0%, transparent 45%), radial-gradient(circle at 22% 80%, rgba(99, 102, 241, 0.22) 0%, transparent 50%), linear-gradient(160deg, #061318 0%, #0d242c 52%, #091321 100%)'
+      css: 'radial-gradient(circle at 78% 22%, rgba(52, 211, 153, 0.36) 0%, transparent 46%), radial-gradient(circle at 22% 80%, rgba(129, 140, 248, 0.32) 0%, transparent 50%), linear-gradient(160deg, #06181f 0%, #0f2f3a 52%, #0b1829 100%)'
     },
     'plain-dark': {
       name: 'Plain Dark',
-      css: 'radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12) 0%, transparent 60%), linear-gradient(180deg, #090d1a 0%, #0b1020 100%)'
+      css: 'radial-gradient(circle at 50% 0%, rgba(148, 163, 184, 0.14) 0%, transparent 60%), linear-gradient(180deg, #080c17 0%, #0b1020 100%)'
     }
   };
 
   window.ACCENT_PRESETS = {
-    lavender: { name: 'Lavender', color: '#a78bfa', color2: '#f472b6', rgb: '167, 139, 250' },
-    sakura:   { name: 'Sakura Pink', color: '#f472b6', color2: '#c084fc', rgb: '244, 114, 182' },
-    peach:    { name: 'Sunrise Peach', color: '#fb923c', color2: '#f472b6', rgb: '251, 146, 60' },
-    mint:     { name: 'Ocean Mint', color: '#34d399', color2: '#38bdf8', rgb: '52, 211, 153' },
-    sky:      { name: 'Celestial Sky', color: '#38bdf8', color2: '#818cf8', rgb: '56, 189, 248' },
-    gold:     { name: 'Starlight Gold', color: '#fbbf24', color2: '#fb7185', rgb: '251, 191, 36' }
+    lavender: { name: 'Soft Lavender', color: '#c4b5fd', color2: '#f9a8d4', rgb: '196, 181, 253' },
+    sakura:   { name: 'Sakura Pink',   color: '#f9a8d4', color2: '#d8b4fe', rgb: '249, 168, 212' },
+    peach:    { name: 'Pastel Peach',  color: '#fdba74', color2: '#f9a8d4', rgb: '253, 186, 116' },
+    mint:     { name: 'Dreamy Mint',   color: '#6ee7b7', color2: '#7dd3fc', rgb: '110, 231, 183' },
+    sky:      { name: 'Moonlit Sky',   color: '#7dd3fc', color2: '#c4b5fd', rgb: '125, 211, 252' },
+    gold:     { name: 'Starlight',     color: '#fde68a', color2: '#fda4af', rgb: '253, 230, 138' }
   };
 
   (function applyInitialTheme() {
+    var layerA = document.getElementById('wpLayerA');
     try {
       var raw = localStorage.getItem('neet_theme');
       var t = raw ? JSON.parse(raw) : {};
-      var presetKey = t.preset || 'moon-night';
-      var dim = typeof t.dim === 'number' ? t.dim : 25;
+      var presetKey = t.preset && window.WP_PRESETS[t.preset] ? t.preset : 'moon-night';
+      var dim = typeof t.dim === 'number' ? t.dim : 20;
       var blur = typeof t.blur === 'number' ? t.blur : 0;
       var accentKey = t.accent && window.ACCENT_PRESETS[t.accent] ? t.accent : 'lavender';
       var acc = window.ACCENT_PRESETS[accentKey];
@@ -398,95 +420,99 @@
       root.style.setProperty('--wp-dim', (dim / 100).toFixed(2));
       root.style.setProperty('--wp-blur', blur + 'px');
 
-      var layerA = document.getElementById('wpLayerA');
       if (t.type === 'custom' && t.customData && t.customData !== '__idb__') {
         layerA.style.backgroundImage = 'url("' + t.customData + '")';
       } else {
-        var preset = window.WP_PRESETS[presetKey] || window.WP_PRESETS['moon-night'];
-        layerA.style.backgroundImage = preset.css;
+        layerA.style.backgroundImage = window.WP_PRESETS[presetKey].css;
       }
     } catch (e) {
-      document.getElementById('wpLayerA').style.backgroundImage = window.WP_PRESETS['moon-night'].css;
+      if (layerA) layerA.style.backgroundImage = window.WP_PRESETS['moon-night'].css;
     }
   })();
 </script>
 
 <!-- Name Modal -->
-<div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 backdrop-blur-md p-4" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
+<div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md p-4" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
   <form id="nameForm" class="glass p-6 sm:p-8 w-full max-w-md space-y-5 border border-white/20">
-    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200">
-      <span>✨ Welcome, Future Doctor</span>
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200 border border-white/10">
+      <span>🌙 Dreamy Night-Sky Sanctuary</span>
     </div>
     <h2 id="nameModalTitle" class="text-xl sm:text-2xl font-bold text-white leading-snug">
       Enter your name to personalize your dashboard
     </h2>
-    <p class="text-xs sm:text-sm text-slate-300">
-      Your study logs, reminders, and custom theme stay right on your device.
+    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      Your study logs, daily reminders, and custom wallpaper stay safely on your device.
     </p>
-    <input id="nameInput" class="field" placeholder="Your name (e.g. Aarav)" maxlength="30" required>
+    <input id="nameInput" class="field" placeholder="Your name (e.g. Moon)" maxlength="30" required>
     <button type="submit" class="btn btn-primary w-full">Continue to Dashboard ✨</button>
   </form>
 </div>
 
-<!-- Main Dashboard Container -->
-<main class="max-w-[1100px] mx-auto px-4 pt-5 sm:px-6 sm:pt-8 safe-bottom space-y-6">
+<!-- Main Dashboard Container (z-10 so it sits cleanly above the wallpaper layers) -->
+<main class="relative z-10 max-w-[1100px] mx-auto px-4 pt-5 sm:px-6 sm:pt-8 safe-bottom space-y-6">
 
-  <!-- Top Bar: App Identity + Study Streak Badge -->
+  <!-- Top Bar: App Identity + Streak + Quick Wallpaper Button -->
   <header class="flex flex-wrap items-center justify-between gap-3 stagger-in">
     <div class="flex items-center gap-3">
-      <div class="w-10 h-10 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shadow-inner overflow-hidden">
+      <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-md">
         <img src="/icon-192.png" alt="" class="w-7 h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
-        <span class="hidden text-lg" aria-hidden="true">🩺</span>
+        <span class="hidden text-xl" aria-hidden="true">🌙</span>
       </div>
       <div>
-        <span class="text-xs uppercase tracking-widest text-purple-200/80 font-semibold block">NEET Prep Companion</span>
-        <span class="text-sm font-medium text-slate-300">Calm Night-Sky Workspace</span>
+        <span class="text-[11px] uppercase tracking-widest text-purple-200/90 font-semibold block">NEET Study Sanctuary</span>
+        <span class="text-sm font-medium text-slate-200">Calm Night-Sky Workspace</span>
       </div>
     </div>
 
     <div class="flex items-center gap-2.5">
       <!-- Daily Study Streak Badge -->
-      <div id="streakBadge" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-amber-400/15 border border-amber-300/30 text-amber-200 text-xs sm:text-sm font-semibold shadow-sm" title="Consecutive days you have logged study hours">
+      <div id="streakBadge" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-amber-300/15 border border-amber-200/30 text-amber-100 text-xs sm:text-sm font-semibold shadow-sm backdrop-blur-md" title="Consecutive days you have logged study hours">
         <span class="text-base" aria-hidden="true">🔥</span>
         <span><span id="streakCount">0</span> Day Streak</span>
       </div>
+
+      <!-- Quick Top Personalize Button -->
+      <button id="topThemeBtn" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-medium text-white transition backdrop-blur-md min-h-[38px]" aria-label="Change wallpaper and theme">
+        <span aria-hidden="true">🎨</span>
+        <span class="hidden sm:inline">Wallpaper</span>
+      </button>
     </div>
   </header>
 
   <!-- Greeting Banner -->
   <section id="greetingSection" class="glass glass-hover mood-night p-6 sm:p-8 relative overflow-hidden stagger-in delay-1">
-    <!-- Decorative Night Moon SVG / Site Moon Asset -->
-    <div class="pointer-events-none select-none absolute -right-6 -top-6 sm:right-6 sm:top-6 opacity-30 sm:opacity-45" aria-hidden="true">
-      <img src="/moon.png" alt="" class="w-28 h-28 sm:w-32 sm:h-32 object-contain drop-shadow-[0_0_25px_rgba(253,230,138,0.45)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
-      <svg class="hidden w-28 h-28 sm:w-32 sm:h-32 text-amber-200 drop-shadow-[0_0_24px_rgba(253,224,71,0.35)]" viewBox="0 0 100 100" fill="currentColor">
+    <!-- Decorative Night Moon -->
+    <div class="pointer-events-none select-none absolute -right-4 -top-4 sm:right-6 sm:top-5 opacity-40 sm:opacity-60" aria-hidden="true">
+      <img src="/moon.png" alt="" class="w-28 h-28 sm:w-32 sm:h-32 object-contain drop-shadow-[0_0_28px_rgba(253,230,138,0.5)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
+      <svg class="hidden w-28 h-28 sm:w-32 sm:h-32 text-amber-100 drop-shadow-[0_0_28px_rgba(253,230,138,0.45)]" viewBox="0 0 100 100" fill="currentColor">
         <path d="M66.5 68.5C47.5 68.5 32 53 32 34c0-8.6 3.1-16.5 8.3-22.5C23.5 14.9 11 29.8 11 47.7 11 68.3 27.7 85 48.3 85c16.2 0 30-10.3 35.2-24.8-5.2 5.2-12.2 8.3-20 8.3z"/>
-        <circle cx="75" cy="24" r="2" opacity="0.8"/>
-        <circle cx="84" cy="38" r="1.4" opacity="0.6"/>
-        <circle cx="62" cy="16" r="1.2" opacity="0.7"/>
+        <circle cx="75" cy="24" r="2" opacity="0.85"/>
+        <circle cx="84" cy="38" r="1.4" opacity="0.65"/>
+        <circle cx="62" cy="16" r="1.2" opacity="0.75"/>
       </svg>
     </div>
 
     <div class="relative z-10 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-      <div class="space-y-1.5 max-w-2xl">
-        <div class="inline-flex items-center gap-2 text-xs font-medium text-purple-200/90 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+      <div class="space-y-2 max-w-2xl">
+        <div class="inline-flex items-center gap-2 text-xs font-medium text-purple-100 bg-white/10 px-3 py-1 rounded-full border border-white/15">
           <span id="timeBadgeIcon">🌙</span>
-          <span id="liveClock">Today's Study Sanctuary</span>
+          <span id="liveClock">Peaceful Study Session</span>
         </div>
         <h1 id="greeting" class="text-2xl sm:text-4xl font-bold text-white leading-tight tracking-tight pt-1"></h1>
-        <p id="greetSub" class="text-slate-300 text-sm sm:text-base"></p>
+        <p id="greetSub" class="text-slate-200/90 text-sm sm:text-base"></p>
       </div>
 
-      <button id="changeName" type="button" class="self-start text-xs sm:text-sm text-slate-300 hover:text-white bg-white/10 hover:bg-white/15 border border-white/15 rounded-xl px-3.5 py-2 transition shrink-0 min-h-[40px]">
+      <button id="changeName" type="button" class="self-start text-xs sm:text-sm text-slate-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15 rounded-xl px-3.5 py-2 transition shrink-0 min-h-[40px]">
         ✏️ Change name
       </button>
     </div>
 
     <!-- Rotating Motivational Quote Bar -->
     <div class="relative z-10 mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
-      <p class="text-xs sm:text-sm text-purple-100/90 italic leading-relaxed">
+      <p class="text-xs sm:text-sm text-purple-100/95 italic leading-relaxed">
         “<span id="quoteText">Small daily improvements over time lead to stunning results.</span>”
       </p>
-      <button id="nextQuoteBtn" type="button" class="shrink-0 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 flex items-center justify-center text-slate-200 transition" aria-label="Next motivational quote" title="New quote">
+      <button id="nextQuoteBtn" type="button" class="shrink-0 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-slate-100 transition" aria-label="Next motivational quote" title="New quote">
         ↻
       </button>
     </div>
@@ -509,7 +535,7 @@
             <span>🔔</span>
             <span>Your Daily Reminders</span>
           </h2>
-          <span class="text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-300 border border-white/10">Tap to toggle</span>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-white/10 text-slate-200 border border-white/10">Tap card to toggle</span>
         </div>
         <p class="text-sm text-slate-300 mt-1">
           Choose which reminders you want. You'll only get the ones you switch on.
@@ -518,40 +544,40 @@
         <div id="remGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5">
           <!-- Morning -->
           <div class="rem p-4 flex items-center gap-3.5" data-tag="morning" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-amber-400/15 border border-amber-300/25 flex items-center justify-center text-2xl shrink-0">☀️</div>
+            <div class="w-12 h-12 rounded-2xl bg-amber-300/15 border border-amber-200/25 flex items-center justify-center text-2xl shrink-0">☀️</div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Good Morning</div>
-              <div class="text-xs text-slate-300/90 leading-snug">A fresh start to your study day</div>
+              <div class="text-xs text-slate-300 leading-snug">A fresh start to your study day</div>
             </div>
             <div class="tog" aria-hidden="true"></div>
           </div>
 
           <!-- Medicine -->
           <div class="rem p-4 flex items-center gap-3.5" data-tag="medicine" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-pink-400/15 border border-pink-300/25 flex items-center justify-center text-2xl shrink-0">💊</div>
+            <div class="w-12 h-12 rounded-2xl bg-pink-300/15 border border-pink-200/25 flex items-center justify-center text-2xl shrink-0">💊</div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Medicine Reminder</div>
-              <div class="text-xs text-slate-300/90 leading-snug">Medicine &amp; multivitamins with water</div>
+              <div class="text-xs text-slate-300 leading-snug">Medicine &amp; multivitamins with water</div>
             </div>
             <div class="tog" aria-hidden="true"></div>
           </div>
 
           <!-- Evening -->
           <div class="rem p-4 flex items-center gap-3.5" data-tag="evening" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-purple-400/15 border border-purple-300/25 flex items-center justify-center text-2xl shrink-0">📚</div>
+            <div class="w-12 h-12 rounded-2xl bg-purple-300/15 border border-purple-200/25 flex items-center justify-center text-2xl shrink-0">📚</div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Good Evening</div>
-              <div class="text-xs text-slate-300/90 leading-snug">Evening study &amp; revision nudge</div>
+              <div class="text-xs text-slate-300 leading-snug">Evening study &amp; revision nudge</div>
             </div>
             <div class="tog" aria-hidden="true"></div>
           </div>
 
           <!-- Night -->
           <div class="rem p-4 flex items-center gap-3.5" data-tag="night" role="switch" aria-checked="false" tabindex="0">
-            <div class="w-12 h-12 rounded-2xl bg-indigo-400/15 border border-indigo-300/25 flex items-center justify-center text-2xl shrink-0">🌙</div>
+            <div class="w-12 h-12 rounded-2xl bg-indigo-300/15 border border-indigo-200/25 flex items-center justify-center text-2xl shrink-0">🌙</div>
             <div class="flex-1 min-w-0">
               <div class="font-semibold text-white text-sm sm:text-base">Good Night</div>
-              <div class="text-xs text-slate-300/90 leading-snug">Wind down and rest well</div>
+              <div class="text-xs text-slate-300 leading-snug">Wind down and rest well</div>
             </div>
             <div class="tog" aria-hidden="true"></div>
           </div>
@@ -572,7 +598,7 @@
             <span>⏳</span>
             <span>Exam Countdown</span>
           </h2>
-          <select id="examSelect" aria-label="Select Target NEET Exam Year" class="field !w-auto !py-2 !px-3 text-xs sm:text-sm font-medium">
+          <select id="examSelect" aria-label="Select Target NEET Exam Year" class="field !w-auto !py-2 !px-3.5 text-xs sm:text-sm font-medium">
             <option value="2027-05-02">NEET 2027 (May 2, 2027)</option>
             <option value="2028-05-07">NEET 2028 (May 7, 2028)</option>
           </select>
@@ -580,21 +606,21 @@
 
         <!-- 4 Rounded Countdown Tiles -->
         <div class="grid grid-cols-4 gap-2.5 sm:gap-3 text-center">
-          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
-            <div id="cdD" class="text-2xl sm:text-3xl font-bold text-purple-300 tabular-nums">0</div>
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Days</div>
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdD" class="text-2xl sm:text-3xl font-bold text-purple-200 tabular-nums">0</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Days</div>
           </div>
-          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
-            <div id="cdH" class="text-2xl sm:text-3xl font-bold text-pink-300 tabular-nums">00</div>
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Hours</div>
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdH" class="text-2xl sm:text-3xl font-bold text-pink-200 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Hours</div>
           </div>
-          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
-            <div id="cdM" class="text-2xl sm:text-3xl font-bold text-sky-300 tabular-nums">00</div>
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Minutes</div>
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdM" class="text-2xl sm:text-3xl font-bold text-sky-200 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Minutes</div>
           </div>
-          <div class="rounded-2xl bg-slate-950/55 border border-white/10 py-4 px-1 shadow-inner">
-            <div id="cdS" class="text-2xl sm:text-3xl font-bold text-emerald-300 tabular-nums">00</div>
-            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-400 mt-1 font-medium">Seconds</div>
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdS" class="text-2xl sm:text-3xl font-bold text-emerald-200 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Seconds</div>
           </div>
         </div>
       </div>
@@ -603,20 +629,20 @@
       <div class="mt-6 pt-4 border-t border-white/10 flex items-center gap-4">
         <div class="relative w-14 h-14 shrink-0 flex items-center justify-center">
           <svg class="w-14 h-14 -rotate-90" viewBox="0 0 60 60">
-            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="5"></circle>
+            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="5"></circle>
             <circle id="cdRing" cx="30" cy="30" r="24" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="30"></circle>
           </svg>
           <span id="cdPctText" class="absolute text-[11px] font-bold text-white">0%</span>
         </div>
         <div class="flex-1 min-w-0">
           <div class="flex items-center justify-between text-xs mb-1.5">
-            <span class="text-slate-300 font-medium">Final-Year Countdown Window</span>
+            <span class="text-slate-200 font-medium">Year Prep Window</span>
             <span id="cdTargetLabel" class="text-purple-200 font-semibold">May 2, 2027</span>
           </div>
-          <div class="w-full h-2 rounded-full bg-slate-950/70 overflow-hidden border border-white/10">
+          <div class="w-full h-2 rounded-full bg-slate-950/60 overflow-hidden border border-white/10">
             <div id="cdBar" class="h-full rounded-full transition-all duration-500" style="width: 50%; background: linear-gradient(90deg, var(--accent), var(--accent-2));"></div>
           </div>
-          <p class="text-[11px] text-slate-400 mt-1.5">Every focused hour today compounds into exam-day confidence.</p>
+          <p class="text-[11px] text-slate-300/80 mt-1.5">Calm consistency every night builds unstoppable confidence.</p>
         </div>
       </div>
     </section>
@@ -632,23 +658,23 @@
         <span>📝</span>
         <span>Log Today's Study</span>
       </h2>
-      <p class="text-xs text-slate-300 mb-4">Record your deep-work blocks to build your daily streak.</p>
+      <p class="text-xs text-slate-300 mb-4">Record your peaceful focus hours to grow your streak.</p>
 
       <form id="logForm" class="space-y-4">
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label for="logDate" class="text-xs font-medium text-slate-300 block mb-1">Date</label>
+            <label for="logDate" class="text-xs font-medium text-slate-200 block mb-1">Date</label>
             <input id="logDate" type="date" class="field text-sm" required>
           </div>
           <div>
-            <label for="logHours" class="text-xs font-medium text-slate-300 block mb-1">Hours studied</label>
+            <label for="logHours" class="text-xs font-medium text-slate-200 block mb-1">Hours studied</label>
             <input id="logHours" type="number" step="0.25" min="0.25" max="24" class="field text-sm" placeholder="e.g. 3.5" required>
           </div>
         </div>
 
         <!-- Subject Chips + Synced Select -->
         <div>
-          <label for="logSubject" class="text-xs font-medium text-slate-300 block mb-1.5">Subject</label>
+          <label for="logSubject" class="text-xs font-medium text-slate-200 block mb-1.5">Subject</label>
           <div id="subjectChips" class="flex flex-wrap gap-1.5 mb-2.5" role="group" aria-label="Quick select subject">
             <button type="button" class="subj-chip active" data-subj="Physics">⚛️ Physics</button>
             <button type="button" class="subj-chip" data-subj="Chemistry">🧪 Chemistry</button>
@@ -670,11 +696,11 @@
         </div>
 
         <div>
-          <label for="logNotes" class="text-xs font-medium text-slate-300 block mb-1">Notes</label>
+          <label for="logNotes" class="text-xs font-medium text-slate-200 block mb-1">Notes</label>
           <textarea id="logNotes" rows="3" class="field text-sm" placeholder="Chapters covered, NCERT pages, PYQs solved..."></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary w-full">Save Study Log ✨</button>
+        <button type="submit" class="btn btn-primary w-full">Save Log ✨</button>
       </form>
     </section>
 
@@ -682,13 +708,13 @@
     <section class="glass glass-hover p-6 sm:p-7 md:col-span-7 flex flex-col justify-between space-y-6">
 
       <!-- Last 7 Days Bar Chart (Pure CSS/SVG) -->
-      <div class="rounded-2xl bg-slate-950/50 border border-white/10 p-4">
+      <div class="rounded-2xl bg-slate-950/45 border border-white/12 p-4">
         <div class="flex items-center justify-between mb-3">
           <div>
             <h3 class="text-sm font-semibold text-white">📊 Last 7 Days</h3>
-            <p class="text-[11px] text-slate-400">Daily study hours overview</p>
+            <p class="text-[11px] text-slate-300">Daily study hours overview</p>
           </div>
-          <div class="text-xs text-slate-300">
+          <div class="text-xs text-slate-200">
             7-Day Total: <span id="weekHours" class="font-bold text-purple-200">0</span> h
           </div>
         </div>
@@ -702,13 +728,13 @@
             <span>📚</span>
             <span>Study History</span>
           </h2>
-          <div class="text-sm text-slate-300 bg-white/10 px-3 py-1 rounded-full border border-white/10">
+          <div class="text-sm text-slate-200 bg-white/10 px-3.5 py-1 rounded-full border border-white/15">
             Total: <span id="totalHours" class="text-purple-200 font-bold">0</span> h
           </div>
         </div>
 
         <ul id="logList" class="space-y-2.5 max-h-80 overflow-y-auto pr-1"></ul>
-        <div id="emptyMsg" class="rounded-2xl border border-dashed border-white/15 bg-slate-950/35 p-6 text-center text-sm text-slate-400">
+        <div id="emptyMsg" class="rounded-2xl border border-dashed border-white/15 bg-slate-950/35 p-6 text-center text-sm text-slate-300">
           🌙 No logs yet. Add your first study session to start your streak!
         </div>
       </div>
@@ -719,24 +745,24 @@
 </main>
 
 <!-- Floating "🎨 Personalize" Button -->
-<button id="openThemeBtn" type="button" class="fixed fab-safe z-40 btn btn-primary rounded-full shadow-2xl px-5 py-3 text-sm font-semibold border border-white/25" aria-label="Open wallpaper and theme personalization panel">
+<button id="openThemeBtn" type="button" class="fixed fab-safe z-40 btn btn-primary rounded-full shadow-2xl px-5 py-3 text-sm font-semibold border border-white/30" aria-label="Open wallpaper and theme personalization panel">
   <span aria-hidden="true">🎨</span>
   <span>Personalize</span>
 </button>
 
 <!-- Slide-Up Wallpaper & Theme Drawer -->
-<div id="themeBackdrop" class="hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm transition-opacity duration-300 opacity-0" aria-hidden="true"></div>
-<aside id="themeDrawer" class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-h-[88vh] flex flex-col rounded-t-[2rem] border-t border-white/20 bg-slate-900/95 backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto" role="dialog" aria-modal="true" aria-labelledby="themeDrawerTitle">
-  <!-- Drag Handle & Header -->
-  <div class="pt-3 pb-2 px-6 flex items-center justify-between border-b border-white/10">
+<div id="themeBackdrop" class="hidden fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-sm transition-opacity duration-300 opacity-0" aria-hidden="true"></div>
+<aside id="themeDrawer" class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-h-[88vh] flex flex-col rounded-t-[2rem] border-t border-white/25 bg-slate-900/90 backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto" role="dialog" aria-modal="true" aria-labelledby="themeDrawerTitle">
+  <!-- Header -->
+  <div class="pt-4 pb-3 px-6 flex items-center justify-between border-b border-white/15">
     <div class="flex items-center gap-2.5">
       <span class="text-xl" aria-hidden="true">🎨</span>
       <div>
         <h2 id="themeDrawerTitle" class="text-base sm:text-lg font-bold text-white">Personalize Your Sanctuary</h2>
-        <p class="text-xs text-slate-400">Custom wallpaper, dim/blur overlay &amp; pastel accents</p>
+        <p class="text-xs text-slate-300">Custom wallpaper, dim/blur overlay &amp; soft pastel accents</p>
       </div>
     </div>
-    <button id="closeThemeBtn" type="button" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-200 transition" aria-label="Close personalization panel">
+    <button id="closeThemeBtn" type="button" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-100 transition" aria-label="Close personalization panel">
       ✕
     </button>
   </div>
@@ -747,15 +773,15 @@
     <!-- 1. Upload Custom Wallpaper -->
     <div>
       <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2">
-        1. Upload Your Wallpaper
+        1. Upload Your Own Wallpaper
       </label>
       <div class="flex flex-col sm:flex-row sm:items-center gap-3">
-        <label for="wpUploadInput" class="btn bg-white/10 hover:bg-white/15 border border-white/20 text-white text-sm cursor-pointer w-full sm:w-auto">
-          <span>🖼️ Choose Image (Auto-Resized)</span>
+        <label for="wpUploadInput" class="btn bg-white/10 hover:bg-white/20 border border-white/25 text-white text-sm cursor-pointer w-full sm:w-auto">
+          <span>🖼️ Upload Photo (Phone / PC)</span>
         </label>
         <input id="wpUploadInput" type="file" accept="image/*" class="hidden">
-        <span id="wpUploadStatus" class="text-xs text-slate-300" aria-live="polite">
-          Resized to max 1280px JPEG so it loads instantly.
+        <span id="wpUploadStatus" class="text-xs text-slate-200" aria-live="polite">
+          Auto-resized to 1280px JPEG so it saves instantly.
         </span>
       </div>
     </div>
@@ -763,19 +789,19 @@
     <!-- 2. Built-in Dreamy Gradient Wallpapers -->
     <div>
       <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
-        2. Built-In Night &amp; Pastel Wallpapers
+        2. Dreamy Night &amp; Pastel Wallpapers (Tap to Apply)
       </label>
       <div id="presetGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
     </div>
 
     <!-- 3. Readability Sliders: Dim & Blur -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-2xl bg-slate-950/60 border border-white/10 p-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-2xl bg-slate-950/55 border border-white/15 p-4">
       <div>
         <div class="flex justify-between text-xs font-medium mb-2">
           <label for="dimSlider" class="text-slate-200">Wallpaper Dim</label>
-          <span id="dimValue" class="text-purple-200 font-semibold">25%</span>
+          <span id="dimValue" class="text-purple-200 font-semibold">20%</span>
         </div>
-        <input id="dimSlider" type="range" min="0" max="80" step="1" value="25" class="w-full">
+        <input id="dimSlider" type="range" min="0" max="80" step="1" value="20" class="w-full">
       </div>
       <div>
         <div class="flex justify-between text-xs font-medium mb-2">
@@ -789,13 +815,13 @@
     <!-- 4. Pastel Accent Colour Picker -->
     <div>
       <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
-        3. Pastel Accent Colour
+        3. Soft Pastel Accent Colour
       </label>
-      <div id="accentGrid" class="flex flex-wrap gap-3"></div>
+      <div id="accentGrid" class="flex flex-wrap gap-2.5"></div>
     </div>
 
     <!-- 5. Reset to Default -->
-    <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-3">
+    <div class="pt-2 border-t border-white/15 flex items-center justify-between gap-3">
       <button id="resetThemeBtn" type="button" class="btn bg-rose-500/15 hover:bg-rose-500/25 border border-rose-400/30 text-rose-200 text-xs sm:text-sm">
         ↺ Reset to Default
       </button>
@@ -847,19 +873,19 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({
 /* ---------- Motivational Quotes (~15 short quotes) ---------- */
 const QUOTES = [
   "Small daily improvements over time lead to stunning results.",
-  "Every page of NCERT you master today is a rank booster tomorrow.",
+  "Every page of NCERT you master tonight is a rank booster in May.",
   "Consistency beats intensity when intensity doesn't last.",
-  "Your future patients are counting on the discipline you build tonight.",
+  "Your future patients are counting on the discipline you build today.",
   "Don't count the chapters left; make the chapter in front of you count.",
   "Calm mind, steady breathing, one concept at a time.",
-  "Dream of the stethoscope, work on the syllabus.",
-  "Rest is not idleness; good sleep locks in your memory.",
-  "One mock test mistake learned now is four marks saved in May.",
-  "Revision turns short-term effort into long-term confidence.",
+  "Dream of the stethoscope, fall in love with the syllabus.",
+  "Rest is not idleness; peaceful sleep locks in your memory.",
+  "One mock test mistake learned now is four marks saved on exam day.",
+  "Revision turns short-term effort into effortless recall.",
   "Focus on progress, not perfection. Show up for yourself today.",
-  "Hard topics become easy once you stop avoiding them.",
-  "Little by little, a little becomes a lot.",
-  "Stay patient and trust your daily study routine.",
+  "Hard topics become easy once you sit with them patiently.",
+  "Little by little, a quiet night of study becomes a massive lead.",
+  "Stay patient and trust your daily routine.",
   "The quiet night hours belong to those building their dreams."
 ];
 let quoteIndex = new Date().getDate() % QUOTES.length;
@@ -873,13 +899,13 @@ $('nextQuoteBtn').addEventListener('click', () => {
 });
 renderQuote();
 
-/* ---------- Name & Time-of-Day Greeting ---------- */
+/* ---------- Name & Time-of-Day Greeting (Default fallback: Moon) ---------- */
 let userName = store.get('neet_name', '');
 
 function renderGreeting() {
   const now = new Date();
   const h = now.getHours();
-  const n = esc(userName || 'Aspirant');
+  const n = esc(userName || 'Moon');
   let text, sub, badgeIcon;
 
   const sec = $('greetingSection');
@@ -888,18 +914,18 @@ function renderGreeting() {
 
   if (h >= 5 && h < 12) {
     text = `Good Morning, ${n}! ☀️`;
-    sub = 'A fresh day to move closer to your goal.';
+    sub = 'A fresh, calm morning to move closer to your dream medical college.';
     badgeIcon = '☀️';
     sec.classList.add('mood-morning');
     $('morningCard').classList.remove('hidden');
   } else if (h >= 12 && h < 20) {
     text = `Good Afternoon / Evening, ${n}! 📚`;
-    sub = 'Keep the momentum going.';
+    sub = 'Keep the gentle momentum going, one chapter at a time.';
     badgeIcon = '🌇';
     sec.classList.add('mood-evening');
   } else {
     text = `Good Night, ${n}! 🌙 Rest well for tomorrow's study session.`;
-    sub = 'Sleep is part of your preparation.';
+    sub = 'Peaceful sleep is part of your preparation.';
     badgeIcon = '🌙';
     sec.classList.add('mood-night');
   }
@@ -1040,7 +1066,6 @@ function tick() {
   $('cdM').textContent = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
   $('cdS').textContent = String(s % 60).padStart(2, '0');
 
-  // Progress bar & ring: proportion of a 365-day prep cycle remaining
   const pctLeft = Math.min(100, Math.max(0, Math.round((days / 365) * 100)));
   $('cdPctText').textContent = `${pctLeft}%`;
   $('cdBar').style.width = `${pctLeft}%`;
@@ -1060,16 +1085,15 @@ $('logDate').value = getLocalDateStr();
 let logs = store.get('neet_logs', []);
 
 const SUBJECT_STYLES = {
-  'Physics': 'bg-sky-400/15 text-sky-200 border-sky-300/30',
-  'Chemistry': 'bg-amber-400/15 text-amber-200 border-amber-300/30',
-  'Biology (Botany)': 'bg-emerald-400/15 text-emerald-200 border-emerald-300/30',
-  'Biology (Zoology)': 'bg-pink-400/15 text-pink-200 border-pink-300/30',
-  'Mock Test': 'bg-purple-400/15 text-purple-200 border-purple-300/30',
-  'Revision': 'bg-indigo-400/15 text-indigo-200 border-indigo-300/30',
-  'Other': 'bg-slate-400/15 text-slate-200 border-slate-300/30'
+  'Physics': 'bg-sky-300/15 text-sky-200 border-sky-200/30',
+  'Chemistry': 'bg-amber-300/15 text-amber-200 border-amber-200/30',
+  'Biology (Botany)': 'bg-emerald-300/15 text-emerald-200 border-emerald-200/30',
+  'Biology (Zoology)': 'bg-pink-300/15 text-pink-200 border-pink-200/30',
+  'Mock Test': 'bg-purple-300/15 text-purple-200 border-purple-200/30',
+  'Revision': 'bg-indigo-300/15 text-indigo-200 border-indigo-200/30',
+  'Other': 'bg-slate-300/15 text-slate-200 border-slate-200/30'
 };
 
-// Keep Subject Chips and <select id="logSubject"> in sync
 function syncSubjectChips(selectedValue) {
   document.querySelectorAll('.subj-chip').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.subj === selectedValue);
@@ -1085,7 +1109,6 @@ $('logSubject').addEventListener('change', () => {
   syncSubjectChips($('logSubject').value);
 });
 
-// Calculate consecutive daily study streak
 function computeStreak() {
   const loggedDates = new Set(logs.map(l => l.date));
   if (!loggedDates.size) return 0;
@@ -1094,7 +1117,6 @@ function computeStreak() {
   const cursor = new Date();
   const todayStr = getLocalDateStr(cursor);
 
-  // If today isn't logged yet, start checking from yesterday
   if (!loggedDates.has(todayStr)) {
     cursor.setDate(cursor.getDate() - 1);
     if (!loggedDates.has(getLocalDateStr(cursor))) return 0;
@@ -1107,7 +1129,6 @@ function computeStreak() {
   return streak;
 }
 
-// Render 7-Day CSS/SVG Bar Chart
 function renderWeeklyChart() {
   const container = $('weeklyChart');
   container.innerHTML = '';
@@ -1135,11 +1156,11 @@ function renderWeeklyChart() {
     col.className = 'flex flex-col items-center justify-end h-full gap-1';
     col.innerHTML = `
       <span class="text-[10px] font-semibold ${d.total > 0 ? 'text-purple-200' : 'text-slate-500'}">${d.total > 0 ? d.total + 'h' : ''}</span>
-      <div class="w-full max-w-[28px] bg-slate-900/80 rounded-t-lg h-16 flex items-end overflow-hidden border border-white/5">
+      <div class="w-full max-w-[28px] bg-slate-900/75 rounded-t-lg h-16 flex items-end overflow-hidden border border-white/10">
         <div class="w-full rounded-t-lg transition-all duration-500"
              style="height: ${heightPct}%; background: ${d.total > 0 ? 'linear-gradient(180deg, var(--accent), var(--accent-2))' : 'rgba(148,163,184,0.15)'};"></div>
       </div>
-      <span class="text-[10px] ${isToday ? 'text-white font-bold' : 'text-slate-400'}">${esc(d.label)}</span>
+      <span class="text-[10px] ${isToday ? 'text-white font-bold' : 'text-slate-300'}">${esc(d.label)}</span>
     `;
     container.appendChild(col);
   });
@@ -1153,15 +1174,15 @@ function renderLogs() {
     .forEach(l => {
       const badgeStyle = SUBJECT_STYLES[l.subject] || SUBJECT_STYLES['Other'];
       const li = document.createElement('li');
-      li.className = 'rounded-2xl bg-slate-950/55 border border-white/10 p-3.5 flex gap-3 justify-between items-start hover:border-white/20 transition';
+      li.className = 'rounded-2xl bg-slate-950/50 border border-white/12 p-3.5 flex gap-3 justify-between items-start hover:border-white/25 transition';
       li.innerHTML = `
         <div class="min-w-0 flex-1">
           <div class="flex flex-wrap items-center gap-2">
             <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full border ${badgeStyle}">${esc(l.subject)}</span>
             <span class="text-xs font-bold text-purple-200 bg-white/10 px-2 py-0.5 rounded-md">${esc(l.hours)} h</span>
-            <span class="text-xs text-slate-400">${esc(l.date)}</span>
+            <span class="text-xs text-slate-300">${esc(l.date)}</span>
           </div>
-          ${l.notes ? `<div class="text-sm text-slate-200 mt-2 break-words leading-relaxed">${esc(l.notes)}</div>` : ''}
+          ${l.notes ? `<div class="text-sm text-slate-100 mt-2 break-words leading-relaxed">${esc(l.notes)}</div>` : ''}
         </div>
         <button data-id="${l.id}" type="button" class="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-300 hover:bg-rose-500/15 flex items-center justify-center text-sm transition shrink-0" aria-label="Delete study log">✕</button>
       `;
@@ -1205,7 +1226,7 @@ const DEFAULT_THEME = {
   type: 'preset',
   preset: 'moon-night',
   customData: null,
-  dim: 25,
+  dim: 20,
   blur: 0,
   accent: 'lavender'
 };
@@ -1256,7 +1277,7 @@ const idbWallpaper = {
   }
 };
 
-// Crossfade wallpaper smoothly (~400ms)
+// Smooth ~400ms crossfade between wallpaper layers
 function crossfadeWallpaper(cssBackgroundValue) {
   const layerA = $('wpLayerA');
   const layerB = $('wpLayerB');
@@ -1291,32 +1312,31 @@ function applyThemeControlsUI() {
     const isSelected = currentTheme.type === 'preset' && btn.dataset.presetKey === currentTheme.preset;
     btn.classList.toggle('ring-2', isSelected);
     btn.classList.toggle('ring-white', isSelected);
+    btn.classList.toggle('scale-[1.03]', isSelected);
   });
 
   document.querySelectorAll('[data-accent-key]').forEach(btn => {
     const isSelected = btn.dataset.accentKey === currentTheme.accent;
     btn.classList.toggle('ring-2', isSelected);
     btn.classList.toggle('ring-white', isSelected);
-    btn.classList.toggle('scale-110', isSelected);
+    btn.classList.toggle('scale-105', isSelected);
   });
 }
 
 function saveThemeState() {
   const ok = store.set('neet_theme', currentTheme);
   if (!ok && currentTheme.type === 'custom' && currentTheme.customData && currentTheme.customData !== '__idb__') {
-    // Fallback to IndexedDB if localStorage quota is exceeded
     const rawData = currentTheme.customData;
     idbWallpaper.save(rawData).then(() => {
       currentTheme.customData = '__idb__';
       store.set('neet_theme', currentTheme);
-      $('wpUploadStatus').textContent = '✨ Saved wallpaper via IndexedDB (browser storage fallback).';
+      $('wpUploadStatus').textContent = '✨ Saved wallpaper via IndexedDB fallback.';
     }).catch(() => {
       $('wpUploadStatus').textContent = '⚠️ Storage full. Wallpaper applied for this session.';
     });
   }
 }
 
-// Build Preset Wallpaper Tiles & Accent Swatches
 function buildPersonalizePanel() {
   const presetGrid = $('presetGrid');
   presetGrid.innerHTML = '';
@@ -1324,9 +1344,9 @@ function buildPersonalizePanel() {
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.dataset.presetKey = key;
-    btn.className = 'group relative h-16 rounded-2xl border border-white/15 overflow-hidden text-left p-2.5 flex items-end transition hover:scale-[1.02]';
+    btn.className = 'group relative h-16 rounded-2xl border border-white/20 overflow-hidden text-left p-2.5 flex items-end transition hover:scale-[1.03] shadow-md';
     btn.style.backgroundImage = p.css;
-    btn.innerHTML = `<span class="text-[11px] font-semibold text-white drop-shadow">${esc(p.name)}</span>`;
+    btn.innerHTML = `<span class="text-[11px] font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">${esc(p.name)}</span>`;
     btn.addEventListener('click', () => {
       currentTheme.type = 'preset';
       currentTheme.preset = key;
@@ -1334,7 +1354,7 @@ function buildPersonalizePanel() {
       crossfadeWallpaper(p.css);
       applyThemeControlsUI();
       saveThemeState();
-      $('wpUploadStatus').textContent = `Selected "${p.name}" preset.`;
+      $('wpUploadStatus').textContent = `✨ Applied "${p.name}" wallpaper.`;
     });
     presetGrid.appendChild(btn);
   });
@@ -1347,7 +1367,7 @@ function buildPersonalizePanel() {
     btn.dataset.accentKey = key;
     btn.className = 'px-3.5 py-2 rounded-full border border-white/20 flex items-center gap-2 text-xs font-semibold text-white bg-slate-950/60 transition';
     btn.innerHTML = `
-      <span class="w-4 h-4 rounded-full inline-block" style="background: linear-gradient(135deg, ${acc.color}, ${acc.color2});"></span>
+      <span class="w-4 h-4 rounded-full inline-block shadow-sm" style="background: linear-gradient(135deg, ${acc.color}, ${acc.color2});"></span>
       <span>${esc(acc.name)}</span>
     `;
     btn.addEventListener('click', () => {
@@ -1384,7 +1404,7 @@ function resizeImageFile(file) {
         canvas.height = height;
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
-        resolve(canvas.toDataURL('image/jpeg', 0.8));
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
       };
       img.src = reader.result;
     };
@@ -1395,7 +1415,7 @@ function resizeImageFile(file) {
 $('wpUploadInput').addEventListener('change', async e => {
   const file = e.target.files && e.target.files[0];
   if (!file) return;
-  $('wpUploadStatus').textContent = '⏳ Optimizing wallpaper...';
+  $('wpUploadStatus').textContent = '⏳ Optimizing your wallpaper...';
   try {
     const dataUrl = await resizeImageFile(file);
     currentTheme.type = 'custom';
@@ -1404,7 +1424,7 @@ $('wpUploadInput').addEventListener('change', async e => {
     applyThemeControlsUI();
     saveThemeState();
     if (currentTheme.customData !== '__idb__') {
-      $('wpUploadStatus').textContent = '✅ Custom wallpaper saved!';
+      $('wpUploadStatus').textContent = '✅ Custom wallpaper applied & saved!';
     }
   } catch {
     $('wpUploadStatus').textContent = '⚠️ Could not process image. Please try another photo.';
@@ -1431,10 +1451,9 @@ $('resetThemeBtn').addEventListener('click', () => {
   idbWallpaper.clear();
   crossfadeWallpaper(window.WP_PRESETS['moon-night'].css);
   applyThemeControlsUI();
-  $('wpUploadStatus').textContent = 'Reset to default Moon Night theme.';
+  $('wpUploadStatus').textContent = '↺ Reset to default Moon Night theme.';
 });
 
-// Drawer open/close animations
 function openThemeDrawer() {
   $('themeBackdrop').classList.remove('hidden');
   requestAnimationFrame(() => {
@@ -1449,6 +1468,7 @@ function closeThemeDrawer() {
 }
 
 $('openThemeBtn').addEventListener('click', openThemeDrawer);
+$('topThemeBtn').addEventListener('click', openThemeDrawer);
 $('closeThemeBtn').addEventListener('click', closeThemeDrawer);
 $('doneThemeBtn').addEventListener('click', closeThemeDrawer);
 $('themeBackdrop').addEventListener('click', closeThemeDrawer);
