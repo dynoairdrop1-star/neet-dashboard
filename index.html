@@ -9,7 +9,7 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- OneSignal Web Push SDK -->
+<!-- OneSignal Web Push SDK: replace 1ca8032a-78c1-44ee-b597-9c84271b6565 with your App ID -->
 <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
 <script>
   window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -23,311 +23,1617 @@
     --accent: #c4b5fd;
     --accent-2: #f9a8d4;
     --accent-rgb: 196, 181, 253;
-    --wp-dim: 0.16;
+    --wp-dim: 0.18;
     --wp-blur: 0px;
   }
 
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  html { background-color: #0b1020; min-height: 100%; }
-  body { font-family: 'Poppins', sans-serif; min-height: 100vh; background: transparent !important; color: #f8fafc; overflow-x: hidden; position: relative; }
-
-  .wp-fixed { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; background-color: #0b1020; }
-  .wp-layer { position: absolute; inset: 0; background-size: cover; background-position: center; background-repeat: no-repeat; transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1); will-change: opacity; }
-  .ambient-glow { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.18), transparent 45%), radial-gradient(circle at 85% 80%, rgba(244, 114, 182, 0.16), transparent 50%); }
-  .wp-overlay { position: fixed; inset: 0; z-index: 2; pointer-events: none; background-color: rgba(7, 10, 22, var(--wp-dim)); backdrop-filter: blur(var(--wp-blur)); -webkit-backdrop-filter: blur(var(--wp-blur)); transition: background-color 200ms ease; }
-  
-  .stars-layer {
-    position: fixed; inset: 0; z-index: 3; pointer-events: none;
-    background-image: radial-gradient(1.5px 1.5px at 10% 14%, rgba(255, 255, 255, 0.9) 50%, transparent 100%), radial-gradient(1.2px 1.2px at 24% 58%, rgba(254, 240, 138, 0.8) 50%, transparent 100%), radial-gradient(2px 2px at 42% 22%, rgba(249, 168, 212, 0.75) 50%, transparent 100%), radial-gradient(1.4px 1.4px at 80% 44%, rgba(196, 181, 253, 0.9) 50%, transparent 100%);
-    animation: twinkle 6s ease-in-out infinite alternate; opacity: 0.9;
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
   }
-  @keyframes twinkle { 0% { opacity: 0.4; } 100% { opacity: 0.95; } }
 
-  @keyframes floatBob { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-5px); } }
-  .chibi-float { animation: floatBob 3.4s ease-in-out infinite; }
+  html {
+    background-color: #0b1020;
+    min-height: 100%;
+  }
 
+  body {
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    background: transparent !important;
+    color: #f8fafc;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* 1. Fixed Full-Screen Wallpaper Layer */
+  .wp-fixed {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background-color: #0b1020;
+  }
+  .wp-layer {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: opacity 420ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity;
+  }
+
+  /* 2. Soft Ambient Dreamy Glow */
+  .ambient-glow {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 15% 15%, rgba(var(--accent-rgb), 0.16), transparent 45%),
+      radial-gradient(circle at 85% 80%, rgba(244, 114, 182, 0.14), transparent 50%);
+  }
+
+  /* 3. Dim & Blur Readability Overlay */
+  .wp-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background-color: rgba(7, 10, 22, var(--wp-dim));
+    backdrop-filter: blur(var(--wp-blur));
+    -webkit-backdrop-filter: blur(var(--wp-blur));
+    transition: background-color 200ms ease, backdrop-filter 200ms ease, -webkit-backdrop-filter 200ms ease;
+  }
+
+  /* 4. Twinkling Night Sky Stars + Shooting Stars */
+  .sky-effects {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .stars-twinkle {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 8% 12%, rgba(255, 255, 255, 0.9) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 22% 52%, rgba(254, 240, 138, 0.85) 50%, transparent 100%),
+      radial-gradient(2px 2px at 38% 18%, rgba(249, 168, 212, 0.8) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 62% 10%, rgba(255, 255, 255, 0.9) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 78% 38%, rgba(196, 181, 253, 0.9) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 90% 68%, rgba(255, 255, 255, 0.8) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 14% 80%, rgba(167, 243, 208, 0.75) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 52% 72%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 32% 34%, rgba(255, 255, 255, 0.75) 50%, transparent 100%),
+      radial-gradient(1.8px 1.8px at 74% 86%, rgba(251, 207, 232, 0.8) 50%, transparent 100%),
+      radial-gradient(1.2px 1.2px at 88% 22%, rgba(254, 240, 138, 0.8) 50%, transparent 100%),
+      radial-gradient(1.4px 1.4px at 46% 48%, rgba(196, 181, 253, 0.75) 50%, transparent 100%);
+    animation: twinkle 5s ease-in-out infinite alternate;
+  }
+
+  @keyframes twinkle {
+    0% { opacity: 0.4; transform: translateY(0px); }
+    50% { opacity: 0.95; }
+    100% { opacity: 0.55; transform: translateY(-3px); }
+  }
+
+  /* Shooting Stars Animation */
+  .shooting-star {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(-45deg, rgba(255, 255, 255, 0.95), rgba(196, 181, 253, 0.5), rgba(255, 255, 255, 0));
+    border-radius: 999px;
+    filter: drop-shadow(0 0 6px rgba(216, 180, 254, 0.9));
+    opacity: 0;
+    transform: rotate(-35deg);
+    animation: shoot 9s ease-in-out infinite;
+  }
+  .shooting-star::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    width: 4px;
+    height: 4px;
+    background: #ffffff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px #f9a8d4;
+  }
+  .star-1 { top: 8%; left: 75%; width: 110px; animation-delay: 1s; animation-duration: 8s; }
+  .star-2 { top: 18%; left: 45%; width: 85px; animation-delay: 4.5s; animation-duration: 10s; }
+  .star-3 { top: 6%; left: 92%; width: 130px; animation-delay: 7.5s; animation-duration: 11s; }
+  .star-4 { top: 32%; left: 85%; width: 95px; animation-delay: 12s; animation-duration: 9.5s; }
+
+  @keyframes shoot {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, 0, 0) rotate(-35deg) scaleX(0.4);
+    }
+    4% {
+      opacity: 1;
+      transform: translate3d(-60px, 42px, 0) rotate(-35deg) scaleX(1);
+    }
+    12%, 100% {
+      opacity: 0;
+      transform: translate3d(-420px, 294px, 0) rotate(-35deg) scaleX(0.2);
+    }
+  }
+
+  @keyframes floatBob {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+  }
+  .chibi-float {
+    animation: floatBob 3.5s ease-in-out infinite;
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .stagger-in {
+    animation: fadeSlideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .delay-1 { animation-delay: 60ms; }
+  .delay-2 { animation-delay: 120ms; }
+  .delay-3 { animation-delay: 180ms; }
+  .delay-4 { animation-delay: 240ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stars-twinkle, .shooting-star, .stagger-in, .chibi-float { animation: none !important; }
+    .wp-layer, .glass, .rem, .tog, .tog::after, .btn { transition: none !important; }
+  }
+
+  /* Calm Dreamy Glassmorphism Cards */
   .glass {
-    background: linear-gradient(145deg, rgba(28, 32, 64, 0.60) 0%, rgba(15, 20, 42, 0.48) 100%);
-    backdrop-filter: blur(24px) saturate(160%); -webkit-backdrop-filter: blur(24px) saturate(160%);
-    border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 1.85rem;
-    box-shadow: 0 22px 55px -14px rgba(4, 7, 22, 0.58), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+    background: linear-gradient(145deg, rgba(26, 30, 60, 0.58) 0%, rgba(14, 19, 40, 0.48) 100%);
+    backdrop-filter: blur(22px) saturate(155%);
+    -webkit-backdrop-filter: blur(22px) saturate(155%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 1.85rem;
+    box-shadow:
+      0 22px 55px -14px rgba(4, 7, 22, 0.58),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
   }
-  .glass-hover:hover { border-color: rgba(255, 255, 255, 0.28); box-shadow: 0 26px 60px -12px rgba(4, 7, 22, 0.68), 0 0 35px -8px rgba(var(--accent-rgb), 0.28); }
+  .glass-hover:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow:
+      0 26px 60px -12px rgba(4, 7, 22, 0.68),
+      0 0 35px -8px rgba(var(--accent-rgb), 0.28),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.26);
+  }
 
-  .mood-morning { background: radial-gradient(circle at 88% 18%, rgba(253, 186, 116, 0.28), transparent 55%), linear-gradient(145deg, rgba(34, 28, 62, 0.64), rgba(19, 23, 45, 0.52)); }
-  .mood-evening { background: radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.26), transparent 52%), linear-gradient(145deg, rgba(32, 25, 60, 0.64), rgba(17, 21, 42, 0.52)); }
-  .mood-night { background: radial-gradient(circle at 88% 22%, rgba(196, 181, 253, 0.3), transparent 54%), linear-gradient(145deg, rgba(25, 26, 58, 0.66), rgba(14, 17, 38, 0.56)); }
+  /* Time-of-Day Greeting Mood Tints */
+  .mood-morning {
+    background:
+      radial-gradient(circle at 88% 18%, rgba(253, 186, 116, 0.28), transparent 55%),
+      radial-gradient(circle at 12% 85%, rgba(249, 168, 212, 0.24), transparent 55%),
+      linear-gradient(145deg, rgba(34, 28, 62, 0.64), rgba(19, 23, 45, 0.52));
+  }
+  .mood-evening {
+    background:
+      radial-gradient(circle at 88% 20%, rgba(251, 146, 60, 0.25), transparent 52%),
+      radial-gradient(circle at 15% 80%, rgba(192, 132, 252, 0.26), transparent 55%),
+      linear-gradient(145deg, rgba(32, 25, 60, 0.64), rgba(17, 21, 42, 0.52));
+  }
+  .mood-night {
+    background:
+      radial-gradient(circle at 88% 22%, rgba(196, 181, 253, 0.28), transparent 54%),
+      radial-gradient(circle at 15% 85%, rgba(244, 114, 182, 0.18), transparent 55%),
+      linear-gradient(145deg, rgba(24, 26, 58, 0.66), rgba(14, 17, 38, 0.56));
+  }
 
-  .field { background: rgba(11, 15, 30, 0.65); border: 1px solid rgba(226, 232, 240, 0.2); border-radius: 1rem; padding: 0.72rem 1rem; min-height: 44px; width: 100%; color: #f8fafc; outline: none; }
-  .field:focus { border-color: var(--accent); background: rgba(15, 21, 42, 0.85); box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.28); }
+  /* Form Fields */
+  .field {
+    background: rgba(11, 15, 30, 0.65);
+    border: 1px solid rgba(226, 232, 240, 0.2);
+    border-radius: 1rem;
+    padding: 0.72rem 1rem;
+    min-height: 44px;
+    width: 100%;
+    color: #f8fafc;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  }
+  .field::placeholder { color: rgba(203, 213, 225, 0.55); }
+  .field:focus {
+    border-color: var(--accent);
+    background: rgba(15, 21, 42, 0.85);
+    box-shadow: 0 0 0 3px rgba(var(--accent-rgb), 0.28);
+  }
   select.field option { background: #0f172a; color: #f8fafc; }
 
-  .btn { border-radius: 1.1rem; padding: 0.75rem 1.35rem; min-height: 44px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; transition: transform 0.18s ease; }
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .rem:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* Buttons */
+  .btn {
+    border-radius: 1.1rem;
+    padding: 0.75rem 1.35rem;
+    min-height: 44px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: transform 0.18s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  }
   .btn:active { transform: scale(0.97); }
-  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b1020; font-weight: 600; box-shadow: 0 10px 28px -6px rgba(var(--accent-rgb), 0.55); }
-  .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0b1020;
+    font-weight: 600;
+    box-shadow: 0 10px 28px -6px rgba(var(--accent-rgb), 0.55);
+  }
+  .btn-primary:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px -6px rgba(var(--accent-rgb), 0.7);
+  }
 
-  .rem { cursor: pointer; user-select: none; min-height: 82px; transition: transform 0.22s ease; border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 1.4rem; background: rgba(13, 19, 38, 0.56); }
-  .rem:hover { transform: translateY(-2px); border-color: rgba(255, 255, 255, 0.28); }
-  .rem.on { border-color: var(--accent); background: rgba(var(--accent-rgb), 0.2); }
-  .tog { width: 2.9rem; height: 1.6rem; border-radius: 999px; background: rgba(51, 65, 85, 0.85); position: relative; transition: background 0.25s ease; flex-shrink: 0; }
-  .tog::after { content: ''; position: absolute; top: 2px; left: 2px; width: 1.2rem; height: 1.2rem; border-radius: 50%; background: #f8fafc; transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1); }
-  .rem.on .tog { background: var(--accent); }
-  .rem.on .tog::after { transform: translateX(1.3rem); background: #0b1020; }
+  /* Reminder Cards */
+  .rem {
+    cursor: pointer;
+    user-select: none;
+    min-height: 82px;
+    transition: transform 0.22s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.4rem;
+    background: rgba(13, 19, 38, 0.56);
+  }
+  .rem:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.28);
+  }
+  .rem[data-tag="morning"] { --rem-color: #fde68a; --rem-bg: rgba(253, 230, 138, 0.16); }
+  .rem[data-tag="medicine"] { --rem-color: #f9a8d4; --rem-bg: rgba(249, 168, 212, 0.16); }
+  .rem[data-tag="evening"] { --rem-color: #d8b4fe; --rem-bg: rgba(216, 180, 254, 0.16); }
+  .rem[data-tag="night"] { --rem-color: #a5b4fc; --rem-bg: rgba(165, 180, 252, 0.18); }
 
-  .subj-chip { border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(13, 19, 38, 0.55); border-radius: 999px; padding: 0.42rem 0.88rem; font-size: 0.75rem; font-weight: 500; color: #cbd5e1; display: inline-flex; align-items: center; gap: 0.35rem; }
-  .subj-chip.active { background: rgba(var(--accent-rgb), 0.26); border-color: var(--accent); color: #fff; }
+  .rem.on {
+    border-color: var(--rem-color, var(--accent));
+    background: var(--rem-bg, rgba(var(--accent-rgb), 0.2));
+    box-shadow: 0 10px 28px -8px var(--rem-bg, rgba(var(--accent-rgb), 0.35));
+  }
+  .tog {
+    width: 2.9rem;
+    height: 1.6rem;
+    border-radius: 999px;
+    background: rgba(51, 65, 85, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    transition: background 0.25s ease, border-color 0.25s ease;
+    flex-shrink: 0;
+  }
+  .tog::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: #f8fafc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .rem.on .tog {
+    background: var(--rem-color, var(--accent));
+    border-color: transparent;
+  }
+  .rem.on .tog::after {
+    transform: translateX(1.3rem);
+    background: #0b1020;
+  }
 
-  .day-pill { padding: 0.3rem 0.68rem; border-radius: 999px; font-size: 0.7rem; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(15, 23, 42, 0.5); color: #cbd5e1; }
-  .day-pill.active { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b1020; border-color: transparent; }
+  /* Subject Chips */
+  .subj-chip {
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(13, 19, 38, 0.55);
+    border-radius: 999px;
+    padding: 0.42rem 0.88rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #cbd5e1;
+    transition: all 0.18s ease;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+  .subj-chip:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+  }
+  .subj-chip.active {
+    background: rgba(var(--accent-rgb), 0.26);
+    border-color: var(--accent);
+    color: #fff;
+    box-shadow: 0 0 16px -2px rgba(var(--accent-rgb), 0.45);
+  }
+
+  /* 7-Day Switcher Pills */
+  .day-pill {
+    padding: 0.28rem 0.62rem;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(15, 23, 42, 0.55);
+    color: #cbd5e1;
+    transition: all 0.18s ease;
+  }
+  .day-pill:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+  }
+  .day-pill.active {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0b1020;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(var(--accent-rgb), 0.45);
+  }
 
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.25); border-radius: 999px; }
   ::-webkit-scrollbar-thumb { background: rgba(196, 181, 253, 0.35); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(196, 181, 253, 0.55); }
 
-  .safe-bottom { padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px)); }
-  .fab-safe { bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)); right: 1.25rem; }
+  .safe-bottom {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  }
+  .fab-safe {
+    bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    right: 1.25rem;
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 999px;
+    background: rgba(51, 65, 85, 0.85);
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    border: 2px solid #0b1020;
+    box-shadow: 0 0 10px rgba(var(--accent-rgb), 0.6);
+  }
 </style>
 </head>
-<body class="text-slate-100 antialiased">
+<body class="text-slate-100 antialiased selection:bg-purple-300/30 selection:text-purple-100">
 
+<!-- Fixed Wallpaper Layers -->
 <div class="wp-fixed" aria-hidden="true">
   <div id="wpLayerA" class="wp-layer" style="opacity: 1;"></div>
   <div id="wpLayerB" class="wp-layer" style="opacity: 0;"></div>
 </div>
+<!-- Soft Ambient Glow -->
 <div class="ambient-glow" aria-hidden="true"></div>
+<!-- Dim & Blur Overlay -->
 <div id="wpOverlay" class="wp-overlay" aria-hidden="true"></div>
-<div class="stars-layer" aria-hidden="true"></div>
+<!-- Twinkling Stars & Shooting Stars -->
+<div class="sky-effects" aria-hidden="true">
+  <div class="stars-twinkle"></div>
+  <span class="shooting-star star-1"></span>
+  <span class="shooting-star star-2"></span>
+  <span class="shooting-star star-3"></span>
+  <span class="shooting-star star-4"></span>
+</div>
 
+<!-- Instant Theme Bootstrapper (No Flash on Load) -->
 <script>
   window.WP_PRESETS = {
-    'moon-night': { name: 'Borahae Moon Night', css: 'radial-gradient(circle at 82% 16%, rgba(196, 181, 253, 0.48) 0%, transparent 42%), linear-gradient(160deg, #070b1a 0%, #15163a 50%, #241440 100%)' }
+    'moon-night': {
+      name: 'Borahae Moon Night',
+      css: 'radial-gradient(circle at 82% 16%, rgba(196, 181, 253, 0.48) 0%, transparent 42%), radial-gradient(circle at 18% 24%, rgba(139, 92, 246, 0.4) 0%, transparent 48%), radial-gradient(circle at 50% 88%, rgba(244, 114, 182, 0.3) 0%, transparent 52%), linear-gradient(160deg, #070b1a 0%, #15163a 50%, #241440 100%)'
+    },
+    'lavender-dream': {
+      name: 'Lavender Dream',
+      css: 'radial-gradient(circle at 22% 18%, rgba(216, 180, 254, 0.55) 0%, transparent 48%), radial-gradient(circle at 82% 76%, rgba(249, 168, 212, 0.45) 0%, transparent 52%), linear-gradient(145deg, #1b1438 0%, #34235e 50%, #241945 100%)'
+    },
+    'sunrise-peach': {
+      name: 'Sunrise Peach',
+      css: 'radial-gradient(circle at 80% 20%, rgba(253, 186, 116, 0.55) 0%, transparent 48%), radial-gradient(circle at 20% 78%, rgba(249, 168, 212, 0.48) 0%, transparent 52%), linear-gradient(150deg, #24142e 0%, #422044 48%, #4d263a 100%)'
+    },
+    'sakura-pink': {
+      name: 'Sakura Pink',
+      css: 'radial-gradient(circle at 78% 18%, rgba(251, 207, 232, 0.5) 0%, transparent 46%), radial-gradient(circle at 22% 72%, rgba(216, 180, 254, 0.42) 0%, transparent 52%), linear-gradient(155deg, #21122e 0%, #3b1d47 52%, #261738 100%)'
+    },
+    'ocean-mint': {
+      name: 'Ocean Mint',
+      css: 'radial-gradient(circle at 82% 20%, rgba(110, 231, 183, 0.46) 0%, transparent 46%), radial-gradient(circle at 18% 75%, rgba(125, 211, 252, 0.4) 0%, transparent 52%), linear-gradient(155deg, #071f2e 0%, #10354f 52%, #132540 100%)'
+    },
+    'dusk-orange': {
+      name: 'Dusk Orange',
+      css: 'radial-gradient(circle at 84% 16%, rgba(251, 146, 60, 0.5) 0%, transparent 46%), radial-gradient(circle at 24% 76%, rgba(167, 139, 250, 0.45) 0%, transparent 52%), linear-gradient(160deg, #191233 0%, #381d47 54%, #261633 100%)'
+    },
+    'midnight-forest': {
+      name: 'Midnight Forest',
+      css: 'radial-gradient(circle at 78% 22%, rgba(52, 211, 153, 0.38) 0%, transparent 46%), radial-gradient(circle at 22% 80%, rgba(129, 140, 248, 0.35) 0%, transparent 50%), linear-gradient(160deg, #06181f 0%, #0f2f3a 52%, #0b1829 100%)'
+    },
+    'plain-dark': {
+      name: 'Plain Dark',
+      css: 'radial-gradient(circle at 50% 0%, rgba(148, 163, 184, 0.15) 0%, transparent 60%), linear-gradient(180deg, #080c17 0%, #0b1020 100%)'
+    }
   };
+
   window.ACCENT_PRESETS = {
-    lavender: { name: 'Borahae Purple', color: '#c4b5fd', color2: '#f9a8d4', rgb: '196, 181, 253' }
+    lavender: { name: 'Borahae Purple', color: '#c4b5fd', color2: '#f9a8d4', rgb: '196, 181, 253' },
+    sakura:   { name: 'Sakura Pink',    color: '#f9a8d4', color2: '#d8b4fe', rgb: '249, 168, 212' },
+    peach:    { name: 'Pastel Peach',   color: '#fdba74', color2: '#f9a8d4', rgb: '253, 186, 116' },
+    mint:     { name: 'Yoongi Mint',    color: '#6ee7b7', color2: '#7dd3fc', rgb: '110, 231, 183' },
+    sky:      { name: 'Koya Sky',       color: '#7dd3fc', color2: '#c4b5fd', rgb: '125, 211, 252' },
+    gold:     { name: 'Golden Star',    color: '#fde68a', color2: '#fda4af', rgb: '253, 230, 138' }
   };
+
   (function applyInitialTheme() {
     var layerA = document.getElementById('wpLayerA');
     try {
       var raw = localStorage.getItem('neet_theme');
       var t = raw ? JSON.parse(raw) : {};
-      layerA.style.backgroundImage = window.WP_PRESETS[t.preset]?.css || window.WP_PRESETS['moon-night'].css;
-    } catch(e) { layerA.style.backgroundImage = window.WP_PRESETS['moon-night'].css; }
+      var presetKey = t.preset && window.WP_PRESETS[t.preset] ? t.preset : 'moon-night';
+      var dim = typeof t.dim === 'number' ? t.dim : 18;
+      var blur = typeof t.blur === 'number' ? t.blur : 0;
+      var accentKey = t.accent && window.ACCENT_PRESETS[t.accent] ? t.accent : 'lavender';
+      var acc = window.ACCENT_PRESETS[accentKey];
+
+      var root = document.documentElement;
+      root.style.setProperty('--accent', acc.color);
+      root.style.setProperty('--accent-2', acc.color2);
+      root.style.setProperty('--accent-rgb', acc.rgb);
+      root.style.setProperty('--wp-dim', (dim / 100).toFixed(2));
+      root.style.setProperty('--wp-blur', blur + 'px');
+
+      if (t.type === 'custom' && t.customData && t.customData !== '__idb__') {
+        layerA.style.backgroundImage = 'url("' + t.customData + '")';
+      } else {
+        layerA.style.backgroundImage = window.WP_PRESETS[presetKey].css;
+      }
+    } catch (e) {
+      if (layerA) layerA.style.backgroundImage = window.WP_PRESETS['moon-night'].css;
+    }
   })();
 </script>
 
-<div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md p-4">
+<!-- Name Modal -->
+<div id="nameModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/70 backdrop-blur-md p-4" role="dialog" aria-modal="true" aria-labelledby="nameModalTitle">
   <form id="nameForm" class="glass p-6 sm:p-8 w-full max-w-md space-y-5 border border-white/20">
-    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200 border border-white/15"><span>💜 Borahae Sanctuary</span></div>
-    <h2 class="text-xl sm:text-2xl font-bold text-white leading-snug">Enter your name to personalize your dashboard</h2>
+    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-xs font-medium text-purple-200 border border-white/15">
+      <span>💜 Dreamy Borahae Sanctuary</span>
+    </div>
+    <h2 id="nameModalTitle" class="text-xl sm:text-2xl font-bold text-white leading-snug">
+      Enter your name to personalize your dashboard
+    </h2>
+    <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+      Your study logs, daily reminders, and custom wallpaper stay safely on your device.
+    </p>
     <input id="nameInput" class="field" placeholder="Your name (e.g. Moon)" maxlength="30" required>
     <button type="submit" class="btn btn-primary w-full">Continue to Dashboard 💜</button>
   </form>
 </div>
 
+<!-- Main Dashboard Container -->
 <main class="relative z-10 max-w-[1100px] mx-auto px-4 pt-5 sm:px-6 sm:pt-8 safe-bottom space-y-6">
-  <header class="flex flex-wrap items-center justify-between gap-3">
+
+  <!-- Top Bar -->
+  <header class="flex flex-wrap items-center justify-between gap-3 stagger-in">
     <div class="flex items-center gap-3">
-      <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/18 flex items-center justify-center backdrop-blur-md"><span class="text-xl">💜</span></div>
+      <div class="w-11 h-11 rounded-2xl bg-white/10 border border-white/18 flex items-center justify-center shadow-inner overflow-hidden backdrop-blur-md">
+        <img src="/icon-192.png" alt="" class="w-7 h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
+        <span class="hidden text-xl" aria-hidden="true">💜</span>
+      </div>
       <div>
-        <span class="text-[11px] uppercase tracking-widest text-purple-200 font-semibold block">NEET Study Sanctuary</span>
-        <span class="text-sm font-medium text-slate-200">Moon &amp; Chibi Companion</span>
+        <span class="text-[11px] uppercase tracking-widest text-purple-200/90 font-semibold block">NEET Study Sanctuary</span>
+        <span class="text-sm font-medium text-slate-200">Calm Starry Night Workspace</span>
       </div>
     </div>
+
     <div class="flex items-center gap-2.5">
-      <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-amber-300/15 border border-amber-200/30 text-amber-100 text-xs sm:text-sm font-semibold shadow-sm">
-        <span>🔥</span><span><span id="streakCount">0</span> Day Streak</span>
+      <!-- Daily Study Streak Badge -->
+      <div id="streakBadge" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-amber-300/15 border border-amber-200/30 text-amber-100 text-xs sm:text-sm font-semibold shadow-sm backdrop-blur-md" title="Consecutive days you have logged study hours">
+        <span class="text-base" aria-hidden="true">🔥</span>
+        <span><span id="streakCount">0</span> Day Streak</span>
       </div>
-      <button id="topThemeBtn" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs text-white transition backdrop-blur-md min-h-[38px]">🎨 Wallpaper</button>
+
+      <!-- Quick Top Personalize Button -->
+      <button id="topThemeBtn" type="button" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs sm:text-sm font-medium text-white transition backdrop-blur-md min-h-[38px]" aria-label="Change wallpaper and theme">
+        <span aria-hidden="true">🎨</span>
+        <span class="hidden sm:inline">Wallpaper</span>
+      </button>
     </div>
   </header>
 
-  <!-- Greeting Banner + Custom Uploaded PNG Chibi Widget -->
-  <section id="greetingSection" class="glass glass-hover mood-night p-6 sm:p-8 relative overflow-hidden">
+  <!-- Greeting Banner + Your Uploaded GitHub Chibi PNG Card -->
+  <section id="greetingSection" class="glass glass-hover mood-night p-6 sm:p-8 relative overflow-hidden stagger-in delay-1">
+    <!-- Decorative Night Moon -->
+    <div class="pointer-events-none select-none absolute -right-4 -top-4 sm:right-6 sm:top-5 opacity-40 sm:opacity-55" aria-hidden="true">
+      <img src="/moon.png" alt="" class="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_0_28px_rgba(253,230,138,0.55)]" onerror="this.style.display='none';this.nextElementSibling.classList.remove('hidden');">
+      <svg class="hidden w-24 h-24 sm:w-28 sm:h-28 text-amber-100 drop-shadow-[0_0_28px_rgba(253,230,138,0.5)]" viewBox="0 0 100 100" fill="currentColor">
+        <path d="M66.5 68.5C47.5 68.5 32 53 32 34c0-8.6 3.1-16.5 8.3-22.5C23.5 14.9 11 29.8 11 47.7 11 68.3 27.7 85 48.3 85c16.2 0 30-10.3 35.2-24.8-5.2 5.2-12.2 8.3-20 8.3z"/>
+      </svg>
+    </div>
+
     <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
       <div class="space-y-2 max-w-xl">
         <div class="flex flex-wrap items-center gap-2">
           <div class="inline-flex items-center gap-2 text-xs font-medium text-purple-100 bg-white/10 px-3 py-1 rounded-full border border-white/15">
-            <span id="timeBadgeIcon">🌙</span><span id="liveClock">Peaceful Study Session</span>
+            <span id="timeBadgeIcon">🌙</span>
+            <span id="liveClock">Peaceful Study Session</span>
           </div>
-          <button id="changeName" type="button" class="text-xs text-purple-200 hover:text-white bg-white/10 px-3 py-1 rounded-full border border-white/15">✏️ Change name</button>
+          <button id="changeName" type="button" class="text-xs text-purple-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15 rounded-full px-3 py-1 transition">
+            ✏️ Change name
+          </button>
         </div>
-        <h1 id="greeting" class="text-2xl sm:text-4xl font-bold text-white leading-tight"></h1>
-        <p id="greetSub" class="text-slate-200 text-sm sm:text-base"></p>
+        <h1 id="greeting" class="text-2xl sm:text-4xl font-bold text-white leading-tight tracking-tight pt-1"></h1>
+        <p id="greetSub" class="text-slate-200/90 text-sm sm:text-base"></p>
       </div>
 
-      <!-- Uploaded PNG Chibi Companion Widget -->
-      <div class="rounded-3xl bg-slate-950/50 border border-white/18 p-4 flex items-center gap-4 backdrop-blur-xl shadow-xl max-w-md w-full lg:w-auto">
-        <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0 chibi-float overflow-hidden">
-          <img src="/bts-fri.png" alt="BTS Chibi" class="w-full h-full object-cover" onerror="this.src='/icon-192.png'">
+      <!-- Your Uploaded GitHub PNG Companion Widget (Uses /bts-fri.png & /bts-*.png directly) -->
+      <div class="rounded-3xl bg-slate-950/55 border border-white/20 p-4 flex items-center gap-4 backdrop-blur-xl shadow-2xl max-w-md w-full lg:w-auto">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-pink-200/10 border border-white/25 flex items-center justify-center shrink-0 chibi-float shadow-md overflow-hidden">
+          <img id="todayChibiImg" src="/bts-fri.png" alt="BTS Study Buddy" class="w-full h-full object-cover">
         </div>
         <div class="min-w-0 flex-1">
-          <span class="text-[10px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full bg-purple-400/25 text-purple-100 border border-purple-300/30">BTS COMPANION</span>
-          <div class="text-sm sm:text-base font-bold text-white mt-1 truncate">7 Dreams, 1 Team 💜</div>
-          <p class="text-xs text-purple-100 leading-snug mt-0.5">Keep pushing forward, Moon! We purple you.</p>
+          <div class="flex items-center gap-1.5">
+            <span id="todayChibiDayBadge" class="text-[10px] uppercase tracking-wider font-bold px-2.5 py-0.5 rounded-full bg-purple-400/25 text-purple-100 border border-purple-300/30">💜 STUDY BUDDY</span>
+          </div>
+          <div id="todayChibiName" class="text-sm sm:text-base font-bold text-white mt-1 truncate"></div>
+          <p id="todayChibiMsg" class="text-xs text-purple-100/90 leading-snug mt-0.5"></p>
+          <!-- 7-Day Switcher Pills -->
+          <div id="chibiDayPills" class="flex flex-wrap gap-1 mt-2.5" aria-label="Switch daily BTS buddy"></div>
         </div>
       </div>
     </div>
+
+    <!-- Rotating Motivational Quote Bar -->
+    <div class="relative z-10 mt-5 pt-4 border-t border-white/10 flex items-center justify-between gap-3">
+      <p class="text-xs sm:text-sm text-purple-100/95 italic leading-relaxed">
+        “<span id="quoteText">Small daily improvements over time lead to stunning results.</span>”
+      </p>
+      <button id="nextQuoteBtn" type="button" class="shrink-0 w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 flex items-center justify-center text-slate-100 transition" aria-label="Next motivational quote" title="New quote">
+        ↻
+      </button>
+    </div>
+
+    <!-- Morning Habit Card (5:00 - 11:59 AM) -->
+    <div id="morningCard" class="hidden relative z-10 mt-4 rounded-2xl border border-amber-300/35 bg-amber-400/15 p-3.5 text-amber-100 text-sm flex items-center gap-3 shadow-sm">
+      <span class="text-xl shrink-0" aria-hidden="true">💊</span>
+      <div><b>Morning Habit:</b> Take your medicine &amp; multivitamins with water!</div>
+    </div>
   </section>
 
-  <!-- Reminders & Countdown Grid -->
+  <!-- 2-Column Middle Grid: Reminders + Exam Countdown -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <section class="glass p-6 sm:p-7 lg:col-span-7 flex flex-col justify-between">
+
+    <!-- Reminders -->
+    <section class="glass glass-hover p-6 sm:p-7 lg:col-span-7 flex flex-col justify-between stagger-in delay-2">
       <div>
-        <h2 class="text-xl font-bold text-white flex items-center gap-2"><span>🔔</span><span>Your Daily Reminders</span></h2>
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>🔔</span>
+            <span>Your Daily Reminders</span>
+          </h2>
+          <span class="text-xs px-2.5 py-1 rounded-full bg-purple-400/15 text-purple-100 border border-purple-300/25">Tap card to toggle</span>
+        </div>
+        <p class="text-sm text-slate-300 mt-1">
+          Choose which reminders you want. You'll only get the ones you switch on.
+        </p>
+
         <div id="remGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5">
-          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="morning">
-            <div class="text-2xl">☀️</div>
-            <div class="flex-1 min-w-0"><div class="font-semibold text-white">Good Morning</div><div class="text-xs text-slate-300">Fresh start</div></div>
-            <div class="tog"></div>
+          <!-- Morning -->
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="morning" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-amber-300/15 border border-amber-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-morning.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">☀️</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Good Morning</div>
+              <div class="text-xs text-slate-300 leading-snug">A fresh start to your study day</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
           </div>
-          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="medicine">
-            <div class="text-2xl">💊</div>
-            <div class="flex-1 min-w-0"><div class="font-semibold text-white">Medicine Reminder</div><div class="text-xs text-slate-300">Vitamins &amp; Water</div></div>
-            <div class="tog"></div>
+
+          <!-- Medicine -->
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="medicine" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-pink-300/15 border border-pink-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-medicine.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">💊</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Medicine Reminder</div>
+              <div class="text-xs text-slate-300 leading-snug">Medicine &amp; multivitamins with water</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
           </div>
-          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="evening">
-            <div class="text-2xl">📚</div>
-            <div class="flex-1 min-w-0"><div class="font-semibold text-white">Good Evening</div><div class="text-xs text-slate-300">Revision nudge</div></div>
-            <div class="tog"></div>
+
+          <!-- Evening -->
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="evening" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-purple-300/15 border border-purple-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-evening.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">📚</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Good Evening</div>
+              <div class="text-xs text-slate-300 leading-snug">Evening study &amp; revision nudge</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
           </div>
-          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="night">
-            <div class="text-2xl">🌙</div>
-            <div class="flex-1 min-w-0"><div class="font-semibold text-white">Good Night</div><div class="text-xs text-slate-300">Rest well</div></div>
-            <div class="tog"></div>
+
+          <!-- Night -->
+          <div class="rem p-3.5 flex items-center gap-3.5" data-tag="night" role="switch" aria-checked="false" tabindex="0">
+            <div class="relative w-14 h-14 rounded-2xl bg-indigo-300/15 border border-indigo-200/25 flex items-center justify-center text-2xl shrink-0 overflow-hidden">
+              <img src="/banner-night.png" alt="" class="w-full h-full object-cover opacity-85" onerror="this.style.display='none'">
+              <span class="absolute inset-0 flex items-center justify-center drop-shadow">🌙</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold text-white text-sm sm:text-base">Good Night</div>
+              <div class="text-xs text-slate-300 leading-snug">Wind down and rest well</div>
+            </div>
+            <div class="tog" aria-hidden="true"></div>
           </div>
         </div>
       </div>
-      <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row gap-3">
-        <button id="notifBtn" type="button" class="btn btn-primary w-full sm:w-auto">🔔 Enable Reminders</button>
-        <p id="notifMsg" class="text-xs sm:text-sm text-purple-200 font-medium"></p>
+
+      <div class="mt-6 pt-4 border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <button id="notifBtn" type="button" class="btn btn-primary w-full sm:w-auto">🔔 Enable Medicine &amp; Daily Reminders</button>
+        <p id="notifMsg" class="text-xs sm:text-sm text-purple-200 font-medium" aria-live="polite"></p>
       </div>
     </section>
 
-    <section class="glass p-6 sm:p-7 lg:col-span-5 flex flex-col justify-between">
+    <!-- Exam Countdown -->
+    <section class="glass glass-hover p-6 sm:p-7 lg:col-span-5 flex flex-col justify-between stagger-in delay-3">
       <div>
-        <div class="flex items-center justify-between mb-5">
-          <h2 class="text-xl font-bold text-white flex items-center gap-2"><span>⏳</span><span>Exam Countdown</span></h2>
-          <select id="examSelect" class="field !w-auto !py-2 !px-3 text-xs font-medium">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>⏳</span>
+            <span>Exam Countdown</span>
+          </h2>
+          <select id="examSelect" aria-label="Select Target NEET Exam Year" class="field !w-auto !py-2 !px-3.5 text-xs sm:text-sm font-medium">
             <option value="2027-05-02">NEET 2027 (May 2, 2027)</option>
             <option value="2028-05-07">NEET 2028 (May 7, 2028)</option>
           </select>
         </div>
-        <div class="grid grid-cols-4 gap-2 text-center">
-          <div class="rounded-2xl bg-slate-950/50 p-3"><div id="cdD" class="text-2xl font-bold text-purple-200">0</div><div class="text-[10px] text-slate-300">Days</div></div>
-          <div class="rounded-2xl bg-slate-950/50 p-3"><div id="cdH" class="text-2xl font-bold text-pink-200">0</div><div class="text-[10px] text-slate-300">Hours</div></div>
-          <div class="rounded-2xl bg-slate-950/50 p-3"><div id="cdM" class="text-2xl font-bold text-sky-200">0</div><div class="text-[10px] text-slate-300">Mins</div></div>
-          <div class="rounded-2xl bg-slate-950/50 p-3"><div id="cdS" class="text-2xl font-bold text-emerald-200">0</div><div class="text-[10px] text-slate-300">Secs</div></div>
+
+        <div class="grid grid-cols-4 gap-2.5 sm:gap-3 text-center">
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdD" class="text-2xl sm:text-3xl font-bold text-purple-200 tabular-nums">0</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Days</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdH" class="text-2xl sm:text-3xl font-bold text-pink-200 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Hours</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdM" class="text-2xl sm:text-3xl font-bold text-sky-200 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Minutes</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/50 border border-white/12 py-4 px-1 shadow-inner">
+            <div id="cdS" class="text-2xl sm:text-3xl font-bold text-emerald-200 tabular-nums">00</div>
+            <div class="text-[10px] sm:text-[11px] uppercase tracking-wider text-slate-300 mt-1 font-medium">Seconds</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-4 border-t border-white/10 flex items-center gap-4">
+        <div class="relative w-14 h-14 shrink-0 flex items-center justify-center">
+          <svg class="w-14 h-14 -rotate-90" viewBox="0 0 60 60">
+            <circle cx="30" cy="30" r="24" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="5"></circle>
+            <circle id="cdRing" cx="30" cy="30" r="24" fill="none" stroke="var(--accent)" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="30"></circle>
+          </svg>
+          <span id="cdPctText" class="absolute text-[11px] font-bold text-white">0%</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center justify-between text-xs mb-1.5">
+            <span class="text-slate-200 font-medium">Year Prep Window</span>
+            <span id="cdTargetLabel" class="text-purple-200 font-semibold">May 2, 2027</span>
+          </div>
+          <div class="w-full h-2 rounded-full bg-slate-950/60 overflow-hidden border border-white/10">
+            <div id="cdBar" class="h-full rounded-full transition-all duration-500" style="width: 50%; background: linear-gradient(90deg, var(--accent), var(--accent-2));"></div>
+          </div>
+          <p class="text-[11px] text-slate-300/80 mt-1.5">Make a wish on the shooting stars &amp; keep studying, Moon! 💜</p>
         </div>
       </div>
     </section>
+
   </div>
 
-  <!-- Study Logger -->
-  <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-    <section class="glass p-6 md:col-span-5">
-      <h2 class="text-xl font-bold text-white mb-3">📝 Log Study</h2>
+  <!-- Study Logger + Weekly Chart & History -->
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-6 stagger-in delay-4">
+
+    <!-- Logger Form -->
+    <section class="glass glass-hover p-6 sm:p-7 md:col-span-5">
+      <h2 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+        <span>📝</span>
+        <span>Log Today's Study</span>
+      </h2>
+      <p class="text-xs text-slate-300 mb-4">Record your peaceful focus hours to grow your streak.</p>
+
       <form id="logForm" class="space-y-4">
         <div class="grid grid-cols-2 gap-3">
-          <div><label class="text-xs text-slate-200">Date</label><input id="logDate" type="date" class="field text-sm" required></div>
-          <div><label class="text-xs text-slate-200">Hours</label><input id="logHours" type="number" step="0.25" min="0.25" max="24" class="field text-sm" required></div>
+          <div>
+            <label for="logDate" class="text-xs font-medium text-slate-200 block mb-1">Date</label>
+            <input id="logDate" type="date" class="field text-sm" required>
+          </div>
+          <div>
+            <label for="logHours" class="text-xs font-medium text-slate-200 block mb-1">Hours studied</label>
+            <input id="logHours" type="number" step="0.25" min="0.25" max="24" class="field text-sm" placeholder="e.g. 3.5" required>
+          </div>
         </div>
+
         <div>
-          <label class="text-xs text-slate-200 block mb-1">Subject</label>
-          <select id="logSubject" class="field text-sm"><option>Physics</option><option>Chemistry</option><option>Biology (Botany)</option><option>Biology (Zoology)</option><option>Mock Test</option><option>Revision</option></select>
+          <label for="logSubject" class="text-xs font-medium text-slate-200 block mb-1.5">Subject</label>
+          <div id="subjectChips" class="flex flex-wrap gap-1.5 mb-2.5" role="group" aria-label="Quick select subject">
+            <button type="button" class="subj-chip active" data-subj="Physics">⚛️ Physics</button>
+            <button type="button" class="subj-chip" data-subj="Chemistry">🧪 Chemistry</button>
+            <button type="button" class="subj-chip" data-subj="Biology (Botany)">🌿 Botany</button>
+            <button type="button" class="subj-chip" data-subj="Biology (Zoology)">🧬 Zoology</button>
+            <button type="button" class="subj-chip" data-subj="Mock Test">🎯 Mock Test</button>
+            <button type="button" class="subj-chip" data-subj="Revision">🔁 Revision</button>
+            <button type="button" class="subj-chip" data-subj="Other">✨ Other</button>
+          </div>
+          <select id="logSubject" class="field text-sm">
+            <option>Physics</option>
+            <option>Chemistry</option>
+            <option>Biology (Botany)</option>
+            <option>Biology (Zoology)</option>
+            <option>Mock Test</option>
+            <option>Revision</option>
+            <option>Other</option>
+          </select>
         </div>
-        <div><label class="text-xs text-slate-200">Notes</label><textarea id="logNotes" rows="2" class="field text-sm" placeholder="Chapters..."></textarea></div>
+
+        <div>
+          <label for="logNotes" class="text-xs font-medium text-slate-200 block mb-1">Notes</label>
+          <textarea id="logNotes" rows="3" class="field text-sm" placeholder="Chapters covered, NCERT pages, PYQs solved..."></textarea>
+        </div>
+
         <button type="submit" class="btn btn-primary w-full">Save Log 💜</button>
       </form>
     </section>
 
-    <section class="glass p-6 md:col-span-7 flex flex-col justify-between space-y-4">
-      <div class="rounded-2xl bg-slate-950/45 p-4">
-        <div class="flex items-center justify-between mb-3"><h3 class="text-sm font-semibold text-white">📊 7-Day Study Chart</h3><div class="text-xs text-slate-200">Total: <span id="weekHours" class="font-bold text-purple-200">0</span> h</div></div>
-        <div id="weeklyChart" class="grid grid-cols-7 gap-2 items-end h-28 px-1"></div>
+    <!-- Weekly Chart + Study History -->
+    <section class="glass glass-hover p-6 sm:p-7 md:col-span-7 flex flex-col justify-between space-y-6">
+
+      <!-- Last 7 Days Bar Chart -->
+      <div class="rounded-2xl bg-slate-950/45 border border-white/12 p-4">
+        <div class="flex items-center justify-between mb-3">
+          <div>
+            <h3 class="text-sm font-semibold text-white">📊 Last 7 Days Study Chart</h3>
+            <p class="text-[11px] text-slate-300">Daily study hours overview</p>
+          </div>
+          <div class="text-xs text-slate-200">
+            7-Day Total: <span id="weekHours" class="font-bold text-purple-200">0</span> h
+          </div>
+        </div>
+        <div id="weeklyChart" class="grid grid-cols-7 gap-2 items-end h-28 pt-4 px-1"></div>
       </div>
-      <div class="flex-1"><h2 class="text-lg font-bold text-white mb-2">📚 History</h2><ul id="logList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></ul></div>
+
+      <!-- History List -->
+      <div class="flex-1 flex flex-col">
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xl font-bold text-white flex items-center gap-2">
+            <span>📚</span>
+            <span>Study History</span>
+          </h2>
+          <div class="text-sm text-slate-200 bg-white/10 px-3.5 py-1 rounded-full border border-white/15">
+            Total: <span id="totalHours" class="text-purple-200 font-bold">0</span> h
+          </div>
+        </div>
+
+        <ul id="logList" class="space-y-2.5 max-h-80 overflow-y-auto pr-1"></ul>
+        <div id="emptyMsg" class="rounded-2xl border border-dashed border-white/15 bg-slate-950/35 p-6 text-center text-sm text-slate-300">
+          🌙 No logs yet. Add your first study session to start your streak!
+        </div>
+      </div>
+
     </section>
   </div>
+
 </main>
 
-<button id="openThemeBtn" type="button" class="fixed fab-safe z-40 btn btn-primary rounded-full shadow-2xl px-5 py-3 text-sm font-semibold">🎨 Personalize</button>
+<!-- Floating "🎨 Personalize" Button -->
+<button id="openThemeBtn" type="button" class="fixed fab-safe z-40 btn btn-primary rounded-full shadow-2xl px-5 py-3 text-sm font-semibold border border-white/30" aria-label="Open wallpaper personalization panel">
+  <span aria-hidden="true">🎨</span>
+  <span>Personalize</span>
+</button>
 
-<div id="themeBackdrop" class="hidden fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-sm transition-opacity opacity-0"></div>
-<aside id="themeDrawer" class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 max-h-[85vh] flex flex-col rounded-t-[2rem] bg-slate-900/95 backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto p-6 overflow-y-auto space-y-6">
-  <div class="flex items-center justify-between border-b border-white/15 pb-3">
-    <h2 class="text-lg font-bold text-white">Personalize Wallpaper</h2>
-    <button id="closeThemeBtn" class="w-10 h-10 rounded-full bg-white/10 text-white flex items-center justify-center">✕</button>
+<!-- Slide-Up Wallpaper & Theme Drawer -->
+<div id="themeBackdrop" class="hidden fixed inset-0 z-50 bg-slate-950/65 backdrop-blur-sm transition-opacity duration-300 opacity-0" aria-hidden="true"></div>
+<aside id="themeDrawer" class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-h-[88vh] flex flex-col rounded-t-[2rem] border-t border-white/25 bg-slate-900/95 backdrop-blur-2xl shadow-2xl max-w-2xl mx-auto" role="dialog" aria-modal="true" aria-labelledby="themeDrawerTitle">
+  <div class="pt-4 pb-3 px-6 flex items-center justify-between border-b border-white/15">
+    <div class="flex items-center gap-2.5">
+      <span class="text-xl" aria-hidden="true">🎨</span>
+      <div>
+        <h2 id="themeDrawerTitle" class="text-base sm:text-lg font-bold text-white">Personalize Your Sanctuary</h2>
+        <p class="text-xs text-slate-300">Custom wallpaper, dim/blur overlay &amp; soft pastel accents</p>
+      </div>
+    </div>
+    <button id="closeThemeBtn" type="button" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-slate-100 transition" aria-label="Close personalization panel">
+      ✕
+    </button>
+  </div>
+
+  <div class="p-6 overflow-y-auto space-y-6">
+
+    <!-- 1. Upload Custom Wallpaper -->
+    <div>
+      <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2">
+        1. Upload Your Own Wallpaper
+      </label>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+        <label for="wpUploadInput" class="btn bg-white/10 hover:bg-white/20 border border-white/25 text-white text-sm cursor-pointer w-full sm:w-auto">
+          <span>🖼️ Upload Photo (Phone / PC)</span>
+        </label>
+        <input id="wpUploadInput" type="file" accept="image/*" class="hidden">
+        <span id="wpUploadStatus" class="text-xs text-slate-200" aria-live="polite">
+          Auto-resized to 1280px JPEG so it saves instantly.
+        </span>
+      </div>
+    </div>
+
+    <!-- 2. Built-in Dreamy Gradient Wallpapers -->
+    <div>
+      <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
+        2. Built-In Night &amp; Pastel Wallpapers (Tap to Apply)
+      </label>
+      <div id="presetGrid" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5"></div>
+    </div>
+
+    <!-- 3. Readability Sliders: Dim & Blur -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 rounded-2xl bg-slate-950/55 border border-white/15 p-4">
+      <div>
+        <div class="flex justify-between text-xs font-medium mb-2">
+          <label for="dimSlider" class="text-slate-200">Wallpaper Dim</label>
+          <span id="dimValue" class="text-purple-200 font-semibold">18%</span>
+        </div>
+        <input id="dimSlider" type="range" min="0" max="80" step="1" value="18" class="w-full">
+      </div>
+      <div>
+        <div class="flex justify-between text-xs font-medium mb-2">
+          <label for="blurSlider" class="text-slate-200">Wallpaper Blur</label>
+          <span id="blurValue" class="text-purple-200 font-semibold">0px</span>
+        </div>
+        <input id="blurSlider" type="range" min="0" max="20" step="1" value="0" class="w-full">
+      </div>
+    </div>
+
+    <!-- 4. Pastel Accent Colour Picker -->
+    <div>
+      <label class="text-xs font-semibold uppercase tracking-wider text-purple-200 block mb-2.5">
+        3. Soft Pastel Accent Colour
+      </label>
+      <div id="accentGrid" class="flex flex-wrap gap-2.5"></div>
+    </div>
+
+    <!-- 5. Reset to Default -->
+    <div class="pt-2 border-t border-white/15 flex items-center justify-between gap-3">
+      <button id="resetThemeBtn" type="button" class="btn bg-rose-500/15 hover:bg-rose-500/25 border border-rose-400/30 text-rose-200 text-xs sm:text-sm">
+        ↺ Reset to Default
+      </button>
+      <button id="doneThemeBtn" type="button" class="btn btn-primary text-xs sm:text-sm">
+        Done 💜
+      </button>
+    </div>
+
   </div>
 </aside>
 
 <script>
 const $ = id => document.getElementById(id);
+
+/* ---------- Safe localStorage wrapper ---------- */
 const store = {
-  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : JSON.parse(v); } catch { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
-  remove(k) { try { localStorage.removeItem(k); } catch {} }
+  get(k, d) {
+    try {
+      const v = localStorage.getItem(k);
+      return v === null ? d : JSON.parse(v);
+    } catch {
+      return d;
+    }
+  },
+  set(k, v) {
+    try {
+      localStorage.setItem(k, JSON.stringify(v));
+      return true;
+    } catch {
+      return false;
+    }
+  },
+  remove(k) {
+    try {
+      localStorage.removeItem(k);
+    } catch {}
+  }
 };
-const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 
-let userName = store.get('neet_name', '');
-function renderGreeting() {
-  const h = new Date().getHours();
-  const n = esc(userName || 'Moon');
-  let text = h >= 5 && h < 12 ? `Good Morning, ${n}! ☀️` : h < 20 ? `Good Evening, ${n}! 📚` : `Good Night, ${n}! 🌙`;
-  $('greeting').innerHTML = text;
-  $('greetSub').textContent = 'Stay calm, focused, and consistent with your NEET goals.';
-}
-$('nameForm').addEventListener('submit', e => {
-  e.preventDefault(); userName = $('nameInput').value.trim(); if (!userName) return;
-  store.set('neet_name', userName); $('nameModal').classList.add('hidden'); renderGreeting();
-});
-if (!userName) $('nameModal').classList.remove('hidden');
-renderGreeting();
+const esc = s => String(s).replace(/[&<>"']/g, c => ({
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;'
+}[c]));
 
-let prefs = store.get('neet_rem', {});
-document.querySelectorAll('.rem').forEach(el => {
-  const tag = el.dataset.tag;
-  if (prefs[tag]) el.classList.add('on');
-  el.onclick = () => {
-    prefs[tag] = !prefs[tag]; store.set('neet_rem', prefs);
-    el.classList.toggle('on', prefs[tag]);
+/* ---------- 7-Day GitHub PNG Chibi Companion (Uses your uploaded PNGs!) ---------- */
+// Fallback chain: tries /bts-<day>.png -> if not uploaded yet, shows your /bts-fri.png -> /moon.png
+const BTS_WEEK_BUDDIES = [
+  { dayIndex: 0, shortDay: 'Sun', file: '/bts-sun.png', member: 'Jungkook (Golden Star) 💜', cheer: 'Golden Sunday! Crush your mock test & revision like JK, Moon!' },
+  { dayIndex: 1, shortDay: 'Mon', file: '/bts-mon.png', member: 'RM (Calm Leader) 📘',      cheer: 'Namjooning Monday! Calm focus & deep NCERT reading today.' },
+  { dayIndex: 2, shortDay: 'Tue', file: '/bts-tue.png', member: 'Jin (Little Astronaut) 🌙', cheer: 'Moon & Jin Tuesday! Take your vitamins and shine bright today.' },
+  { dayIndex: 3, shortDay: 'Wed', file: '/bts-wed.png', member: 'Suga (Lo-Fi Focus) 🎧',     cheer: 'Yoongi Wednesday! Quiet study session, everything will be okay.' },
+  { dayIndex: 4, shortDay: 'Thu', file: '/bts-thu.png', member: 'J-Hope (Sunshine) ☀️',     cheer: 'Hobi Sunshine Thursday! You are your own hope, keep going Moon!' },
+  { dayIndex: 5, shortDay: 'Fri', file: '/bts-fri.png', member: 'Sweet Chibi Buddy 💗',      cheer: 'Fighting Moon! Be kind to yourself and finish today’s chapters.' },
+  { dayIndex: 6, shortDay: 'Sat', file: '/bts-sat.png', member: 'V (Winter Bear) 💜',        cheer: 'Taehyung Saturday! I purple you Moon — let’s master tough topics!' }
+];
+
+let selectedBuddyDay = new Date().getDay();
+
+function setChibiImageWithFallback(imgEl, primaryFile) {
+  imgEl.onerror = function () {
+    // If that weekday's PNG isn't uploaded yet, fall back to your uploaded /bts-fri.png
+    if (!this.dataset.triedFri) {
+      this.dataset.triedFri = '1';
+      this.src = '/bts-fri.png';
+    } else if (!this.dataset.triedMoon) {
+      this.dataset.triedMoon = '1';
+      this.src = '/moon.png';
+    }
   };
+  delete imgEl.dataset.triedFri;
+  delete imgEl.dataset.triedMoon;
+  imgEl.src = primaryFile;
+}
+
+function renderTodayChibiWidget(dayIdx = selectedBuddyDay) {
+  selectedBuddyDay = dayIdx;
+  const buddy = BTS_WEEK_BUDDIES[dayIdx] || BTS_WEEK_BUDDIES[5];
+  const isActualToday = dayIdx === new Date().getDay();
+
+  setChibiImageWithFallback($('todayChibiImg'), buddy.file);
+
+  $('todayChibiDayBadge').textContent = isActualToday
+    ? `💜 TODAY (${buddy.shortDay.toUpperCase()})`
+    : `✨ ${buddy.shortDay.toUpperCase()} BUDDY`;
+  $('todayChibiName').textContent = buddy.member;
+  $('todayChibiMsg').textContent = buddy.cheer;
+
+  const pillsContainer = $('chibiDayPills');
+  pillsContainer.innerHTML = '';
+  [1, 2, 3, 4, 5, 6, 0].forEach(dIdx => {
+    const b = BTS_WEEK_BUDDIES[dIdx];
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `day-pill ${dIdx === selectedBuddyDay ? 'active' : ''}`;
+    btn.textContent = b.shortDay;
+    btn.addEventListener('click', () => renderTodayChibiWidget(dIdx));
+    pillsContainer.appendChild(btn);
+  });
+}
+renderTodayChibiWidget();
+
+/* ---------- Motivational Quotes ---------- */
+const QUOTES = [
+  "Small daily improvements over time lead to stunning results.",
+  "Every page of NCERT you master tonight is a rank booster in May.",
+  "Consistency beats intensity when intensity doesn't last.",
+  "Your future patients are counting on the discipline you build today.",
+  "Don't count the chapters left; make the chapter in front of you count.",
+  "Calm mind, steady breathing, one concept at a time.",
+  "Dream of the stethoscope, fall in love with the syllabus.",
+  "Rest is not idleness; peaceful sleep locks in your memory.",
+  "One mock test mistake learned now is four marks saved on exam day.",
+  "Revision turns short-term effort into effortless recall.",
+  "Focus on progress, not perfection. Show up for yourself today.",
+  "Hard topics become easy once you sit with them patiently.",
+  "Little by little, a quiet night of study becomes a massive lead.",
+  "Stay patient and trust your daily routine.",
+  "The quiet night hours belong to those building their dreams. 💜"
+];
+let quoteIndex = new Date().getDate() % QUOTES.length;
+
+function renderQuote() {
+  $('quoteText').textContent = QUOTES[quoteIndex];
+}
+$('nextQuoteBtn').addEventListener('click', () => {
+  quoteIndex = (quoteIndex + 1) % QUOTES.length;
+  renderQuote();
 });
+renderQuote();
+
+/* ---------- Name & Time-of-Day Greeting (Default fallback: Moon) ---------- */
+let userName = store.get('neet_name', '');
+
+function renderGreeting() {
+  const now = new Date();
+  const h = now.getHours();
+  const n = esc(userName || 'Moon');
+  let text, sub, badgeIcon;
+
+  const sec = $('greetingSection');
+  sec.classList.remove('mood-morning', 'mood-evening', 'mood-night');
+  $('morningCard').classList.add('hidden');
+
+  if (h >= 5 && h < 12) {
+    text = `Good Morning, ${n}! ☀️`;
+    sub = 'A fresh, calm morning to move closer to your dream medical college.';
+    badgeIcon = '☀️';
+    sec.classList.add('mood-morning');
+    $('morningCard').classList.remove('hidden');
+  } else if (h >= 12 && h < 20) {
+    text = `Good Afternoon / Evening, ${n}! 📚`;
+    sub = 'Keep the gentle momentum going, one chapter at a time.';
+    badgeIcon = '🌇';
+    sec.classList.add('mood-evening');
+  } else {
+    text = `Good Night, ${n}! 🌙 Rest well for tomorrow's study session.`;
+    sub = 'Peaceful sleep is part of your preparation.';
+    badgeIcon = '🌙';
+    sec.classList.add('mood-night');
+  }
+
+  $('greeting').innerHTML = text;
+  $('greetSub').textContent = sub;
+  $('timeBadgeIcon').textContent = badgeIcon;
+  $('liveClock').textContent = now.toLocaleDateString(undefined, {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+}
+
+function askName() {
+  $('nameModal').classList.remove('hidden');
+  $('nameInput').value = userName;
+  setTimeout(() => $('nameInput').focus(), 50);
+}
+
+$('nameForm').addEventListener('submit', e => {
+  e.preventDefault();
+  userName = $('nameInput').value.trim();
+  if (!userName) return;
+  store.set('neet_name', userName);
+  $('nameModal').classList.add('hidden');
+  renderGreeting();
+  OneSignalDeferred.push(async OS => {
+    try { OS.User.addTag('name', userName); } catch {}
+  });
+});
+
+$('changeName').onclick = askName;
+if (!userName) askName();
+renderGreeting();
+setInterval(renderGreeting, 60000);
+
+/* ---------- Reminders via OneSignal tags (exact original logic kept) ---------- */
+let prefs = store.get('neet_rem', {});
+
+function paintPrefs() {
+  document.querySelectorAll('.rem').forEach(el => {
+    const isOn = !!prefs[el.dataset.tag];
+    el.classList.toggle('on', isOn);
+    el.setAttribute('aria-checked', isOn ? 'true' : 'false');
+  });
+}
+paintPrefs();
+
+function withOneSignal(fn) {
+  return new Promise((resolve, reject) => {
+    OneSignalDeferred.push(async OS => {
+      try { resolve(await fn(OS)); } catch (e) { reject(e); }
+    });
+  });
+}
+
+async function ensurePermission() {
+  return withOneSignal(async OS => {
+    if (!OS.Notifications.permission) await OS.Notifications.requestPermission();
+    return OS.Notifications.permission;
+  });
+}
+
+async function syncTags() {
+  await withOneSignal(async OS => {
+    for (const tag of ['morning', 'medicine', 'evening', 'night']) {
+      if (prefs[tag]) OS.User.addTag(tag, '1');
+      else OS.User.removeTag(tag);
+    }
+    if (userName) OS.User.addTag('name', userName);
+  });
+}
+
+async function toggleReminderCard(el) {
+  const tag = el.dataset.tag;
+  prefs[tag] = !prefs[tag];
+  store.set('neet_rem', prefs);
+  paintPrefs();
+  try {
+    if (prefs[tag] && !(await ensurePermission())) {
+      $('notifMsg').textContent = 'Allow notifications in your browser to receive reminders.';
+    }
+    await syncTags();
+  } catch {
+    $('notifMsg').textContent = 'Could not save. Check your OneSignal App ID and site setup.';
+  }
+}
+
+document.querySelectorAll('.rem').forEach(el => {
+  el.addEventListener('click', () => toggleReminderCard(el));
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleReminderCard(el);
+    }
+  });
+});
+
+$('notifBtn').onclick = async () => {
+  $('notifMsg').textContent = '';
+  try {
+    const ok = await ensurePermission();
+    if (ok) {
+      if (!Object.values(prefs).some(Boolean)) {
+        prefs = { morning: true, medicine: true, evening: true, night: true };
+        store.set('neet_rem', prefs);
+        paintPrefs();
+      }
+      await syncTags();
+      $('notifMsg').textContent = '✅ Reminders enabled. Switch any off above anytime.';
+    } else {
+      $('notifMsg').textContent = 'Permission not granted. You can change it in browser settings.';
+    }
+  } catch {
+    $('notifMsg').textContent = 'Could not enable notifications. Check your OneSignal App ID and site setup.';
+  }
+};
+
+/* ---------- Exam Countdown ---------- */
+$('examSelect').value = store.get('neet_exam', '2027-05-02');
+$('examSelect').onchange = () => {
+  store.set('neet_exam', $('examSelect').value);
+  tick();
+};
 
 function tick() {
-  const [y, m, d] = $('examSelect').value.split('-').map(Number);
-  let diff = Math.max(0, new Date(y, m - 1, d) - new Date());
-  const s = Math.floor(diff / 1000);
-  $('cdD').textContent = Math.floor(s / 86400);
-  $('cdH').textContent = Math.floor((s % 86400) / 3600);
-  $('cdM').textContent = Math.floor((s % 3600) / 60);
-  $('cdS').textContent = s % 60;
-}
-tick(); setInterval(tick, 1000);
+  const val = $('examSelect').value;
+  const [y, m, d] = val.split('-').map(Number);
+  const target = new Date(y, m - 1, d);
+  let diff = target - new Date();
+  if (diff < 0) diff = 0;
 
+  const s = Math.floor(diff / 1000);
+  const days = Math.floor(s / 86400);
+  $('cdD').textContent = days;
+  $('cdH').textContent = String(Math.floor((s % 86400) / 3600)).padStart(2, '0');
+  $('cdM').textContent = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+  $('cdS').textContent = String(s % 60).padStart(2, '0');
+
+  const pctLeft = Math.min(100, Math.max(0, Math.round((days / 365) * 100)));
+  $('cdPctText').textContent = `${pctLeft}%`;
+  $('cdBar').style.width = `${pctLeft}%`;
+  const circumference = 150.8;
+  $('cdRing').style.strokeDashoffset = String(circumference - (circumference * pctLeft) / 100);
+  $('cdTargetLabel').textContent = val === '2027-05-02' ? 'May 2, 2027' : 'May 7, 2028';
+}
+tick();
+setInterval(tick, 1000);
+
+/* ---------- Study Logger & 7-Day Bar Chart ---------- */
+function getLocalDateStr(dateObj = new Date()) {
+  return new Date(dateObj.getTime() - dateObj.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+}
+
+$('logDate').value = getLocalDateStr();
 let logs = store.get('neet_logs', []);
-$('logDate').value = new Date().toISOString().slice(0, 10);
+
+const SUBJECT_STYLES = {
+  'Physics': 'bg-sky-300/15 text-sky-200 border-sky-200/30',
+  'Chemistry': 'bg-amber-300/15 text-amber-200 border-amber-200/30',
+  'Biology (Botany)': 'bg-emerald-300/15 text-emerald-200 border-emerald-200/30',
+  'Biology (Zoology)': 'bg-pink-300/15 text-pink-200 border-pink-200/30',
+  'Mock Test': 'bg-purple-300/15 text-purple-200 border-purple-200/30',
+  'Revision': 'bg-indigo-300/15 text-indigo-200 border-indigo-200/30',
+  'Other': 'bg-slate-300/15 text-slate-200 border-slate-200/30'
+};
+
+function syncSubjectChips(selectedValue) {
+  document.querySelectorAll('.subj-chip').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.subj === selectedValue);
+  });
+}
+document.querySelectorAll('.subj-chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    $('logSubject').value = btn.dataset.subj;
+    syncSubjectChips(btn.dataset.subj);
+  });
+});
+$('logSubject').addEventListener('change', () => {
+  syncSubjectChips($('logSubject').value);
+});
+
+function computeStreak() {
+  const loggedDates = new Set(logs.map(l => l.date));
+  if (!loggedDates.size) return 0;
+
+  let streak = 0;
+  const cursor = new Date();
+  const todayStr = getLocalDateStr(cursor);
+
+  if (!loggedDates.has(todayStr)) {
+    cursor.setDate(cursor.getDate() - 1);
+    if (!loggedDates.has(getLocalDateStr(cursor))) return 0;
+  }
+
+  while (loggedDates.has(getLocalDateStr(cursor))) {
+    streak++;
+    cursor.setDate(cursor.getDate() - 1);
+  }
+  return streak;
+}
+
+function renderWeeklyChart() {
+  const container = $('weeklyChart');
+  container.innerHTML = '';
+
+  const days = [];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date();
+    d.setDate(d.getDate() - i);
+    const dateStr = getLocalDateStr(d);
+    const label = d.toLocaleDateString(undefined, { weekday: 'short' }).slice(0, 3);
+    const total = logs
+      .filter(l => l.date === dateStr)
+      .reduce((sum, l) => sum + (Number(l.hours) || 0), 0);
+    days.push({ dateStr, label, total: Math.round(total * 100) / 100 });
+  }
+
+  const maxHours = Math.max(4, ...days.map(d => d.total));
+  const weekSum = Math.round(days.reduce((s, d) => s + d.total, 0) * 100) / 100;
+  $('weekHours').textContent = weekSum;
+
+  days.forEach((d, idx) => {
+    const heightPct = d.total > 0 ? Math.max(14, Math.round((d.total / maxHours) * 100)) : 8;
+    const isToday = idx === 6;
+    const col = document.createElement('div');
+    col.className = 'flex flex-col items-center justify-end h-full gap-1';
+    col.innerHTML = `
+      <span class="text-[10px] font-semibold ${d.total > 0 ? 'text-purple-200' : 'text-slate-500'}">${d.total > 0 ? d.total + 'h' : ''}</span>
+      <div class="w-full max-w-[28px] bg-slate-900/75 rounded-t-lg h-16 flex items-end overflow-hidden border border-white/10">
+        <div class="w-full rounded-t-lg transition-all duration-500"
+             style="height: ${heightPct}%; background: ${d.total > 0 ? 'linear-gradient(180deg, var(--accent), var(--accent-2))' : 'rgba(148,163,184,0.15)'};"></div>
+      </div>
+      <span class="text-[10px] ${isToday ? 'text-white font-bold' : 'text-slate-300'}">${esc(d.label)}</span>
+    `;
+    container.appendChild(col);
+  });
+}
+
 function renderLogs() {
   $('logList').innerHTML = '';
-  logs.forEach(l => {
-    const li = document.createElement('li');
-    li.className = 'rounded-xl bg-slate-950/50 p-2.5 text-xs flex justify-between';
-    li.innerHTML = `<span><b>${esc(l.subject)}</b> (${esc(l.hours)}h) - ${esc(l.date)}</span><span>${esc(l.notes || '')}</span>`;
-    $('logList').appendChild(li);
-  });
-  $('weekHours').textContent = logs.reduce((s, l) => s + Number(l.hours), 0);
+  logs
+    .slice()
+    .sort((a, b) => String(b.date).localeCompare(String(a.date)) || b.id - a.id)
+    .forEach(l => {
+      const badgeStyle = SUBJECT_STYLES[l.subject] || SUBJECT_STYLES['Other'];
+      const li = document.createElement('li');
+      li.className = 'rounded-2xl bg-slate-950/50 border border-white/12 p-3.5 flex gap-3 justify-between items-start hover:border-white/25 transition';
+      li.innerHTML = `
+        <div class="min-w-0 flex-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full border ${badgeStyle}">${esc(l.subject)}</span>
+            <span class="text-xs font-bold text-purple-200 bg-white/10 px-2 py-0.5 rounded-md">${esc(l.hours)} h</span>
+            <span class="text-xs text-slate-300">${esc(l.date)}</span>
+          </div>
+          ${l.notes ? `<div class="text-sm text-slate-100 mt-2 break-words leading-relaxed">${esc(l.notes)}</div>` : ''}
+        </div>
+        <button data-id="${l.id}" type="button" class="w-8 h-8 rounded-lg text-slate-400 hover:text-rose-300 hover:bg-rose-500/15 flex items-center justify-center text-sm transition shrink-0" aria-label="Delete study log">✕</button>
+      `;
+      $('logList').appendChild(li);
+    });
+
+  $('emptyMsg').classList.toggle('hidden', logs.length > 0);
+  $('totalHours').textContent = Math.round(logs.reduce((s, l) => s + Number(l.hours), 0) * 100) / 100;
+  $('streakCount').textContent = computeStreak();
+  renderWeeklyChart();
 }
+
 $('logForm').addEventListener('submit', e => {
   e.preventDefault();
-  logs.push({ id: Date.now(), date: $('logDate').value, hours: $('logHours').value, subject: $('logSubject').value, notes: $('logNotes').value });
-  store.set('neet_logs', logs); renderLogs();
+  logs.push({
+    id: Date.now(),
+    date: $('logDate').value,
+    hours: $('logHours').value,
+    subject: $('logSubject').value,
+    notes: $('logNotes').value.trim()
+  });
+  store.set('neet_logs', logs);
+  $('logHours').value = '';
+  $('logNotes').value = '';
+  renderLogs();
 });
+
+$('logList').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-id]');
+  if (!btn) return;
+  const id = btn.dataset.id;
+  logs = logs.filter(l => String(l.id) !== id);
+  store.set('neet_logs', logs);
+  renderLogs();
+});
+
 renderLogs();
 
-$('openThemeBtn').onclick = () => { $('themeBackdrop').classList.remove('hidden', 'opacity-0'); $('themeDrawer').classList.remove('translate-y-full'); };
-$('closeThemeBtn').onclick = () => { $('themeBackdrop').classList.add('opacity-0'); $('themeDrawer').classList.add('translate-y-full'); setTimeout(() => $('themeBackdrop').classList.add('hidden'), 300); };
+/* ---------- Custom Wallpaper & Personalization (localStorage + IndexedDB fallback) ---------- */
+const DEFAULT_THEME = {
+  type: 'preset',
+  preset: 'moon-night',
+  customData: null,
+  dim: 18,
+  blur: 0,
+  accent: 'lavender'
+};
+
+let currentTheme = Object.assign({}, DEFAULT_THEME, store.get('neet_theme', {}));
+let activeWpLayer = 'A';
+
+const idbWallpaper = {
+  open() {
+    return new Promise((resolve, reject) => {
+      if (!window.indexedDB) return reject(new Error('IndexedDB unavailable'));
+      const req = indexedDB.open('neet_dashboard_db', 1);
+      req.onupgradeneeded = e => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('wallpapers')) {
+          db.createObjectStore('wallpapers');
+        }
+      };
+      req.onsuccess = e => resolve(e.target.result);
+      req.onerror = e => reject(e.target.error);
+    });
+  },
+  async save(dataUrl) {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('wallpapers', 'readwrite');
+      tx.objectStore('wallpapers').put(dataUrl, 'custom_wp');
+      tx.oncomplete = () => resolve(true);
+      tx.onerror = e => reject(e.target.error);
+    });
+  },
+  async load() {
+    const db = await this.open();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('wallpapers', 'readonly');
+      const req = tx.objectStore('wallpapers').get('custom_wp');
+      req.onsuccess = () => resolve(req.result || null);
+      req.onerror = e => reject(e.target.error);
+    });
+  },
+  async clear() {
+    try {
+      const db = await this.open();
+      const tx = db.transaction('wallpapers', 'readwrite');
+      tx.objectStore('wallpapers').delete('custom_wp');
+    } catch {}
+  }
+};
+
+function crossfadeWallpaper(cssBackgroundValue) {
+  const layerA = $('wpLayerA');
+  const layerB = $('wpLayerB');
+  if (activeWpLayer === 'A') {
+    layerB.style.backgroundImage = cssBackgroundValue;
+    layerB.style.opacity = '1';
+    layerA.style.opacity = '0';
+    activeWpLayer = 'B';
+  } else {
+    layerA.style.backgroundImage = cssBackgroundValue;
+    layerA.style.opacity = '1';
+    layerB.style.opacity = '0';
+    activeWpLayer = 'A';
+  }
+}
+
+function applyThemeControlsUI() {
+  const root = document.documentElement;
+  const acc = window.ACCENT_PRESETS[currentTheme.accent] || window.ACCENT_PRESETS.lavender;
+  root.style.setProperty('--accent', acc.color);
+  root.style.setProperty('--accent-2', acc.color2);
+  root.style.setProperty('--accent-rgb', acc.rgb);
+  root.style.setProperty('--wp-dim', (currentTheme.dim / 100).toFixed(2));
+  root.style.setProperty('--wp-blur', currentTheme.blur + 'px');
+
+  $('dimSlider').value = currentTheme.dim;
+  $('dimValue').textContent = `${currentTheme.dim}%`;
+  $('blurSlider').value = currentTheme.blur;
+  $('blurValue').textContent = `${currentTheme.blur}px`;
+
+  document.querySelectorAll('[data-preset-key]').forEach(btn => {
+    const isSelected = currentTheme.type === 'preset' && btn.dataset.presetKey === currentTheme.preset;
+    btn.classList.toggle('ring-2', isSelected);
+    btn.classList.toggle('ring-white', isSelected);
+    btn.classList.toggle('scale-[1.03]', isSelected);
+  });
+
+  document.querySelectorAll('[data-accent-key]').forEach(btn => {
+    const isSelected = btn.dataset.accentKey === currentTheme.accent;
+    btn.classList.toggle('ring-2', isSelected);
+    btn.classList.toggle('ring-white', isSelected);
+    btn.classList.toggle('scale-105', isSelected);
+  });
+}
+
+function saveThemeState() {
+  const ok = store.set('neet_theme', currentTheme);
+  if (!ok && currentTheme.type === 'custom' && currentTheme.customData && currentTheme.customData !== '__idb__') {
+    const rawData = currentTheme.customData;
+    idbWallpaper.save(rawData).then(() => {
+      currentTheme.customData = '__idb__';
+      store.set('neet_theme', currentTheme);
+      $('wpUploadStatus').textContent = '✨ Saved wallpaper via IndexedDB fallback.';
+    }).catch(() => {
+      $('wpUploadStatus').textContent = '⚠️ Storage full. Wallpaper applied for this session.';
+    });
+  }
+}
+
+function buildPersonalizePanel() {
+  const presetGrid = $('presetGrid');
+  presetGrid.innerHTML = '';
+  Object.entries(window.WP_PRESETS).forEach(([key, p]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.dataset.presetKey = key;
+    btn.className = 'group relative h-16 rounded-2xl border border-white/20 overflow-hidden text-left p-2.5 flex items-end transition hover:scale-[1.03] shadow-md';
+    btn.style.backgroundImage = p.css;
+    btn.innerHTML = `<span class="text-[11px] font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)]">${esc(p.name)}</span>`;
+    btn.addEventListener('click', () => {
+      currentTheme.type = 'preset';
+      currentTheme.preset = key;
+      currentTheme.customData = null;
+      crossfadeWallpaper(p.css);
+      applyThemeControlsUI();
+      saveThemeState();
+      $('wpUploadStatus').textContent = `✨ Applied "${p.name}" wallpaper.`;
+    });
+    presetGrid.appendChild(btn);
+  });
+
+  const accentGrid = $('accentGrid');
+  accentGrid.innerHTML = '';
+  Object.entries(window.ACCENT_PRESETS).forEach(([key, acc]) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.dataset.accentKey = key;
+    btn.className = 'px-3.5 py-2 rounded-full border border-white/20 flex items-center gap-2 text-xs font-semibold text-white bg-slate-950/60 transition';
+    btn.innerHTML = `
+      <span class="w-4 h-4 rounded-full inline-block shadow-sm" style="background: linear-gradient(135deg, ${acc.color}, ${acc.color2});"></span>
+      <span>${esc(acc.name)}</span>
+    `;
+    btn.addEventListener('click', () => {
+      currentTheme.accent = key;
+      applyThemeControlsUI();
+      saveThemeState();
+    });
+    accentGrid.appendChild(btn);
+  });
+}
+
+function resizeImageFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = () => reject(new Error('Could not read image file.'));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error('Invalid image file.'));
+      img.onload = () => {
+        const maxSide = 1280;
+        let { width, height } = img;
+        if (width > maxSide || height > maxSide) {
+          if (width >= height) {
+            height = Math.round((height * maxSide) / width);
+            width = maxSide;
+          } else {
+            width = Math.round((width * maxSide) / height);
+            height = maxSide;
+          }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', 0.82));
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+$('wpUploadInput').addEventListener('change', async e => {
+  const file = e.target.files && e.target.files[0];
+  if (!file) return;
+  $('wpUploadStatus').textContent = '⏳ Optimizing your wallpaper...';
+  try {
+    const dataUrl = await resizeImageFile(file);
+    currentTheme.type = 'custom';
+    currentTheme.customData = dataUrl;
+    crossfadeWallpaper(`url("${dataUrl}")`);
+    applyThemeControlsUI();
+    saveThemeState();
+    if (currentTheme.customData !== '__idb__') {
+      $('wpUploadStatus').textContent = '✅ Custom wallpaper applied & saved!';
+    }
+  } catch {
+    $('wpUploadStatus').textContent = '⚠️ Could not process image. Please try another photo.';
+  } finally {
+    e.target.value = '';
+  }
+});
+
+$('dimSlider').addEventListener('input', e => {
+  currentTheme.dim = Number(e.target.value);
+  applyThemeControlsUI();
+  saveThemeState();
+});
+
+$('blurSlider').addEventListener('input', e => {
+  currentTheme.blur = Number(e.target.value);
+  applyThemeControlsUI();
+  saveThemeState();
+});
+
+$('resetThemeBtn').addEventListener('click', () => {
+  currentTheme = Object.assign({}, DEFAULT_THEME);
+  store.remove('neet_theme');
+  idbWallpaper.clear();
+  crossfadeWallpaper(window.WP_PRESETS['moon-night'].css);
+  applyThemeControlsUI();
+  $('wpUploadStatus').textContent = '↺ Reset to default Borahae Moon Night theme.';
+});
+
+function openThemeDrawer() {
+  $('themeBackdrop').classList.remove('hidden');
+  requestAnimationFrame(() => {
+    $('themeBackdrop').classList.remove('opacity-0');
+    $('themeDrawer').classList.remove('translate-y-full');
+  });
+}
+function closeThemeDrawer() {
+  $('themeBackdrop').classList.add('opacity-0');
+  $('themeDrawer').classList.add('translate-y-full');
+  setTimeout(() => $('themeBackdrop').classList.add('hidden'), 300);
+}
+
+$('openThemeBtn').addEventListener('click', openThemeDrawer);
+$('topThemeBtn').addEventListener('click', openThemeDrawer);
+$('closeThemeBtn').addEventListener('click', closeThemeDrawer);
+$('doneThemeBtn').addEventListener('click', closeThemeDrawer);
+$('themeBackdrop').addEventListener('click', closeThemeDrawer);
+
+buildPersonalizePanel();
+applyThemeControlsUI();
+if (currentTheme.type === 'custom' && currentTheme.customData === '__idb__') {
+  idbWallpaper.load().then(dataUrl => {
+    if (dataUrl) crossfadeWallpaper(`url("${dataUrl}")`);
+  }).catch(() => {});
+}
 </script>
 </body>
 </html>
